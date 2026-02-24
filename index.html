@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mandeep Kaur — Senior Full Stack Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #0f0f0f;
+      --mist: #f5f3f0;
+      --stone: #8a8580;
+      --accent: #2d6a4f;
+      --accent-light: #e8f5ee;
+      --line: #e0ddd8;
+      --white: #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--mist);
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 4rem;
+      background: rgba(245, 243, 240, 0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.2rem;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--stone);
+      font-size: 0.875rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-top: 5rem;
+    }
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6rem 4rem 6rem 4rem;
+      border-right: 1px solid var(--line);
+    }
+    .hero-tag {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.1s forwards;
+    }
+    .hero-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(3rem, 5vw, 5rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.2s forwards;
+    }
+    .hero-name em {
+      font-style: italic;
+      color: var(--accent);
+    }
+    .hero-desc {
+      font-size: 1.05rem;
+      color: var(--stone);
+      max-width: 440px;
+      line-height: 1.75;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.35s forwards;
+    }
+    .hero-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.5s forwards;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+    .btn-primary { background: var(--ink); color: var(--white); }
+    .btn-primary:hover { background: var(--accent); }
+    .btn-outline { background: transparent; color: var(--ink); border: 1.5px solid var(--line); }
+    .btn-outline:hover { border-color: var(--ink); }
+
+    .hero-right {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6rem 4rem;
+      gap: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.4s forwards;
+    }
+    .stat-card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 1.5rem 2rem;
+    }
+    .stat-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.5rem;
+      color: var(--ink);
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+    .stat-label { font-size: 0.85rem; color: var(--stone); }
+    .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    /* SECTIONS */
+    section { padding: 6rem 4rem; }
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 3rem;
+    }
+    .divider { border: none; border-top: 1px solid var(--line); }
+
+    /* ABOUT */
+    #about { background: var(--white); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+    .about-text p {
+      color: var(--stone);
+      line-height: 1.85;
+      margin-bottom: 1rem;
+    }
+    .about-text p strong { color: var(--ink); font-weight: 600; }
+    .skills-grid { display: flex; flex-direction: column; gap: 1.25rem; }
+    .skill-group-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--stone);
+      margin-bottom: 0.5rem;
+    }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .skill-tag {
+      background: var(--mist);
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      padding: 0.3rem 0.65rem;
+      font-size: 0.8rem;
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    /* EXPERIENCE */
+    #experience { background: var(--mist); }
+    .exp-list { display: flex; flex-direction: column; gap: 0; }
+    .exp-item {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 2rem;
+      padding: 2.5rem 0;
+      border-top: 1px solid var(--line);
+      position: relative;
+    }
+    .exp-meta { }
+    .exp-company {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--ink);
+      margin-bottom: 0.2rem;
+    }
+    .exp-period {
+      font-size: 0.8rem;
+      color: var(--stone);
+    }
+    .exp-location {
+      font-size: 0.78rem;
+      color: var(--stone);
+      margin-top: 0.1rem;
+    }
+    .exp-role {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.3rem;
+      margin-bottom: 0.75rem;
+    }
+    .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .exp-bullets li {
+      font-size: 0.9rem;
+      color: var(--stone);
+      padding-left: 1rem;
+      position: relative;
+      line-height: 1.6;
+    }
+    .exp-bullets li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    /* PROJECTS */
+    #projects { background: var(--white); }
+    .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+    .project-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 2rem;
+      background: var(--mist);
+      transition: border-color 0.2s, transform 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+    .project-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .project-card.featured {
+      grid-column: 1 / -1;
+      background: var(--ink);
+      color: var(--white);
+      border-color: var(--ink);
+    }
+    .project-badge {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-light);
+      border-radius: 3px;
+      padding: 0.2rem 0.5rem;
+      margin-bottom: 1rem;
+      width: fit-content;
+    }
+    .project-card.featured .project-badge {
+      background: rgba(45, 106, 79, 0.3);
+      color: #7dd3b0;
+    }
+    .project-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+      line-height: 1.2;
+    }
+    .project-card.featured .project-name { color: var(--white); }
+    .project-desc {
+      font-size: 0.9rem;
+      color: var(--stone);
+      line-height: 1.7;
+      margin-bottom: 1.25rem;
+      flex: 1;
+    }
+    .project-card.featured .project-desc { color: #b0b0b0; }
+    .project-stack { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 1.25rem; }
+    .stack-tag {
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 0.2rem 0.55rem;
+      border-radius: 3px;
+      background: var(--white);
+      border: 1px solid var(--line);
+      color: var(--ink);
+    }
+    .project-card.featured .stack-tag {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.15);
+      color: #ccc;
+    }
+    .project-links { display: flex; gap: 0.75rem; margin-top: auto; }
+    .project-link {
+      font-size: 0.8rem;
+      font-weight: 500;
+      text-decoration: none;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 0.1rem;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .project-link:hover { color: var(--accent); border-color: var(--accent); }
+    .project-card.featured .project-link { color: #aaa; border-color: rgba(255,255,255,0.2); }
+    .project-card.featured .project-link:hover { color: #7dd3b0; border-color: #7dd3b0; }
+
+    /* EDUCATION */
+    #education { background: var(--mist); }
+    .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .edu-card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 2rem;
+    }
+    .edu-degree {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.2rem;
+      margin-bottom: 0.3rem;
+    }
+    .edu-school { font-weight: 600; font-size: 0.9rem; color: var(--ink); margin-bottom: 0.2rem; }
+    .edu-meta { font-size: 0.82rem; color: var(--stone); line-height: 1.6; }
+    .edu-grade {
+      display: inline-block;
+      margin-top: 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-light);
+      padding: 0.2rem 0.55rem;
+      border-radius: 3px;
+    }
+
+    /* CONTACT */
+    #contact { background: var(--ink); color: var(--white); }
+    #contact .section-label { color: #7dd3b0; }
+    #contact .section-title { color: var(--white); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+    .contact-info { display: flex; flex-direction: column; gap: 1.25rem; }
+    .contact-item a {
+      color: #aaa;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+    .contact-item a:hover { color: #7dd3b0; }
+    .contact-item-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 0.2rem;
+    }
+    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-group label { font-size: 0.78rem; font-weight: 500; color: #888; letter-spacing: 0.04em; }
+    .form-group input,
+    .form-group textarea {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 4px;
+      padding: 0.75rem 1rem;
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus { border-color: #7dd3b0; }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .form-btn {
+      background: #2d6a4f;
+      color: white;
+      padding: 0.85rem 2rem;
+      border: none;
+      border-radius: 4px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      align-self: flex-start;
+    }
+    .form-btn:hover { background: #3a8a66; }
+    .form-success {
+      display: none;
+      color: #7dd3b0;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--ink);
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding: 1.5rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    footer p { font-size: 0.8rem; color: #555; }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: none; }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-left { padding: 7rem 1.5rem 2rem; border-right: none; border-bottom: 1px solid var(--line); }
+      .hero-right { padding: 2rem 1.5rem; }
+      .stat-row { grid-template-columns: 1fr 1fr; }
+      section { padding: 4rem 1.5rem; }
+      .about-grid, .contact-grid, .edu-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .project-card.featured { grid-column: auto; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="#">Mandeep Kaur</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#certifications">Certifications</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-left">
+      <p class="hero-tag">Available for opportunities · Glasgow, UK</p>
+      <h1 class="hero-name">Mandeep<br><em>Kaur</em></h1>
+      <p class="hero-desc">Senior Full Stack Developer with 7+ years building Java-based, cloud-native distributed systems. Expert in Spring Boot, microservices, AWS, and modern frontend with React & Angular.</p>
+      <div class="hero-links">
+        <a href="#projects" class="btn btn-primary">View Projects ↓</a>
+        <a href="https://linkedin.com/in/mandyk94" target="_blank" class="btn btn-outline">LinkedIn</a>
+        <a href="https://github.com/MandyK94" target="_blank" class="btn btn-outline">GitHub</a>
+        <a href="mailto:kaur.mandeep.office@gmail.com" class="btn btn-outline">Email</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="stat-row">
+        <div class="stat-card">
+          <div class="stat-num">7+</div>
+          <div class="stat-label">Years of experience</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">38%</div>
+          <div class="stat-label">Latency reduction at WyldTrace</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">10k+</div>
+        <div class="stat-label">Daily provenance lookups supported</div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-card">
+          <div class="stat-num">1M+</div>
+          <div class="stat-label">Patient records/day processed</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">MSc</div>
+          <div class="stat-label">Data Analytics · Distinction</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <p class="section-label fade-in">About</p>
+    <h2 class="section-title fade-in">Engineer. Analyst.<br>Problem Solver.</h2>
+    <div class="about-grid fade-in">
+      <div class="about-text">
+        <p>I'm a <strong>Senior Full Stack Developer</strong> based in Glasgow, UK with over 7 years of experience designing and scaling enterprise-grade systems across fintech, healthcare, and analytics domains.</p>
+        <p>My background spans <strong>Java backend engineering</strong>, cloud infrastructure on AWS, and full-stack delivery using React and Angular — from startups to Oracle's core ML platform.</p>
+        <p>I hold an <strong>MSc in Data Analytics (Distinction)</strong> from the University of Strathclyde, giving me a strong foundation in ML and data-driven engineering that complements my systems expertise.</p>
+        <p>Outside of work I contribute to charitable causes and am passionate about building software that makes real-world impact.</p>
+      </div>
+      <div class="skills-grid">
+        <div>
+          <p class="skill-group-label">Languages</p>
+          <div class="skill-tags">
+            <span class="skill-tag">Java 8–17</span><span class="skill-tag">Python</span><span class="skill-tag">TypeScript</span><span class="skill-tag">SQL</span><span class="skill-tag">R</span><span class="skill-tag">C++</span>
+          </div>
+        </div>
+        <div>
+          <p class="skill-group-label">Backend</p>
+          <div class="skill-tags">
+            <span class="skill-tag">Spring Boot</span><span class="skill-tag">Microservices</span><span class="skill-tag">REST APIs</span><span class="skill-tag">JPA/Hibernate</span><span class="skill-tag">Kafka</span><span class="skill-tag">Spark</span>
+          </div>
+        </div>
+        <div>
+          <p class="skill-group-label">Frontend</p>
+          <div class="skill-tags">
+            <span class="skill-tag">React</span><span class="skill-tag">Angular</span><span class="skill-tag">JavaScript</span><span class="skill-tag">D3.js</span>
+          </div>
+        </div>
+        <div>
+          <p class="skill-group-label">Cloud & DevOps</p>
+          <div class="skill-tags">
+            <span class="skill-tag">AWS EC2/Lambda/RDS</span><span class="skill-tag">Docker</span><span class="skill-tag">Kubernetes</span><span class="skill-tag">GitHub Actions</span><span class="skill-tag">Jenkins</span>
+          </div>
+        </div>
+        <div>
+          <p class="skill-group-label">Databases</p>
+          <div class="skill-tags">
+            <span class="skill-tag">PostgreSQL</span><span class="skill-tag">OracleDB</span><span class="skill-tag">MongoDB</span><span class="skill-tag">Hive</span><span class="skill-tag">MySQL</span>
+          </div>
+        </div>
+        <div>
+          <p class="skill-group-label">ML & Analytics</p>
+          <div class="skill-tags">
+            <span class="skill-tag">Scikit-learn</span><span class="skill-tag">TensorFlow</span><span class="skill-tag">Keras</span><span class="skill-tag">Pandas</span><span class="skill-tag">NumPy</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <p class="section-label fade-in">Experience</p>
+    <h2 class="section-title fade-in">Where I've Worked</h2>
+    <div class="exp-list">
+
+      <div class="exp-item fade-in">
+        <div class="exp-meta">
+          <div class="exp-company">WyldTrace</div>
+          <div class="exp-period">Nov 2024 – Feb 2026</div>
+          <div class="exp-location">Glasgow, UK (Remote)</div>
+        </div>
+        <div>
+          <div class="exp-role">Senior Full Stack Developer</div>
+          <ul class="exp-bullets">
+            <li>Building and scaling a production-grade traceability platform — Java, Spring Boot, microservices, PostgreSQL, React, AWS — supporting 10k+ daily provenance lookups.</li>
+            <li>Reduced average request latency by 38% through request-pipeline optimisation and database tuning.</li>
+            <li>Delivered QR-based consumer interface with blockchain-backed audit trails, retrieving full product history in under 1.2s at scale.</li>
+            <li>Containerised microservices with Docker, deployed to AWS EC2 via GitHub Actions CI/CD pipelines.</li>
+            <li>Authored OpenAPI/Swagger docs for all services, improving cross-team onboarding speed by 30%.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-item fade-in">
+        <div class="exp-meta">
+          <div class="exp-company">Oracle</div>
+          <div class="exp-period">Aug 2017 – Nov 2021</div>
+          <div class="exp-location">Bangalore, India</div>
+        </div>
+        <div>
+          <div class="exp-role">Full Stack Developer</div>
+          <ul class="exp-bullets">
+            <li>Developed and maintained core ML platform modules for Oracle Analytics (ORAAH, OML4Py) — 20+ backend APIs supporting model execution and data workflows.</li>
+            <li>Built custom Hive UDAFs and a shared Python library, improving query performance by 30–35% and reducing code duplication by 40%.</li>
+            <li>Owned majority of Oracle AutoML UI work in Angular, and performed end-to-end debugging across frontend, API, and data layers.</li>
+            <li>Optimised Java service logic, SQL queries, and database triggers for measurable gains in correctness and latency.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-item fade-in">
+        <div class="exp-meta">
+          <div class="exp-company">Publicis Sapient</div>
+          <div class="exp-period">Jun 2015 – Aug 2017</div>
+          <div class="exp-location">Delhi, India</div>
+        </div>
+        <div>
+          <div class="exp-role">Associate Technology</div>
+          <ul class="exp-bullets">
+            <li>Delivered enterprise analytics and reporting solutions for Goldman Sachs and Wellington Management.</li>
+            <li>Developed backend services and data-processing logic in Java, SQL, and PL/SQL; frontend components in Angular.</li>
+            <li>Designed and optimised complex SQL queries and stored procedures, cutting report execution times by 25–30%.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <p class="section-label fade-in">Projects</p>
+    <h2 class="section-title fade-in">Things I've Built</h2>
+    <div class="projects-grid fade-in">
+
+      <!-- FEATURED -->
+      <div class="project-card featured">
+        <span class="project-badge">🚧 In Progress · Featured Project</span>
+        <div class="project-name">Expense Tracker</div>
+        <p class="project-desc">A full-stack personal finance application with a Spring Boot + AWS backend and a modern React frontend. Features expense categorisation, monthly analytics, budget tracking, and a clean data visualisation dashboard — built to showcase end-to-end cloud-native development.</p>
+        <div class="project-stack">
+          <span class="stack-tag">Java</span>
+          <span class="stack-tag">Spring Boot</span>
+          <span class="stack-tag">AWS</span>
+          <span class="stack-tag">React</span>
+          <span class="stack-tag">PostgreSQL</span>
+          <span class="stack-tag">Docker</span>
+          <span class="stack-tag">REST API</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/MandyK94" class="project-link" target="_blank">GitHub ↗</a>
+          <a href="#" class="project-link">Live Demo (coming soon)</a>
+        </div>
+      </div>
+
+      <div class="project-card fade-in">
+        <span class="project-badge">Project</span>
+        <div class="project-name">Resource Management System</div>
+        <p class="project-desc">Designed and optimised REST APIs achieving 99% query efficiency through indexing, caching, and advanced query tuning. Containerised and deployed on AWS.</p>
+        <div class="project-stack">
+          <span class="stack-tag">Java</span><span class="stack-tag">Spring Boot</span><span class="stack-tag">PostgreSQL</span><span class="stack-tag">Docker</span><span class="stack-tag">AWS</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/MandyK94" class="project-link" target="_blank">GitHub ↗</a>
+        </div>
+      </div>
+
+      <div class="project-card fade-in">
+        <span class="project-badge">Project</span>
+        <div class="project-name">Healthcare Data Pipeline</div>
+        <p class="project-desc">Large-scale ETL pipelines processing 1M+ patient records/day with reliable Kafka-based streaming and end-to-end observability via Prometheus.</p>
+        <div class="project-stack">
+          <span class="stack-tag">Spring</span><span class="stack-tag">Kafka</span><span class="stack-tag">Prometheus</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/MandyK94" class="project-link" target="_blank">GitHub ↗</a>
+        </div>
+      </div>
+
+      <div class="project-card fade-in">
+        <span class="project-badge">Project</span>
+        <div class="project-name">Financial Analytics Platform</div>
+        <p class="project-desc">Real-time data ingestion and analytics microservices achieving 92% predictive accuracy in financial forecasting models. CI/CD managed via GitLab.</p>
+        <div class="project-stack">
+          <span class="stack-tag">Java</span><span class="stack-tag">Microservices</span><span class="stack-tag">GitLab CI/CD</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/MandyK94" class="project-link" target="_blank">GitHub ↗</a>
+        </div>
+      </div>
+
+      <div class="project-card fade-in">
+        <span class="project-badge">Project</span>
+        <div class="project-name">Data Analytics Dashboard</div>
+        <p class="project-desc">Responsive analytics dashboards built with Spring Boot APIs, Python/R data processing, Angular frontend, and D3.js visualisations. High test coverage with JUnit and Mockito.</p>
+        <div class="project-stack">
+          <span class="stack-tag">Spring Boot</span><span class="stack-tag">Python</span><span class="stack-tag">R</span><span class="stack-tag">Angular</span><span class="stack-tag">D3.js</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/MandyK94" class="project-link" target="_blank">GitHub ↗</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <p class="section-label fade-in">Education</p>
+    <h2 class="section-title fade-in">Academic Background</h2>
+    <div class="edu-grid fade-in">
+      <div class="edu-card">
+        <div class="edu-degree">MSc Data Analytics</div>
+        <div class="edu-school">University of Strathclyde</div>
+        <div class="edu-meta">Glasgow, UK · Sep 2022 – Sep 2023<br>Dissertation: Robot Dispatch Optimisation</div>
+        <span class="edu-grade">Distinction</span>
+      </div>
+      <div class="edu-card">
+        <div class="edu-degree">B.Tech Computer Science & Engineering</div>
+        <div class="edu-school">Dr B R Ambedkar NIT Jalandhar</div>
+        <div class="edu-meta">Jalandhar, India · Aug 2011 – Jun 2015<br>Dissertation: Personalised Web Browser</div>
+        <span class="edu-grade">7.71 GPA</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATIONS -->
+  <section id="certifications" style="background: var(--white);">
+    <p class="section-label fade-in">Certifications</p>
+    <h2 class="section-title fade-in">Credentials & Learning</h2>
+    <div class="edu-grid fade-in" style="grid-template-columns: repeat(2, 1fr);">
+
+      <div class="edu-card" style="display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="font-size:1.6rem; margin-bottom:0.75rem;">📊</div>
+          <div class="edu-degree" style="font-size:1.1rem;">Google Data Analytics</div>
+          <div class="edu-school" style="margin-top:0.25rem;">Professional Certificate</div>
+          <div class="edu-meta">Google · Coursera</div>
+        </div>
+        <a href="#" target="_blank" style="display:inline-flex; align-items:center; gap:0.3rem; margin-top:1rem; font-size:0.8rem; font-weight:500; color:var(--accent); text-decoration:none; border-bottom:1px solid var(--accent-light); padding-bottom:0.1rem; width:fit-content;">View Certificate ↗</a>
+      </div>
+
+      <div class="edu-card" style="display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="font-size:1.6rem; margin-bottom:0.75rem;">🤖</div>
+          <div class="edu-degree" style="font-size:1.1rem;">Machine Learning Engineer</div>
+          <div class="edu-school" style="margin-top:0.25rem;">Professional Certificate</div>
+          <div class="edu-meta">Verified Credential</div>
+        </div>
+        <a href="#" target="_blank" style="display:inline-flex; align-items:center; gap:0.3rem; margin-top:1rem; font-size:0.8rem; font-weight:500; color:var(--accent); text-decoration:none; border-bottom:1px solid var(--accent-light); padding-bottom:0.1rem; width:fit-content;">View Certificate ↗</a>
+      </div>
+
+      <div class="edu-card" style="display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="font-size:1.6rem; margin-bottom:0.75rem;">🧠</div>
+          <div class="edu-degree" style="font-size:1.1rem;">Deep Learning Foundation</div>
+          <div class="edu-school" style="margin-top:0.25rem;">Professional Certificate</div>
+          <div class="edu-meta">Verified Credential</div>
+        </div>
+        <a href="#" target="_blank" style="display:inline-flex; align-items:center; gap:0.3rem; margin-top:1rem; font-size:0.8rem; font-weight:500; color:var(--accent); text-decoration:none; border-bottom:1px solid var(--accent-light); padding-bottom:0.1rem; width:fit-content;">View Certificate ↗</a>
+      </div>
+
+      <div class="edu-card" style="display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="font-size:1.6rem; margin-bottom:0.75rem;">📈</div>
+          <div class="edu-degree" style="font-size:1.1rem;">Data Analyst</div>
+          <div class="edu-school" style="margin-top:0.25rem;">Professional Certificate</div>
+          <div class="edu-meta">Verified Credential</div>
+        </div>
+        <a href="#" target="_blank" style="display:inline-flex; align-items:center; gap:0.3rem; margin-top:1rem; font-size:0.8rem; font-weight:500; color:var(--accent); text-decoration:none; border-bottom:1px solid var(--accent-light); padding-bottom:0.1rem; width:fit-content;">View Certificate ↗</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <p class="section-label fade-in">Contact</p>
+    <h2 class="section-title fade-in">Get in Touch</h2>
+    <div class="contact-grid fade-in">
+      <div class="contact-info">
+        <p style="color:#888; font-size:0.95rem; line-height:1.75; margin-bottom:1rem;">I'm open to senior full stack and engineering roles. Feel free to reach out — I'd love to connect.</p>
+        <div class="contact-item">
+          <div class="contact-item-label">Email</div>
+          <a href="mailto:kaur.mandeep.office@gmail.com">kaur.mandeep.office@gmail.com</a>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-label">Phone</div>
+          <a href="tel:+447460021137">+44 7460 021137</a>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-label">LinkedIn</div>
+          <a href="https://linkedin.com/in/mandyk94" target="_blank">linkedin.com/in/mandyk94</a>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-label">GitHub</div>
+          <a href="https://github.com/MandyK94" target="_blank">github.com/MandyK94</a>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-label">Location</div>
+          <a href="#">Glasgow, UK</a>
+        </div>
+      </div>
+      <form class="contact-form" onsubmit="handleSubmit(event)">
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" placeholder="Jane Smith" required />
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="jane@example.com" required />
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea placeholder="Hi Mandeep, I'd love to chat about..." required></textarea>
+        </div>
+        <button type="submit" class="form-btn">Send Message →</button>
+        <div class="form-success" id="formSuccess">✓ Message sent! I'll get back to you soon.</div>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 Mandeep Kaur. Built with care.</p>
+    <p>Glasgow, UK · kaur.mandeep.office@gmail.com</p>
+  </footer>
+
+  <script>
+    // Scroll fade-in
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Contact form
+    function handleSubmit(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('.form-btn');
+      btn.textContent = 'Sending…';
+      btn.disabled = true;
+      setTimeout(() => {
+        document.getElementById('formSuccess').style.display = 'block';
+        btn.style.display = 'none';
+        e.target.reset();
+      }, 800);
+    }
+  </script>
+</body>
+</html>
