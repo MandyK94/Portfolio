@@ -143,7 +143,7 @@ section{padding:8rem 4.5rem;position:relative;z-index:1}
 .proj-lnk svg{width:13px;height:13px;fill:currentColor}
 
 /* BLOG */
-.blog-grid{display:grid;grid-template-columns:1.4fr .6fr;gap:1.4rem}
+.blog-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem}
 .blog-main{padding:3rem;display:flex;flex-direction:column}
 .blog-meta-row{display:flex;align-items:center;gap:1rem;margin-bottom:1.25rem}
 .blog-tag{font-size:.62rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--ac);background:rgba(74,143,168,.08);border:1px solid rgba(74,143,168,.2);padding:.2rem .62rem;border-radius:6px}
@@ -402,12 +402,17 @@ footer{background:rgba(235,237,239,.65);border-top:1px solid rgba(255,255,255,.6
   <h2 class="stitle reveal">Thoughts & <em>Insights</em></h2>
   <div class="blog-grid reveal">
     <div class="blog-main pane">
+      <div class="blog-meta-row"><span class="blog-tag">System Design</span><span class="blog-dt">February 2026</span></div>
+      <div class="blog-h">System Design Trade-offs Every Senior Engineer Should Know</div>
+      <p class="blog-exc">Software engineering is rarely about finding the "right" answer — it's about making the best trade-off for your specific context. After years of building distributed systems and microservices, here are the seven most important trade-offs I've encountered and how I think about them.</p>
+      <a href="article2.html" class="blog-read">Read article →</a>
+    </div>
+    <div class="blog-main pane">
       <div class="blog-meta-row"><span class="blog-tag">Architecture</span><span class="blog-dt">February 2026</span></div>
       <div class="blog-h">Why I Stopped Fighting Latency and Started Measuring It</div>
-      <p class="blog-exc">At WyldTrace, we had a traceability API that was slow — not catastrophically slow, but frustratingly, unpredictably slow. The kind of slow that makes stakeholders raise eyebrows. After months of profiling, tuning, and one critical revelation about connection pooling under load, we brought average request latency down by 38%. This is what I learned — and what I'd do differently from day one.</p>
+      <p class="blog-exc">At WyldTrace, we had a traceability API that was slow — not catastrophically slow, but frustratingly, unpredictably slow. After months of profiling and one critical revelation about connection pooling under load, we brought average request latency down by 38%.</p>
       <a href="article1.html" class="blog-read">Read article →</a>
     </div>
-    <div class="blog-soon"><div class="blog-soon-i">✍️</div><p class="blog-soon-t">More articles coming soon.<br>Topics: microservices, cloud-native patterns, and ML in production.</p></div>
   </div>
 </section>
 
