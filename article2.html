@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>System Design Trade-offs Every Senior Engineer Should Know · Mandeep Kaur</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#1a2630;
+  --ink2:#2d3f4e;
+  --muted:#5a6e7f;
+  --dim:#8fa3b0;
+  --ac:#4a8fa8;
+  --ac2:#5ba3be;
+  --ac3:#7fbdd4;
+  --pane:rgba(255,255,255,0.52);
+  --border:rgba(255,255,255,0.65);
+  --sp:0 4px 24px rgba(30,60,90,0.07),0 1px 4px rgba(30,60,90,0.04);
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Jost',sans-serif;
+  background:linear-gradient(160deg,#eaecee 0%,#eef0f1 30%,#f2f3f4 60%,#e8eaec 100%);
+  min-height:100vh;
+  color:var(--ink);
+  position:relative;
+  overflow-x:hidden;
+}
+canvas#mc{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 3.5rem;background:rgba(242,243,244,0.80);backdrop-filter:saturate(140%) blur(32px);-webkit-backdrop-filter:saturate(140%) blur(32px);border-bottom:1px solid rgba(255,255,255,0.65);transition:all .4s cubic-bezier(.22,1,.36,1)}
+nav.scrolled{padding:.85rem 3.5rem;background:rgba(242,243,244,0.94)}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:500;letter-spacing:.04em;color:var(--ink);text-decoration:none}
+.nav-logo span{color:var(--ac)}
+.nav-back{display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;color:var(--muted);font-size:.88rem;font-weight:400;letter-spacing:.07em;padding:.45rem 1rem;border-radius:20px;transition:all .25s}
+.nav-back:hover{color:var(--ink);background:rgba(0,0,0,0.04)}
+.nav-back svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* HERO */
+.art-hero{min-height:52vh;position:relative;z-index:1;display:flex;align-items:flex-end;padding:8rem 0 4rem;max-width:860px;margin:0 auto;padding-left:2rem;padding-right:2rem}
+.art-eyebrow{display:inline-flex;align-items:center;gap:.6rem;font-size:.65rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--ac);margin-bottom:1.25rem;opacity:0;animation:rise .9s .1s cubic-bezier(.22,1,.36,1) forwards}
+.art-eyebrow::before{content:'';width:22px;height:1px;background:var(--ac)}
+.art-tag{background:rgba(74,143,168,.1);border:1px solid rgba(74,143,168,.25);color:var(--ac);padding:.2rem .65rem;border-radius:6px;font-size:.6rem;letter-spacing:.1em}
+.art-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.4rem,5.5vw,4.2rem);font-weight:300;line-height:1.08;letter-spacing:-.02em;color:var(--ink);margin-bottom:1.5rem;opacity:0;animation:rise .9s .18s cubic-bezier(.22,1,.36,1) forwards}
+.art-title em{font-style:italic;color:var(--ac2)}
+.art-meta{display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;opacity:0;animation:rise .9s .26s cubic-bezier(.22,1,.36,1) forwards}
+.art-author{display:flex;align-items:center;gap:.65rem}
+.art-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--ac),var(--ac3));display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:.95rem;font-weight:500;color:#fff;flex-shrink:0}
+.art-author-name{font-size:.82rem;font-weight:500;color:var(--ink2)}
+.art-author-role{font-size:.72rem;color:var(--dim);font-weight:300}
+.art-dot{width:3px;height:3px;border-radius:50%;background:var(--dim);flex-shrink:0}
+.art-date{font-size:.76rem;color:var(--dim);font-weight:300}
+.art-read{font-size:.76rem;color:var(--dim);font-weight:300}
+
+/* ARTICLE */
+.art-wrap{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:0 2rem 8rem}
+.art-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(74,143,168,.2) 30%,rgba(74,143,168,.2) 70%,transparent);margin-bottom:4rem;opacity:0;animation:rise .9s .34s cubic-bezier(.22,1,.36,1) forwards}
+.art-body{opacity:0;animation:rise .9s .42s cubic-bezier(.22,1,.36,1) forwards}
+.art-body p{font-size:1.06rem;color:var(--muted);line-height:2;margin-bottom:1.75rem;font-weight:300}
+.art-body p strong{color:var(--ink2);font-weight:500}
+.art-body h2{font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:300;color:var(--ink);letter-spacing:-.02em;line-height:1.2;margin:3.5rem 0 1.25rem}
+.art-body h2 em{font-style:italic;color:var(--ac2)}
+.art-body h3{font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--ac);margin:2.5rem 0 .9rem}
+.art-intro{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:300;color:var(--ink2);line-height:1.75;margin-bottom:2.5rem}
+.art-pull{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-style:italic;font-weight:300;color:var(--ink2);line-height:1.6;border-left:2px solid rgba(74,143,168,.35);padding:1rem 0 1rem 1.75rem;margin:2.75rem 0}
+.art-callout{background:rgba(74,143,168,.07);border:1px solid rgba(74,143,168,.2);border-radius:14px;padding:1.5rem 1.75rem;margin:2rem 0}
+.art-callout p{margin-bottom:0;font-size:.95rem;color:var(--muted);line-height:1.85}
+.art-callout strong{color:var(--ac)}
+.art-hl{font-weight:500;color:var(--ac);background:rgba(74,143,168,.09);padding:.04rem .3rem;border-radius:4px;font-size:.95em}
+
+/* TRADEOFF CARDS */
+.tradeoff-card{
+  background:var(--pane);
+  backdrop-filter:saturate(140%) blur(32px);
+  -webkit-backdrop-filter:saturate(140%) blur(32px);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:2rem 2.25rem;
+  margin:2rem 0;
+  box-shadow:var(--sp),0 1px 0 rgba(255,255,255,0.9) inset;
+  position:relative;overflow:hidden;
+}
+.tradeoff-card::before{content:'';position:absolute;top:0;left:8%;right:8%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.95) 30%,rgba(255,255,255,1) 50%,rgba(255,255,255,.95) 70%,transparent);pointer-events:none}
+.tradeoff-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin:.75rem 0 1.25rem}
+.tradeoff-side{padding:1.1rem 1.25rem;border-radius:12px}
+.tradeoff-side.pro{background:rgba(74,143,168,.07);border:1px solid rgba(74,143,168,.18)}
+.tradeoff-side.con{background:rgba(143,163,176,.07);border:1px solid rgba(143,163,176,.18)}
+.tradeoff-side-lbl{font-size:.6rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.65rem}
+.tradeoff-side.pro .tradeoff-side-lbl{color:var(--ac)}
+.tradeoff-side.con .tradeoff-side-lbl{color:var(--dim)}
+.tradeoff-side p{font-size:.88rem;color:var(--muted);line-height:1.75;font-weight:300;margin:0}
+.tradeoff-learned{font-size:.9rem;color:var(--muted);line-height:1.85;font-weight:300;margin-top:.5rem}
+.tradeoff-learned strong{color:var(--ink2);font-weight:500}
+.tradeoff-num{
+  position:absolute;top:1.75rem;right:2rem;
+  font-family:'Cormorant Garamond',serif;
+  font-size:3.5rem;font-weight:300;
+  color:rgba(74,143,168,.08);
+  line-height:1;pointer-events:none;
+  user-select:none;
+}
+
+/* META QUESTIONS */
+.meta-list{display:flex;flex-direction:column;gap:.85rem;margin:1.5rem 0 2rem}
+.meta-q{display:flex;align-items:flex-start;gap:.85rem;font-size:.95rem;color:var(--muted);line-height:1.8;font-weight:300}
+.meta-q::before{content:'→';color:var(--ac);font-size:.85rem;flex-shrink:0;margin-top:.18em;font-weight:400}
+
+/* AUTHOR BIO */
+.art-bio{background:var(--pane);backdrop-filter:saturate(140%) blur(32px);-webkit-backdrop-filter:saturate(140%) blur(32px);border:1px solid var(--border);border-radius:20px;padding:2.25rem 2.5rem;display:flex;align-items:flex-start;gap:1.5rem;margin-top:4rem;box-shadow:var(--sp),0 1px 0 rgba(255,255,255,0.9) inset}
+.art-bio-avatar{width:60px;height:60px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--ac),var(--ac3));display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:500;color:#fff}
+.art-bio-name{font-size:1rem;font-weight:500;color:var(--ink);margin-bottom:.25rem}
+.art-bio-role{font-size:.75rem;color:var(--ac);font-weight:400;letter-spacing:.06em;margin-bottom:.65rem}
+.art-bio-p{font-size:.88rem;color:var(--muted);line-height:1.8;font-weight:300}
+
+/* BACK */
+.art-back-wrap{text-align:center;margin-top:3.5rem}
+.art-back{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 2rem;border-radius:28px;background:var(--ink);color:rgba(255,255,255,.9);font-size:.78rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;font-family:'Jost',sans-serif;transition:all .35s cubic-bezier(.22,1,.36,1);box-shadow:0 4px 20px rgba(26,38,48,.2)}
+.art-back:hover{background:var(--ac);transform:translateY(-2px);box-shadow:0 8px 32px rgba(74,143,168,.3)}
+.art-back svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+footer{background:rgba(235,237,239,.65);border-top:1px solid rgba(255,255,255,.6);backdrop-filter:blur(20px);padding:2rem 4.5rem;display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1}
+.f-copy{font-size:.7rem;color:var(--dim);letter-spacing:.08em;font-weight:300}
+.f-mail{font-size:.7rem;color:var(--dim);text-decoration:none;font-weight:300;transition:color .2s}
+.f-mail:hover{color:var(--ac)}
+
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:760px){
+  nav{padding:1rem 1.5rem}
+  .art-hero,.art-wrap{padding-left:1.25rem;padding-right:1.25rem}
+  .tradeoff-grid{grid-template-columns:1fr}
+  footer{flex-direction:column;gap:.75rem;text-align:center;padding:1.5rem}
+  .art-bio{flex-direction:column}
+  .tradeoff-num{display:none}
+}
+</style>
+</head>
+<body>
+<canvas id="mc"></canvas>
+
+<nav id="nav">
+  <a class="nav-logo" href="index.html">Mandeep <span>Kaur</span></a>
+  <a class="nav-back" href="index.html#blog">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    Back to Portfolio
+  </a>
+</nav>
+
+<div class="art-hero">
+  <div style="width:100%">
+    <div class="art-eyebrow"><span class="art-tag">System Design</span>Engineering Perspective</div>
+    <h1 class="art-title">System Design Trade-offs<br><em>Every Senior Engineer Should Know</em></h1>
+    <div class="art-meta">
+      <div class="art-author">
+        <div class="art-avatar">MK</div>
+        <div>
+          <div class="art-author-name">Mandeep Kaur</div>
+          <div class="art-author-role">Senior Full Stack Developer</div>
+        </div>
+      </div>
+      <span class="art-dot"></span>
+      <span class="art-date">February 2026</span>
+      <span class="art-dot"></span>
+      <span class="art-read">12 min read</span>
+    </div>
+  </div>
+</div>
+
+<div class="art-wrap">
+  <div class="art-divider"></div>
+
+  <article class="art-body">
+
+    <p class="art-intro">After years of building distributed systems, microservices, and cloud-native applications, I've learned that software engineering is rarely about finding the "right" answer — it's about making the best trade-off for your specific context.</p>
+
+    <p>Here are the most important trade-offs I've encountered, how I think about them, and what I wish I'd understood earlier in my career.</p>
+
+    <!-- 1 -->
+    <h2>1. Consistency <em>vs</em> Availability</h2>
+    <p>This is the fundamental tension in distributed systems, formally described by the CAP theorem. When your network partitions — and it will — you must choose between keeping your system <strong>consistent</strong> or keeping it <strong>available</strong>.</p>
+    <div class="tradeoff-card">
+      <div class="tradeoff-num">01</div>
+      <div class="tradeoff-grid">
+        <div class="tradeoff-side pro">
+          <div class="tradeoff-side-lbl">Choose Consistency</div>
+          <p>A banking system should never show an incorrect account balance — even if that means the service is temporarily unavailable. The cost of wrong data vastly outweighs the cost of brief downtime.</p>
+        </div>
+        <div class="tradeoff-side con">
+          <div class="tradeoff-side-lbl">Choose Availability</div>
+          <p>A social media feed can tolerate eventual consistency. Seeing a post 2 seconds late is far better than the feed being down. Users notice absence more than slight delay.</p>
+        </div>
+      </div>
+      <p class="tradeoff-learned"><strong>What I've learned:</strong> Most engineers default to strong consistency without questioning whether they need it. Before making this choice, ask — what's the actual cost of eventual consistency in this context? Often it's lower than you think, and the performance gains from availability are significant at scale.</p>
+    </div>
+
+    <!-- 2 -->
+    <h2>2. Latency <em>vs</em> Throughput</h2>
+    <p>These two are often confused but they're fundamentally different. <strong>Latency</strong> is how long a single request takes. <strong>Throughput</strong> is how many requests you can handle per second. Optimising for one often hurts the other.</p>
+    <div class="tradeoff-card">
+      <div class="tradeoff-num">02</div>
+      <div class="tradeoff-grid">
+        <div class="tradeoff-side pro">
+          <div class="tradeoff-side-lbl">Optimise for Latency</div>
+          <p>Process each request individually. Users get fast responses. Real-time APIs, live dashboards, and user-facing endpoints need this — anything over 200ms is noticeable.</p>
+        </div>
+        <div class="tradeoff-side con">
+          <div class="tradeoff-side-lbl">Optimise for Throughput</div>
+          <p>Batch requests together. Each request waits for the batch to fill, adding latency — but you process far more per second. ETL pipelines and background jobs benefit here.</p>
+        </div>
+      </div>
+      <p class="tradeoff-learned"><strong>What I've learned:</strong> A useful mental model — optimise for latency at the edge (APIs users interact with directly) and throughput in the background (ETL pipelines, event processing, batch jobs). The mistake is applying one model everywhere.</p>
+    </div>
+
+    <div class="art-pull">"The engineers I respect most aren't the ones who know all the answers. They're the ones who ask the right questions before making a decision."</div>
+
+    <!-- 3 -->
+    <h2>3. Normalisation <em>vs</em> Denormalisation</h2>
+    <p>In relational databases, normalisation eliminates redundancy and ensures data integrity. Denormalisation deliberately introduces redundancy to improve read performance.</p>
+    <div class="tradeoff-card">
+      <div class="tradeoff-num">03</div>
+      <div class="tradeoff-grid">
+        <div class="tradeoff-side pro">
+          <div class="tradeoff-side-lbl">Normalised</div>
+          <p>Clean, consistent, easy to maintain. A single source of truth for every piece of data. But joins get expensive at scale, and complex queries against many tables add latency.</p>
+        </div>
+        <div class="tradeoff-side con">
+          <div class="tradeoff-side-lbl">Denormalised</div>
+          <p>Fast reads — data is co-located where it's needed. But harder to keep consistent, more expensive to write to, and schema changes become painful.</p>
+        </div>
+      </div>
+      <p class="tradeoff-learned"><strong>What I've learned:</strong> Start normalised. Denormalise only when you have evidence of a performance problem — not before. I've seen teams prematurely denormalise and spend months managing data consistency issues that wouldn't have existed with a clean schema. When you do denormalise, be surgical — denormalise the specific query that's slow, not the entire schema.</p>
+    </div>
+
+    <!-- 4 -->
+    <h2>4. Synchronous <em>vs</em> Asynchronous Communication</h2>
+    <p>Microservices need to talk to each other. The choice between synchronous REST calls and asynchronous messaging via queues or event streams has enormous implications for your system's reliability and complexity.</p>
+    <div class="tradeoff-card">
+      <div class="tradeoff-num">04</div>
+      <div class="tradeoff-grid">
+        <div class="tradeoff-side pro">
+          <div class="tradeoff-side-lbl">Synchronous</div>
+          <p>Simple to reason about — request goes out, response comes back. But tight coupling means if service B is slow or down, service A is directly affected.</p>
+        </div>
+        <div class="tradeoff-side con">
+          <div class="tradeoff-side-lbl">Asynchronous</div>
+          <p>Services are decoupled — publish an event and move on. But now you must handle message ordering, duplicate processing, dead letter queues, and eventual consistency.</p>
+        </div>
+      </div>
+      <p class="tradeoff-learned"><strong>What I've learned:</strong> Use synchronous communication when the user is waiting for an immediate response. Use asynchronous when the operation can happen in the background. A payment confirmation should be synchronous. Sending a confirmation email after payment should be asynchronous. The most common mistake is going fully async everywhere because it <em>sounds</em> more scalable, then drowning in operational complexity.</p>
+    </div>
+
+    <!-- 5 -->
+    <h2>5. Monolith <em>vs</em> Microservices</h2>
+    <p>Perhaps the most debated topic in modern software architecture. Microservices are not inherently better than monoliths — they're a trade-off, and the right answer depends on context.</p>
+    <div class="tradeoff-card">
+      <div class="tradeoff-num">05</div>
+      <div class="tradeoff-grid">
+        <div class="tradeoff-side pro">
+          <div class="tradeoff-side-lbl">Monolith</div>
+          <p>Simple to develop, test, and deploy. Local function calls are faster than network calls. Everything in one place. Becomes harder to scale and change as it grows.</p>
+        </div>
+        <div class="tradeoff-side con">
+          <div class="tradeoff-side-lbl">Microservices</div>
+          <p>Independent scaling, independent deployment, team autonomy. But introduces network latency, distributed system complexity, and significant operational overhead.</p>
+        </div>
+      </div>
+      <p class="tradeoff-learned"><strong>What I've learned:</strong> Conway's Law states that systems mirror the communication structure of the organisations that build them. If you have one team, a monolith is almost always the right starting point. Start with a well-structured monolith. Extract services when you have a concrete reason — a scaling bottleneck, a team boundary, a deployment conflict. I've seen small teams adopt microservices prematurely and spend more time on infrastructure than on actual product features.</p>
+    </div>
+
+    <!-- 6 -->
+    <h2>6. Build <em>vs</em> Buy</h2>
+    <p>Every engineering team faces this constantly — build a custom solution or use an existing tool, library, or managed service.</p>
+    <div class="tradeoff-card">
+      <div class="tradeoff-num">06</div>
+      <div class="tradeoff-grid">
+        <div class="tradeoff-side pro">
+          <div class="tradeoff-side-lbl">Build</div>
+          <p>Full control, no external dependencies. Tailored exactly to your needs. But it takes time, introduces long-term maintenance burden, and you'll likely reinvent wheels poorly before getting them right.</p>
+        </div>
+        <div class="tradeoff-side con">
+          <div class="tradeoff-side-lbl">Buy / Use Managed Services</div>
+          <p>Faster to production. Someone else handles the hard operational problems. But you take on vendor dependency and may pay for capabilities you don't need.</p>
+        </div>
+      </div>
+      <p class="tradeoff-learned"><strong>What I've learned:</strong> Be honest about your core competency. If you're building a financial application, your competitive advantage is in your financial logic — not in building a better authentication system or message queue. Use managed services for undifferentiated infrastructure. Build custom solutions only where you have unique requirements that off-the-shelf tools genuinely can't meet.</p>
+    </div>
+
+    <!-- 7 -->
+    <h2>7. Developer Experience <em>vs</em> Runtime Performance</h2>
+    <p>Code that's easy to write, read, and maintain is not always the most performant. Code optimised for performance is not always easy to maintain. This tension is subtle but it shapes daily engineering decisions.</p>
+    <div class="tradeoff-card">
+      <div class="tradeoff-num">07</div>
+      <div class="tradeoff-grid">
+        <div class="tradeoff-side pro">
+          <div class="tradeoff-side-lbl">Developer Experience First</div>
+          <p>Use the ORM, use the abstraction, write readable code. Productive and maintainable — but Hibernate can generate inefficient SQL, and N+1 problems can silently destroy performance at scale.</p>
+        </div>
+        <div class="tradeoff-side con">
+          <div class="tradeoff-side-lbl">Performance First</div>
+          <p>Write raw SQL, drop to lower abstractions. Full control over what the database executes — but verbose, harder to maintain, and tightly coupled to your schema.</p>
+        </div>
+      </div>
+      <p class="tradeoff-learned"><strong>What I've learned:</strong> Optimise for developer experience by default. Use the abstraction. Then measure. If you find a genuine bottleneck, drop down to the lower abstraction for that specific case. Don't prematurely optimise — you'll spend time solving problems you don't have, while creating maintenance problems you will.</p>
+    </div>
+
+    <!-- META -->
+    <h2>The <em>Meta Trade-off</em></h2>
+    <p>Every decision in system design is a trade-off between competing forces — simplicity vs capability, speed vs correctness, flexibility vs performance. The engineers I respect most aren't the ones who know all the answers. They're the ones who ask the right questions before making a decision.</p>
+
+    <div class="meta-list">
+      <div class="meta-q">What are the actual requirements — not the assumed ones?</div>
+      <div class="meta-q">What's the cost of getting this wrong?</div>
+      <div class="meta-q">Can we start simple and evolve, or do we need to get this right from the start?</div>
+      <div class="meta-q">What will this decision cost us in 6 months when requirements change?</div>
+    </div>
+
+    <div class="art-callout">
+      <p>The best system is not the most technically impressive one. It's the one that <strong>solves the actual problem</strong>, can be maintained by your team, and can evolve as your understanding improves.</p>
+    </div>
+
+    <p>What trade-offs have shaped how you design systems? I'd love to hear your perspective.</p>
+
+  </article>
+
+  <div class="art-bio">
+    <div class="art-bio-avatar">MK</div>
+    <div>
+      <div class="art-bio-name">Mandeep Kaur</div>
+      <div class="art-bio-role">Senior Full Stack Developer · Glasgow, UK</div>
+      <p class="art-bio-p">7+ years building enterprise Java systems across fintech, healthcare, and analytics. Currently scaling a production traceability platform at WyldTrace. MSc Data Analytics (Distinction), University of Strathclyde.</p>
+    </div>
+  </div>
+
+  <div class="art-back-wrap">
+    <a href="index.html#blog" class="art-back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Portfolio
+    </a>
+  </div>
+</div>
+
+<footer>
+  <span class="f-copy">© 2026 Mandeep Kaur · Glasgow, UK</span>
+  <a href="mailto:kaur.mandeep.office@gmail.com" class="f-mail">kaur.mandeep.office@gmail.com</a>
+</footer>
+
+<script>
+(function(){
+  const canvas=document.getElementById('mc');
+  const ctx=canvas.getContext('2d');
+  function resize(){canvas.width=innerWidth;canvas.height=innerHeight}
+  resize();
+  window.addEventListener('resize',resize,{passive:true});
+  const orbs=[
+    {nx:.08,ny:.08,r:.40,h:220,a:.12,sp:.00010,ph:0  },
+    {nx:.80,ny:.10,r:.32,h:220,a:.09,sp:.00007,ph:1.8},
+    {nx:.42,ny:.48,r:.48,h:220,a:.10,sp:.00006,ph:3.5},
+    {nx:.10,ny:.75,r:.28,h:220,a:.07,sp:.00009,ph:0.9},
+    {nx:.90,ny:.60,r:.33,h:220,a:.08,sp:.00007,ph:2.4},
+    {nx:.35,ny:.90,r:.26,h:220,a:.06,sp:.00011,ph:4.1},
+    {nx:.65,ny:.30,r:.22,h:220,a:.07,sp:.00008,ph:5.2},
+  ];
+  const drifts=orbs.map(()=>({
+    ax:(.07+Math.random()*.10),ay:(.05+Math.random()*.07),
+    fx:.00005+Math.random()*.00005,fy:.00007+Math.random()*.00004,
+    px:Math.random()*Math.PI*2,py:Math.random()*Math.PI*2,
+  }));
+  let t=0;
+  function draw(){
+    const W=canvas.width,H=canvas.height;
+    ctx.clearRect(0,0,W,H);
+    orbs.forEach((o,i)=>{
+      const d=drifts[i];
+      const cx=(o.nx+Math.sin(t*d.fx+d.px)*d.ax)*W;
+      const cy=(o.ny+Math.sin(t*d.fy+d.py)*d.ay)*H;
+      const r=o.r*Math.max(W,H);
+      const alpha=o.a*(1+.15*Math.sin(t*o.sp*700+o.ph));
+      const g=ctx.createRadialGradient(cx,cy,0,cx,cy,r);
+      g.addColorStop(0,  `hsla(${o.h},15%,82%,${alpha})`);
+      g.addColorStop(.45,`hsla(${o.h},12%,78%,${alpha*.5})`);
+      g.addColorStop(1,  `hsla(${o.h},10%,75%,0)`);
+      ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);
+      ctx.fillStyle=g;ctx.fill();
+    });
+    t+=16;requestAnimationFrame(draw);
+  }
+  draw();
+})();
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>60),{passive:true});
+</script>
+</body>
+</html>
