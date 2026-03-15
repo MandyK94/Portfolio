@@ -604,6 +604,8 @@ footer{
 .reveal{opacity:0;transform:translateY(14px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
 .reveal.visible{opacity:1;transform:none}
 .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
+@keyframes revealFallback{to{opacity:1;transform:none}}
+.reveal{animation:revealFallback 0s 2s forwards}
 
 /* ── RESPONSIVE ── */
 @media(max-width:1024px){
@@ -1165,7 +1167,7 @@ footer{
       <div class="contact-left">
         <div class="contact-headline">OPEN TO<br>GREAT WORK</div>
         <div class="contact-deck">Actively looking for senior backend or full stack developer roles — permanent or contract. If you're building something serious, let's talk.</div>
-        <div class="ci-item"><div class="ci-lbl">Email</div><div class="ci-val"><a href="/cdn-cgi/l/email-protection#c5aea4b0b7eba8a4aba1a0a0b5ebaaa3a3aca6a085a2a8a4aca9eba6aaa8"><span class="__cf_email__" data-cfemail="a0cbc1d5d28ecdc1cec4c5c5d08ecfc6c6c9c3c5e0c7cdc1c9cc8ec3cfcd">[email&#160;protected]</span></a></div></div>
+        <div class="ci-item"><div class="ci-lbl">Email</div><div class="ci-val"><a href="mailto:kaur.mandeep.office@gmail.com">kaur.mandeep.office@gmail.com</a></div></div>
         <div class="ci-item"><div class="ci-lbl">Phone</div><div class="ci-val"><a href="tel:+447460021137">+44 7460 021137</a></div></div>
         <div class="ci-item"><div class="ci-lbl">Location</div><div class="ci-val"><a href="#">Glasgow, UK</a></div></div>
         <div class="soc-row">
@@ -1176,8 +1178,8 @@ footer{
       <div class="col-divider"></div>
       <div class="contact-right">
         <div class="contact-ambient">HIRE<br>ME.</div>
-        <a href="/cdn-cgi/l/email-protection#caa1abbfb8e4a7aba4aeafafbae4a5acaca3a9af8aada7aba3a6e4a9a5a7" class="contact-email-big"><span class="__cf_email__" data-cfemail="d3b8b2a6a1fdbeb2bdb7b6b6a3fdbcb5b5bab0b693b4beb2babffdb0bcbe">[email&#160;protected]</span></a>
-        <a href="/cdn-cgi/l/email-protection#0f646e7a7d21626e616b6a6a7f21606969666c6a4f68626e6663216c6062" class="btn-fill">Send an Email</a>
+        <a href="mailto:kaur.mandeep.office@gmail.com" class="contact-email-big">kaur.mandeep.office@gmail.com</a>
+        <a href="mailto:kaur.mandeep.office@gmail.com" class="btn-fill">Send an Email</a>
       </div>
     </div>
   </div>
@@ -1186,7 +1188,22 @@ footer{
 <footer>
   <span class="f-copy">© 2026 Mandeep Kaur · Glasgow, UK · Senior Full Stack Developer</span>
   <a href="#home" class="f-top">↑ Back to top</a>
-  <a href="/cdn-cgi/l/email-protection#e289839790cc8f838c86878792cc8d84848b8187a2858f838b8ecc818d8f" class="f-mail"><span class="__cf_email__" data-cfemail="1972786c6b377478777d7c7c6937767f7f707a7c597e74787075377a7674">[email&#160;protected]</span></a>
+  <a href="mailto:kaur.mandeep.office@gmail.com" class="f-mail">kaur.mandeep.office@gmail.com</a>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-sta
+<script>
+const navAs=document.querySelectorAll('.nav-links a');
+const secs=document.querySelectorAll('section[id]');
+window.addEventListener('scroll',()=>{
+  let cur='';
+  secs.forEach(s=>{if(scrollY>=s.offsetTop-110)cur=s.id});
+  navAs.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+cur));
+},{passive:true});
+const obs=new IntersectionObserver(
+  es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),
+  {threshold:0,rootMargin:'50px 0px 50px 0px'}
+);
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
