@@ -3,550 +3,1190 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Mandeep Kaur · Senior Full Stack Developer</title>
+<title>Mandeep Kaur — Senior Full Stack Developer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Barlow+Condensed:wght@300;400;500;600;700;800;900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --ink:#1a2630;
-  --ink2:#2d3f4e;
-  --muted:#5a6e7f;
-  --dim:#8fa3b0;
-  --ac:#4a8fa8;
-  --ac2:#5ba3be;
-  --ac3:#7fbdd4;
-  --ac4:#a8d0e0;
-  --pane:rgba(255,255,255,0.52);
-  --pane-h:rgba(255,255,255,0.65);
-  --border:rgba(255,255,255,0.65);
-  --border-h:rgba(255,255,255,0.82);
-  --sp:0 4px 24px rgba(30,60,90,0.07),0 1px 4px rgba(30,60,90,0.04);
-  --sh:0 12px 48px rgba(30,60,90,0.10),0 2px 8px rgba(30,60,90,0.06);
+  --paper:#f4f1eb;
+  --paper2:#ede9e0;
+  --paper3:#e5e0d5;
+  --ink:#0d0d0b;
+  --ink2:#1e1e1a;
+  --ink3:#3a3a34;
+  --ink4:#6a6a60;
+  --ink5:#9a9a8e;
+  --rule:#0d0d0b;
+  --rule-light:#c8c4b8;
+  --rule-mid:#8a8a7e;
+  --display:'Barlow Condensed',sans-serif;
+  --serif:'Libre Baskerville',serif;
+  --gothic:'UnifrakturMaguntia',cursive;
+  --mono:'Courier Prime',monospace;
 }
 html{scroll-behavior:smooth}
 body{
-  font-family:'Jost',sans-serif;
-  background:linear-gradient(160deg,#eaecee 0%,#eef0f1 30%,#f2f3f4 60%,#e8eaec 100%);
-  min-height:100vh;
+  font-family:var(--serif);
+  background:var(--paper);
   color:var(--ink);
   overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ── MASTHEAD NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  background:var(--paper);
+  border-bottom:3px solid var(--ink);
+}
+.nav-top{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.4rem 3rem;
+  border-bottom:1px solid var(--ink);
+}
+.nav-date{font-family:var(--mono);font-size:.65rem;color:var(--ink4);letter-spacing:.06em}
+.nav-tagline{font-family:var(--mono);font-size:.6rem;color:var(--ink4);letter-spacing:.1em;text-transform:uppercase}
+.nav-avail{
+  display:flex;align-items:center;gap:.4rem;
+  font-family:var(--mono);font-size:.6rem;color:var(--ink4);
+}
+.nav-avail-dot{width:5px;height:5px;border-radius:50%;background:var(--ink);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.nav-main{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.6rem 3rem;
+}
+.nav-links{display:flex;list-style:none;gap:0;align-items:center}
+.nav-links a{
+  font-family:var(--display);font-size:.78rem;font-weight:600;
+  text-decoration:none;color:var(--ink3);
+  padding:.3rem .85rem;letter-spacing:.08em;text-transform:uppercase;
+  transition:color .15s;border-right:1px solid var(--rule-light);
+}
+.nav-links a:first-child{border-left:1px solid var(--rule-light)}
+.nav-links a:hover,.nav-links a.on{color:var(--ink);background:var(--ink);color:var(--paper)}
+.nav-hire{
+  font-family:var(--display);font-size:.72rem;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;
+  padding:.4rem 1.2rem;
+  background:var(--ink);color:var(--paper);
+  text-decoration:none;transition:background .15s;
+}
+.nav-hire:hover{background:var(--ink3)}
+
+/* ── HERO / FRONT PAGE ── */
+.hero{
+  padding-top:90px;
+  border-bottom:3px solid var(--ink);
   position:relative;
 }
-canvas#mc{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
 
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 3.5rem;background:rgba(242,243,244,0.80);backdrop-filter:saturate(140%) blur(32px);-webkit-backdrop-filter:saturate(140%) blur(32px);border-bottom:1px solid rgba(255,255,255,0.65);transition:padding .4s cubic-bezier(.22,1,.36,1),background .3s}
-nav.scrolled{padding:.85rem 3.5rem;background:rgba(242,243,244,0.94)}
-.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:500;letter-spacing:.04em;color:var(--ink);text-decoration:none}
-.nav-logo span{color:var(--ac)}
-.nav-links{display:flex;gap:0;list-style:none;align-items:center}
-.nav-links a{text-decoration:none;color:var(--muted);font-size:.88rem;font-weight:400;letter-spacing:.07em;padding:.45rem 1rem;border-radius:20px;transition:all .25s}
-.nav-links a:hover{color:var(--ink);background:rgba(0,0,0,0.04)}
-.nav-hire{background:var(--ink)!important;color:rgba(255,255,255,.9)!important;border-radius:20px!important;font-weight:500!important}
-.nav-hire:hover{background:var(--ac)!important;color:#fff!important}
-
-/* GLASS PANE */
-.pane{position:relative;background:var(--pane);backdrop-filter:saturate(140%) blur(32px);-webkit-backdrop-filter:saturate(140%) blur(32px);border:1px solid var(--border);border-radius:22px;box-shadow:var(--sp),0 1px 0 rgba(255,255,255,0.9) inset;overflow:hidden;transition:all .45s cubic-bezier(.22,1,.36,1)}
-.pane::before{content:'';position:absolute;top:0;left:8%;right:8%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.95) 30%,rgba(255,255,255,1) 50%,rgba(255,255,255,.95) 70%,transparent);pointer-events:none}
-.pane::after{content:'';position:absolute;top:0;left:0;bottom:0;width:1px;background:linear-gradient(180deg,transparent,rgba(255,255,255,.75) 30%,rgba(255,255,255,.75) 70%,transparent);pointer-events:none}
-.pane:hover{background:var(--pane-h);border-color:var(--border-h);box-shadow:var(--sh),0 1px 0 rgba(255,255,255,1) inset;transform:translateY(-4px)}
-
-/* HERO */
-.hero{min-height:100vh;position:relative;z-index:1;display:grid;grid-template-columns:1.1fr .9fr;padding-top:5rem;align-items:center}
-.hero-left{padding:5rem 4rem 5rem 4.5rem;position:relative;z-index:2}
-.hero-badge{display:inline-flex;align-items:center;gap:.55rem;background:rgba(74,143,168,.1);border:1px solid rgba(74,143,168,.22);border-radius:20px;padding:.35rem 1rem;font-size:.7rem;font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:var(--ac);margin-bottom:2.25rem;opacity:0;animation:rise 1s .1s cubic-bezier(.22,1,.36,1) forwards}
-.bdot{width:5px;height:5px;border-radius:50%;background:var(--ac2);flex-shrink:0;position:relative;box-shadow:0 0 6px rgba(74,143,168,.5)}
-.bdot::after{content:'';position:absolute;inset:-3px;border-radius:50%;border:1px solid var(--ac2);animation:bpulse 2.5s 1s infinite;opacity:0}
-@keyframes bpulse{0%{transform:scale(.5);opacity:.7}100%{transform:scale(2.8);opacity:0}}
-.hero-name{font-family:'Cormorant Garamond',serif;font-size:clamp(4rem,7.5vw,7.5rem);font-weight:300;line-height:.92;letter-spacing:-.01em;color:var(--ink);opacity:0;animation:rise 1s .2s cubic-bezier(.22,1,.36,1) forwards}
-.hero-em{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(4rem,7.5vw,7.5rem);font-weight:300;line-height:.92;letter-spacing:-.01em;color:var(--ac);opacity:0;animation:rise 1s .28s cubic-bezier(.22,1,.36,1) forwards;margin-bottom:1.75rem}
-.hero-title{font-size:.72rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);margin-bottom:1.2rem;opacity:0;animation:rise 1s .36s cubic-bezier(.22,1,.36,1) forwards}
-.hero-desc{font-size:1rem;color:var(--muted);line-height:1.9;max-width:440px;margin-bottom:2.75rem;font-weight:300;opacity:0;animation:rise 1s .44s cubic-bezier(.22,1,.36,1) forwards}
-.hero-ctas{display:flex;align-items:center;gap:.9rem;flex-wrap:wrap;opacity:0;animation:rise 1s .52s cubic-bezier(.22,1,.36,1) forwards}
-.btn-dk{display:inline-flex;align-items:center;gap:.5rem;padding:.9rem 2rem;border-radius:28px;background:var(--ink);color:rgba(255,255,255,.92);font-size:.78rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;font-family:'Jost',sans-serif;transition:all .35s cubic-bezier(.22,1,.36,1);box-shadow:0 4px 20px rgba(26,38,48,.2)}
-.btn-dk:hover{background:var(--ac);transform:translateY(-2px);box-shadow:0 8px 32px rgba(74,143,168,.3)}
-.btn-out{display:inline-flex;align-items:center;gap:.5rem;padding:.9rem 1.8rem;border-radius:28px;background:rgba(255,255,255,.55);border:1px solid rgba(0,0,0,.09);color:var(--ink);font-size:.78rem;font-weight:400;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;font-family:'Jost',sans-serif;backdrop-filter:blur(8px);transition:all .3s}
-.btn-out:hover{background:rgba(255,255,255,.82);transform:translateY(-2px)}
-.ic-btn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.55);border:1px solid rgba(0,0,0,.08);color:var(--muted);text-decoration:none;backdrop-filter:blur(8px);transition:all .3s;flex-shrink:0}
-.ic-btn:hover{background:rgba(255,255,255,.85);color:var(--ac);transform:translateY(-2px);box-shadow:0 4px 18px rgba(74,143,168,.15)}
-.ic-btn svg{width:18px;height:18px;fill:currentColor;display:block}
-.hero-right{padding:5rem 3.5rem 5rem 2rem;display:flex;flex-direction:column;gap:1.25rem;position:relative;z-index:2;opacity:0;animation:rise 1s .48s cubic-bezier(.22,1,.36,1) forwards}
-.card-lbl{font-size:.6rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);margin-bottom:.72rem}
-.avail-card{padding:1.75rem 2rem}
-.av-row{display:flex;align-items:center;gap:.65rem;margin-bottom:.4rem}
-.av-dot{width:7px;height:7px;border-radius:50%;background:var(--ac2);box-shadow:0 0 8px rgba(74,143,168,.5),0 0 18px rgba(74,143,168,.25)}
-.av-text{font-size:.95rem;font-weight:400;color:var(--ink)}
-.av-sub{font-size:.76rem;color:var(--muted);line-height:1.6}
-.tl-card{padding:1.75rem 2rem}
-.tl-item{display:flex;align-items:flex-start;gap:1rem;padding:.72rem 0;border-bottom:1px solid rgba(0,0,0,.05)}
-.tl-item:last-child{border-bottom:none;padding-bottom:0}
-.tl-pip{width:7px;height:7px;border-radius:50%;background:var(--ac2);flex-shrink:0;margin-top:.48rem;box-shadow:0 0 6px rgba(74,143,168,.35)}
-.tl-pip.dim{background:var(--dim);box-shadow:none}
-.tl-co{font-size:.88rem;font-weight:500;color:var(--ink);line-height:1.3}
-.tl-role{font-size:.73rem;color:var(--muted);margin-top:.08rem;font-weight:300}
-.tl-yr{font-size:.66rem;color:var(--dim);margin-left:auto;flex-shrink:0;padding-top:.3rem}
-.stack-card{padding:1.5rem 2rem}
-.s-pills{display:flex;flex-wrap:wrap;gap:.4rem}
-.sp{font-size:.71rem;font-weight:400;padding:.26rem .72rem;border-radius:20px;background:rgba(255,255,255,.65);border:1px solid rgba(0,0,0,.07);color:var(--ink2);letter-spacing:.02em;transition:all .22s}
-.sp:hover{background:rgba(255,255,255,.9);color:var(--ac);border-color:rgba(74,143,168,.25);transform:translateY(-1px)}
-@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
-
-/* SECTIONS */
-section{padding:8rem 4.5rem;position:relative;z-index:1}
-.eyb{display:flex;align-items:center;gap:.75rem;font-size:.65rem;font-weight:500;letter-spacing:.25em;text-transform:uppercase;color:var(--ac2);margin-bottom:.9rem}
-.eyb::before{content:'';width:20px;height:1px;background:var(--ac3)}
-.stitle{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,4vw,4rem);font-weight:300;line-height:1.05;letter-spacing:-.02em;color:var(--ink);margin-bottom:4.5rem}
-.stitle em{font-style:italic;color:var(--ac2)}
-.divider{height:1px;background:linear-gradient(90deg,transparent,rgba(74,143,168,.15) 30%,rgba(74,143,168,.15) 70%,transparent);margin:0 4.5rem}
-
-/* ABOUT */
-.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start}
-.about-pull{font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-style:italic;font-weight:300;color:var(--ink2);line-height:1.6;margin-bottom:1.75rem;border-left:2px solid rgba(74,143,168,.3);padding-left:1.25rem}
-.about-p{font-size:.95rem;color:var(--muted);line-height:1.95;margin-bottom:1rem;font-weight:300}
-.about-p strong{color:var(--ink);font-weight:500}
-.sgl{font-size:.6rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);margin-bottom:.7rem;padding-bottom:.5rem;border-bottom:1px solid rgba(0,0,0,.06)}
-.sgw{margin-bottom:1.6rem}
-.chips{display:flex;flex-wrap:wrap;gap:.42rem}
-.chip{font-size:.75rem;font-weight:400;padding:.3rem .82rem;border-radius:20px;background:rgba(255,255,255,.62);border:1px solid rgba(0,0,0,.07);color:var(--ink2);backdrop-filter:blur(6px);transition:all .22s;cursor:default}
-.chip:hover{background:rgba(255,255,255,.9);color:var(--ac);border-color:rgba(74,143,168,.28);transform:translateY(-1px)}
-
-/* EXPERIENCE */
-.exp-list{display:flex;flex-direction:column;gap:1.25rem}
-.exp-card{padding:2.5rem 3rem}
-.gb{position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(180deg,transparent,var(--ac2),transparent);opacity:0;transition:opacity .4s;border-radius:22px 0 0 22px}
-.exp-card:hover .gb{opacity:1}
-.exp-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.75rem;margin-bottom:.35rem}
-.exp-co{font-size:.65rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
-.exp-when{font-size:.67rem;font-weight:500;color:var(--ac);background:rgba(74,143,168,.08);border:1px solid rgba(74,143,168,.18);border-radius:12px;padding:.2rem .7rem;letter-spacing:.04em}
-.exp-role{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;color:var(--ink);letter-spacing:-.01em;margin-bottom:.2rem}
-.exp-loc{font-size:.73rem;color:var(--dim);margin-bottom:1.5rem;letter-spacing:.04em}
-.exp-ul{list-style:none;display:flex;flex-direction:column;gap:.65rem}
-.exp-ul li{font-size:.9rem;color:var(--muted);padding-left:1.25rem;position:relative;line-height:1.8;font-weight:300}
-.exp-ul li::before{content:'';position:absolute;left:0;top:.72em;width:4px;height:4px;border-radius:50%;background:var(--ac4)}
-.hl{font-weight:500;color:var(--ac);background:rgba(74,143,168,.08);padding:.04rem .3rem;border-radius:4px;font-size:.88em}
-
-/* PROJECTS */
-.proj-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.4rem}
-.proj-full{grid-column:1/-1}
-.proj-card{padding:2.25rem 2.5rem;display:flex;flex-direction:column}
-.proj-ey{font-size:.62rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-bottom:.8rem;display:flex;align-items:center;gap:.55rem}
-.proj-badge{background:rgba(74,143,168,.08);color:var(--ac);border:1px solid rgba(74,143,168,.2);padding:.15rem .55rem;border-radius:6px;font-size:.6rem;letter-spacing:.1em}
-.proj-name{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;color:var(--ink);margin-bottom:.7rem;letter-spacing:-.01em}
-.proj-desc{font-size:.88rem;color:var(--muted);line-height:1.85;flex:1;margin-bottom:1.5rem;font-weight:300}
-.proj-stack{display:flex;flex-wrap:wrap;gap:.38rem;margin-bottom:1.4rem}
-.ptag{font-size:.69rem;font-weight:400;padding:.22rem .6rem;border-radius:12px;background:rgba(255,255,255,.6);border:1px solid rgba(0,0,0,.07);color:var(--ink2)}
-.proj-links{display:flex;gap:1.5rem}
-.proj-lnk{font-size:.74rem;font-weight:400;text-decoration:none;color:var(--muted);display:flex;align-items:center;gap:.4rem;letter-spacing:.06em;transition:all .22s}
-.proj-lnk:hover{color:var(--ac);gap:.6rem}
-.proj-lnk svg{width:13px;height:13px;fill:currentColor}
-
-/* BLOG */
-.blog-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem}
-.blog-main{padding:3rem;display:flex;flex-direction:column}
-.blog-meta-row{display:flex;align-items:center;gap:1rem;margin-bottom:1.25rem}
-.blog-tag{font-size:.62rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--ac);background:rgba(74,143,168,.08);border:1px solid rgba(74,143,168,.2);padding:.2rem .62rem;border-radius:6px}
-.blog-dt{font-size:.74rem;color:var(--dim);font-weight:300}
-.blog-h{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;color:var(--ink);line-height:1.2;letter-spacing:-.02em;margin-bottom:1rem}
-.blog-exc{font-size:.88rem;color:var(--muted);line-height:1.9;flex:1;margin-bottom:1.75rem;font-weight:300}
-.blog-read{display:inline-flex;align-items:center;gap:.5rem;font-size:.76rem;font-weight:500;color:var(--ac);text-decoration:none;letter-spacing:.08em;transition:all .2s;align-self:flex-start}
-.blog-read:hover{color:var(--ac2);gap:.7rem}
-.blog-soon{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border-radius:22px;border:1px dashed rgba(74,143,168,.2);padding:2.5rem;min-height:160px;background:rgba(255,255,255,.25)}
-.blog-soon-i{font-size:1.75rem;margin-bottom:.8rem;opacity:.4}
-.blog-soon-t{font-size:.8rem;color:var(--dim);line-height:1.65;font-weight:300}
-
-/* EDUCATION */
-.edu-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem}
-.edu-card{padding:2.5rem 3rem}
-.edu-i{font-size:2rem;margin-bottom:1.4rem;opacity:.7}
-.edu-deg{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:300;color:var(--ink);margin-bottom:.35rem;line-height:1.35}
-.edu-sch{font-size:.85rem;font-weight:500;color:var(--ac);margin-bottom:.3rem}
-.edu-det{font-size:.79rem;color:var(--muted);line-height:1.7;margin-bottom:1.5rem;font-weight:300}
-.edu-ft{display:flex;justify-content:space-between;align-items:center}
-.edu-badge{font-size:.65rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--ac);background:rgba(74,143,168,.08);border:1px solid rgba(74,143,168,.2);border-radius:10px;padding:.22rem .65rem}
-.edu-yr{font-size:.73rem;color:var(--dim)}
-
-/* CERTS */
-.cert-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem}
-.cert-card{padding:1.85rem 1.75rem;display:flex;flex-direction:column}
-.cert-i{font-size:1.7rem;margin-bottom:1.1rem;opacity:.75}
-.cert-n{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:300;color:var(--ink);line-height:1.35;margin-bottom:.35rem}
-.cert-is{font-size:.74rem;color:var(--dim);margin-bottom:1.2rem;flex:1;line-height:1.55;font-weight:300}
-.cert-lnk{font-size:.67rem;font-weight:500;color:var(--ac);text-decoration:none;display:inline-flex;align-items:center;gap:.3rem;letter-spacing:.12em;text-transform:uppercase;transition:all .2s}
-.cert-lnk:hover{color:var(--ac2);gap:.5rem}
-
-/* VOLUNTEER */
-.vol-card{padding:2.5rem 3rem}
-.vol-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.75rem;margin-bottom:.35rem}
-.vol-org{font-size:.65rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
-.vol-period{font-size:.67rem;color:var(--ac);background:rgba(74,143,168,.08);border:1px solid rgba(74,143,168,.18);border-radius:12px;padding:.2rem .7rem}
-.vol-role{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;color:var(--ink);margin-bottom:.2rem}
-.vol-loc{font-size:.73rem;color:var(--dim);margin-bottom:1.5rem}
-.vol-ul{list-style:none;display:flex;flex-direction:column;gap:.6rem}
-.vol-ul li{font-size:.88rem;color:var(--muted);padding-left:1.2rem;position:relative;line-height:1.8;font-weight:300}
-.vol-ul li::before{content:'';position:absolute;left:0;top:.72em;width:4px;height:4px;border-radius:50%;background:var(--dim)}
-
-/* CONTACT */
-.contact-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:6rem}
-.contact-lead{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-style:italic;font-weight:300;color:var(--ink2);line-height:1.65;margin-bottom:2.25rem}
-.ci-wrap{display:flex;flex-direction:column;gap:1.3rem;margin-bottom:2.5rem}
-.ci-lbl{font-size:.6rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);margin-bottom:.2rem}
-.ci-val a{color:var(--muted);font-size:.9rem;text-decoration:none;font-weight:300;transition:color .2s}
-.ci-val a:hover{color:var(--ac)}
-.c-socials{display:flex;gap:.6rem;flex-wrap:wrap}
-.csoc{display:inline-flex;align-items:center;gap:.5rem;padding:.55rem 1.1rem;border-radius:20px;background:rgba(255,255,255,.55);border:1px solid rgba(0,0,0,.08);font-size:.74rem;font-weight:400;letter-spacing:.06em;color:var(--muted);text-decoration:none;backdrop-filter:blur(8px);transition:all .25s}
-.csoc svg{width:15px;height:15px;fill:currentColor;flex-shrink:0}
-.csoc:hover{background:rgba(255,255,255,.85);color:var(--ink);transform:translateY(-1px)}
-.c-form{display:flex;flex-direction:column;gap:1.1rem}
-.f-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-.fg{display:flex;flex-direction:column;gap:.4rem}
-.fg label{font-size:.6rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
-.fg input,.fg textarea{background:rgba(255,255,255,.6);border:1px solid rgba(0,0,0,.08);border-radius:12px;padding:.9rem 1.1rem;color:var(--ink);font-family:'Jost',sans-serif;font-size:.9rem;outline:none;transition:all .25s;font-weight:300}
-.fg input::placeholder,.fg textarea::placeholder{color:var(--dim)}
-.fg input:focus,.fg textarea:focus{border-color:rgba(74,143,168,.35);background:rgba(255,255,255,.88);box-shadow:0 0 0 3px rgba(74,143,168,.07)}
-.fg textarea{resize:vertical;min-height:130px}
-.f-btn{background:var(--ink);color:rgba(255,255,255,.92);padding:1rem 2.25rem;border:none;border-radius:28px;font-family:'Jost',sans-serif;font-size:.8rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;align-self:flex-start;transition:all .3s;box-shadow:0 4px 20px rgba(26,38,48,.18)}
-.f-btn:hover{background:var(--ac);transform:translateY(-1px);box-shadow:0 8px 28px rgba(74,143,168,.28)}
-.f-btn:disabled{opacity:.4;cursor:default;transform:none}
-.f-ok{display:none;padding:.9rem 1.1rem;border-radius:12px;background:rgba(74,143,168,.07);border:1px solid rgba(74,143,168,.2);color:var(--ac);font-size:.875rem;font-weight:400}
-footer{background:rgba(235,237,239,.65);border-top:1px solid rgba(255,255,255,.6);backdrop-filter:blur(20px);padding:2rem 4.5rem;display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1}
-.f-copy{font-size:.7rem;color:var(--dim);letter-spacing:.08em;font-weight:300}
-.f-top,.f-mail{font-size:.7rem;color:var(--dim);text-decoration:none;font-weight:300;transition:color .2s}
-.f-top:hover,.f-mail:hover{color:var(--ac)}
-.reveal{opacity:0;transform:translateY(18px);transition:opacity .85s cubic-bezier(.22,1,.36,1),transform .85s cubic-bezier(.22,1,.36,1)}
-.reveal.visible{opacity:1;transform:none}
-.d1{transition-delay:.12s}.d2{transition-delay:.22s}.d3{transition-delay:.33s}
-@media(max-width:960px){
-  nav{padding:1rem 1.5rem}.nav-links{display:none}
-  .hero{grid-template-columns:1fr}.hero-left{padding:7rem 1.75rem 2rem}.hero-right{padding:0 1.75rem 4rem}
-  section{padding:5rem 1.75rem}
-  .about-grid,.contact-grid{grid-template-columns:1fr;gap:3.5rem}
-  .proj-grid,.blog-grid{grid-template-columns:1fr}.proj-full{grid-column:auto}
-  .edu-grid,.cert-grid{grid-template-columns:1fr 1fr}.f-row{grid-template-columns:1fr}
-  footer{flex-direction:column;gap:.75rem;text-align:center;padding:1.5rem}.divider{margin:0 1.75rem}
+/* MASTHEAD NAMEPLATE */
+.masthead{
+  text-align:center;
+  padding:2rem 3rem 1.5rem;
+  border-bottom:1px solid var(--ink);
+  position:relative;
 }
-@media(max-width:520px){.cert-grid{grid-template-columns:1fr}.edu-grid{grid-template-columns:1fr}}
+.masthead::before,.masthead::after{
+  content:'★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★';
+  display:block;
+  font-size:.55rem;
+  color:var(--ink4);
+  letter-spacing:.3em;
+  margin-bottom:.6rem;
+}
+.masthead::after{margin-top:.6rem;margin-bottom:0}
+.masthead-name{
+  font-family:var(--gothic);
+  font-size:clamp(3.5rem,8vw,7.5rem);
+  line-height:.9;
+  color:var(--ink);
+  letter-spacing:.02em;
+}
+.masthead-rule{
+  display:flex;align-items:center;gap:1rem;
+  justify-content:center;
+  margin-top:.75rem;
+}
+.masthead-rule-line{flex:1;height:2px;background:var(--ink);max-width:140px}
+.masthead-sub{
+  font-family:var(--display);font-size:.72rem;font-weight:700;
+  letter-spacing:.25em;text-transform:uppercase;color:var(--ink3);
+}
+
+/* META ROW below masthead */
+.hero-meta{
+  display:flex;
+  border-bottom:2px solid var(--ink);
+}
+.hero-meta-cell{
+  flex:1;padding:.6rem 1.5rem;
+  border-right:1px solid var(--ink);
+  font-family:var(--mono);font-size:.6rem;
+  color:var(--ink4);letter-spacing:.06em;
+  text-transform:uppercase;
+}
+.hero-meta-cell:last-child{border-right:none}
+.hero-meta-cell strong{color:var(--ink);display:block;font-size:.65rem;margin-bottom:.1rem}
+
+/* MAIN EDITORIAL GRID */
+.hero-grid{
+  display:grid;
+  grid-template-columns:2fr 1px 1fr 1px 1fr;
+  min-height:70vh;
+}
+.hero-col-div{background:var(--ink);width:1px}
+.hero-col{padding:2rem 2.25rem}
+
+/* LEFT — LEAD STORY */
+.lead-kicker{
+  font-family:var(--display);font-size:.7rem;font-weight:700;
+  letter-spacing:.15em;text-transform:uppercase;
+  color:var(--ink3);
+  border-bottom:2px solid var(--ink);
+  padding-bottom:.4rem;margin-bottom:1.25rem;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.lead-headline{
+  font-family:var(--display);
+  font-size:clamp(3.5rem,6vw,5.5rem);
+  font-weight:900;
+  line-height:.88;
+  letter-spacing:-.01em;
+  color:var(--ink);
+  margin-bottom:1.25rem;
+}
+.lead-deck{
+  font-family:var(--serif);font-style:italic;
+  font-size:1rem;color:var(--ink3);
+  line-height:1.65;border-top:1px solid var(--ink);
+  border-bottom:1px solid var(--ink);
+  padding:.85rem 0;margin-bottom:1.25rem;
+}
+.lead-body{
+  font-family:var(--serif);font-size:.88rem;
+  color:var(--ink2);line-height:1.85;
+  columns:2;column-gap:1.5rem;
+}
+.lead-body p{margin-bottom:.75rem}
+.lead-body p:first-child::first-letter{
+  font-family:var(--display);font-size:3.2rem;font-weight:900;
+  float:left;line-height:.8;margin-right:.1rem;margin-top:.05rem;
+  color:var(--ink);
+}
+.lead-body strong{font-weight:700;color:var(--ink)}
+
+/* HERO ACTIONS row */
+.hero-actions{
+  display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;
+  padding:1.25rem 0;
+  border-top:1px solid var(--rule-light);
+  margin-top:1rem;
+}
+.btn-fill{
+  font-family:var(--display);font-size:.72rem;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;
+  padding:.55rem 1.4rem;
+  background:var(--ink);color:var(--paper);
+  text-decoration:none;transition:background .15s;
+}
+.btn-fill:hover{background:var(--ink3)}
+.btn-outline{
+  font-family:var(--display);font-size:.72rem;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;
+  padding:.55rem 1.25rem;
+  border:1.5px solid var(--ink);color:var(--ink);
+  text-decoration:none;transition:all .15s;
+}
+.btn-outline:hover{background:var(--ink);color:var(--paper)}
+.icon-lnk{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:36px;height:36px;
+  border:1.5px solid var(--ink3);
+  color:var(--ink3);text-decoration:none;transition:all .15s;
+}
+.icon-lnk:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.icon-lnk svg{width:14px;height:14px;fill:currentColor}
+
+/* CENTRE COL — TIMELINE */
+.col-head{
+  font-family:var(--display);font-size:.68rem;font-weight:700;
+  letter-spacing:.15em;text-transform:uppercase;color:var(--ink3);
+  border-bottom:2px solid var(--ink);padding-bottom:.4rem;margin-bottom:1.25rem;
+}
+.timeline-item{
+  padding:.85rem 0;
+  border-bottom:1px solid var(--rule-light);
+}
+.timeline-item:last-child{border-bottom:none}
+.tl-co{
+  font-family:var(--display);font-size:1.5rem;font-weight:800;
+  color:var(--ink);line-height:1;letter-spacing:.01em;margin-bottom:.25rem;
+}
+.tl-role{
+  font-family:var(--serif);font-style:italic;
+  font-size:.78rem;color:var(--ink3);margin-bottom:.2rem;
+}
+.tl-yr{
+  font-family:var(--mono);font-size:.62rem;color:var(--ink5);letter-spacing:.06em;
+}
+
+/* RIGHT COL — STATUS + STACK */
+.status-box{
+  border:2px solid var(--ink);
+  padding:1rem;margin-bottom:1.25rem;
+  background:var(--ink);color:var(--paper);
+}
+.status-box-lbl{
+  font-family:var(--display);font-size:.62rem;font-weight:700;
+  letter-spacing:.15em;text-transform:uppercase;
+  color:var(--rule-mid);margin-bottom:.4rem;
+}
+.status-box-val{
+  font-family:var(--display);font-size:1.3rem;font-weight:800;
+  color:var(--paper);letter-spacing:.02em;
+}
+.status-box-sub{
+  font-family:var(--mono);font-size:.62rem;
+  color:var(--rule-mid);margin-top:.3rem;line-height:1.5;
+}
+.stack-pills{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.5rem}
+.sp{
+  font-family:var(--mono);font-size:.6rem;
+  padding:.22rem .55rem;
+  border:1px solid var(--ink3);
+  color:var(--ink3);
+  transition:all .15s;cursor:default;
+}
+.sp:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+/* STAT ROW */
+.stat-row{
+  display:flex;border-top:2px solid var(--ink);border-bottom:3px double var(--ink);
+}
+.stat-cell{
+  flex:1;text-align:center;padding:1rem .5rem;
+  border-right:1px solid var(--ink);
+}
+.stat-cell:last-child{border-right:none}
+.stat-n{
+  font-family:var(--display);font-size:2.2rem;font-weight:900;
+  color:var(--ink);line-height:1;
+}
+.stat-l{
+  font-family:var(--mono);font-size:.55rem;
+  color:var(--ink4);letter-spacing:.08em;text-transform:uppercase;margin-top:.2rem;
+}
+
+/* ── SECTIONS ── */
+.sec{
+  border-bottom:3px solid var(--ink);
+  position:relative;
+}
+.sec-inner{padding:3.5rem 3rem;position:relative;z-index:2}
+
+/* SECTION HEADER — newspaper column header style */
+.sec-masthead{
+  text-align:center;
+  border-bottom:3px double var(--ink);
+  padding-bottom:1rem;margin-bottom:3rem;
+  position:relative;
+}
+.sec-issue{
+  font-family:var(--mono);font-size:.6rem;
+  color:var(--ink5);letter-spacing:.15em;text-transform:uppercase;
+  margin-bottom:.5rem;
+}
+.sec-title{
+  font-family:var(--display);
+  font-size:clamp(3rem,5vw,5rem);
+  font-weight:900;
+  line-height:.88;letter-spacing:-.01em;
+  color:var(--ink);
+}
+.sec-title em{
+  font-family:var(--serif);font-style:italic;
+  font-weight:400;font-size:.85em;color:var(--ink3);
+}
+.sec-masthead-rule{
+  display:flex;align-items:center;gap:.75rem;margin-top:.75rem;justify-content:center;
+}
+.smr-line{flex:1;height:1px;background:var(--ink);max-width:120px}
+.smr-txt{font-family:var(--mono);font-size:.55rem;color:var(--ink5);letter-spacing:.1em;text-transform:uppercase}
+
+/* SVG drawings */
+.sec-drawing{position:absolute;pointer-events:none;opacity:.55;z-index:1}
+
+/* ── ABOUT ── */
+.about-cols{
+  display:grid;grid-template-columns:1fr 1px 1fr;
+  gap:0;
+}
+.col-divider{background:var(--ink)}
+.about-col{padding:0 2rem}
+.about-col:first-child{padding-left:0}
+.about-col:last-child{padding-right:0}
+.pullquote{
+  font-family:var(--serif);font-style:italic;
+  font-size:1.15rem;color:var(--ink2);line-height:1.7;
+  border-top:3px double var(--ink);border-bottom:3px double var(--ink);
+  padding:1rem 0;margin-bottom:1.5rem;
+}
+.body-text{font-family:var(--serif);font-size:.87rem;color:var(--ink2);line-height:1.9;margin-bottom:.85rem}
+.body-text strong{font-weight:700;color:var(--ink)}
+.sk-section{margin-bottom:1.4rem}
+.sk-head{
+  font-family:var(--display);font-size:.65rem;font-weight:700;
+  letter-spacing:.15em;text-transform:uppercase;
+  color:var(--ink3);border-bottom:1px solid var(--ink);
+  padding-bottom:.3rem;margin-bottom:.55rem;
+}
+.chips{display:flex;flex-wrap:wrap;gap:.3rem}
+.chip{
+  font-family:var(--mono);font-size:.63rem;
+  padding:.22rem .62rem;
+  border:1px solid var(--ink3);color:var(--ink3);
+  transition:all .15s;cursor:default;
+}
+.chip:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+/* ── EXPERIENCE ── */
+.exp-entries{display:flex;flex-direction:column}
+.exp-entry{
+  display:grid;grid-template-columns:200px 1px 1fr;
+  gap:0;
+  border-bottom:1px solid var(--rule-light);
+}
+.exp-entry:first-child{border-top:1px solid var(--ink)}
+.exp-entry:last-child{border-bottom:1px solid var(--ink)}
+.exp-divider{background:var(--rule-light)}
+.exp-left{padding:2.5rem 2rem 2.5rem 0}
+.exp-right{padding:2.5rem 0 2.5rem 2.5rem}
+.exp-co{
+  font-family:var(--display);font-size:2rem;font-weight:900;
+  color:var(--ink);line-height:.92;letter-spacing:.01em;
+  margin-bottom:.75rem;
+}
+.exp-badge{
+  font-family:var(--mono);font-size:.62rem;
+  color:var(--ink4);display:block;margin-bottom:.3rem;letter-spacing:.04em;
+}
+.exp-loc{font-family:var(--mono);font-size:.6rem;color:var(--ink5)}
+.exp-role{
+  font-family:var(--display);font-size:1.2rem;font-weight:700;
+  color:var(--ink);margin-bottom:1.1rem;letter-spacing:.01em;
+}
+.exp-ul{list-style:none;display:flex;flex-direction:column;gap:.6rem}
+.exp-ul li{
+  font-family:var(--serif);font-size:.85rem;
+  color:var(--ink2);padding-left:1.2rem;position:relative;line-height:1.75;
+}
+.exp-ul li::before{
+  content:'—';position:absolute;left:0;top:0;
+  font-family:var(--serif);color:var(--ink4);
+}
+.exp-hl{font-weight:700;color:var(--ink)}
+
+/* ── PROJECTS ── */
+.proj-grid{
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  gap:0;
+  border:1px solid var(--ink);
+}
+.proj-card{
+  padding:2rem;border-right:1px solid var(--rule-light);
+  border-bottom:1px solid var(--rule-light);
+  display:flex;flex-direction:column;
+  transition:background .15s;
+}
+.proj-card:hover{background:var(--paper3)}
+.proj-card.wide{grid-column:span 2}
+.proj-card.full{grid-column:span 3}
+.proj-card:nth-child(3n){border-right:none}
+/* last row no bottom border */
+.proj-num{
+  font-family:var(--display);font-size:2.5rem;font-weight:900;
+  color:var(--rule-light);line-height:1;margin-bottom:.4rem;
+}
+.proj-cat{
+  font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink4);margin-bottom:.65rem;
+  border-bottom:1px solid var(--rule-light);padding-bottom:.4rem;
+}
+.proj-name{
+  font-family:var(--display);font-size:1.15rem;font-weight:700;
+  color:var(--ink);margin-bottom:.55rem;letter-spacing:.01em;
+}
+.proj-desc{font-family:var(--serif);font-size:.82rem;color:var(--ink3);line-height:1.75;flex:1;margin-bottom:1rem}
+.proj-tags{display:flex;flex-wrap:wrap;gap:.28rem;margin-bottom:1rem}
+.ptag{
+  font-family:var(--mono);font-size:.58rem;
+  padding:.18rem .5rem;border:1px solid var(--rule-mid);color:var(--ink4);
+}
+.proj-lnk{
+  font-family:var(--mono);font-size:.65rem;
+  color:var(--ink4);text-decoration:none;
+  display:inline-flex;align-items:center;gap:.3rem;
+  transition:color .15s;margin-right:.85rem;
+}
+.proj-lnk:hover{color:var(--ink)}
+.proj-lnk svg{width:10px;height:10px;fill:currentColor}
+
+/* ── WRITING ── */
+.writing-grid{
+  display:grid;grid-template-columns:1fr 1px 1fr;
+  gap:0;border:1px solid var(--ink);
+}
+.write-card{padding:2.5rem;display:flex;flex-direction:column;transition:background .15s}
+.write-card:hover{background:var(--paper3)}
+.write-meta{display:flex;align-items:center;gap:.75rem;margin-bottom:1.2rem}
+.write-tag{
+  font-family:var(--display);font-size:.62rem;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;
+  padding:.2rem .55rem;border:1.5px solid var(--ink);color:var(--ink);
+}
+.write-dt{font-family:var(--mono);font-size:.65rem;color:var(--ink5)}
+.write-h{
+  font-family:var(--display);font-size:1.3rem;font-weight:700;
+  color:var(--ink);line-height:1.15;letter-spacing:.01em;margin-bottom:.75rem;
+}
+.write-exc{font-family:var(--serif);font-size:.84rem;color:var(--ink3);line-height:1.75;flex:1;margin-bottom:1.4rem}
+.write-read{
+  font-family:var(--mono);font-size:.68rem;
+  color:var(--ink3);text-decoration:none;
+  display:inline-flex;align-items:center;gap:.4rem;
+  transition:all .15s;align-self:flex-start;letter-spacing:.04em;
+}
+.write-read:hover{color:var(--ink);gap:.65rem}
+
+/* ── EDUCATION ── */
+.edu-grid{
+  display:grid;grid-template-columns:1fr 1px 1fr;
+  gap:0;border:1px solid var(--ink);margin-bottom:0;
+}
+.edu-cell{padding:2.5rem;display:flex;flex-direction:column;transition:background .15s}
+.edu-cell:hover{background:var(--paper3)}
+.edu-yr{
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;
+  border:1.5px solid var(--ink);color:var(--ink);
+  padding:.2rem .6rem;display:inline-block;margin-bottom:1.25rem;
+}
+.edu-deg{
+  font-family:var(--display);font-size:1.2rem;font-weight:700;
+  color:var(--ink);margin-bottom:.4rem;line-height:1.2;
+}
+.edu-sch{font-family:var(--serif);font-size:.85rem;font-weight:700;color:var(--ink2);margin-bottom:.4rem}
+.edu-det{font-family:var(--mono);font-size:.67rem;color:var(--ink4);line-height:1.65;margin-bottom:1.25rem}
+.edu-grade{
+  font-family:var(--display);font-size:.75rem;font-weight:700;
+  color:var(--paper);background:var(--ink);
+  padding:.25rem .65rem;display:inline-block;letter-spacing:.08em;
+}
+.cert-row{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border:1px solid var(--ink);border-top:none;
+}
+.cert-cell{
+  padding:1.75rem;border-right:1px solid var(--rule-light);
+  display:flex;flex-direction:column;transition:background .15s;
+}
+.cert-cell:last-child{border-right:none}
+.cert-cell:hover{background:var(--paper3)}
+.cert-n{
+  font-family:var(--display);font-size:2rem;font-weight:900;
+  color:var(--rule-light);line-height:1;margin-bottom:.7rem;
+}
+.cert-name{
+  font-family:var(--display);font-size:.88rem;font-weight:700;
+  color:var(--ink);margin-bottom:.3rem;
+}
+.cert-by{font-family:var(--mono);font-size:.62rem;color:var(--ink4);line-height:1.5;margin-bottom:.9rem;flex:1}
+.cert-lnk{
+  font-family:var(--mono);font-size:.62rem;
+  color:var(--ink3);text-decoration:none;
+  display:inline-flex;align-items:center;gap:.3rem;
+  letter-spacing:.08em;text-transform:uppercase;transition:all .15s;
+}
+.cert-lnk:hover{color:var(--ink);gap:.5rem}
+
+/* ── VOLUNTEER ── */
+.vol-block{
+  border:1px solid var(--ink);padding:2.5rem;
+  position:relative;
+}
+.vol-block::before{
+  content:'COMMUNITY';
+  position:absolute;top:-1px;left:2rem;
+  background:var(--ink);color:var(--paper);
+  font-family:var(--display);font-size:.6rem;font-weight:700;
+  letter-spacing:.2em;padding:.15rem .65rem;
+}
+.vol-header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.75rem;margin-bottom:.4rem}
+.vol-co{
+  font-family:var(--display);font-size:2rem;font-weight:900;
+  color:var(--ink);line-height:.95;letter-spacing:.01em;
+}
+.vol-dates{font-family:var(--mono);font-size:.65rem;color:var(--ink4);border:1px solid var(--rule-mid);padding:.2rem .65rem}
+.vol-role{font-family:var(--serif);font-style:italic;font-size:.85rem;color:var(--ink3);margin-bottom:.2rem}
+.vol-loc{font-family:var(--mono);font-size:.62rem;color:var(--ink5);margin-bottom:1.25rem}
+.vol-ul{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+.vol-ul li{font-family:var(--serif);font-size:.84rem;color:var(--ink2);padding-left:1.1rem;position:relative;line-height:1.75}
+.vol-ul li::before{content:'—';position:absolute;left:0;top:0;font-family:var(--serif);color:var(--ink5)}
+
+/* ── CONTACT ── */
+.contact-grid{display:grid;grid-template-columns:1fr 1px 1fr;gap:0}
+.contact-left{padding-right:3rem}
+.contact-right{padding-left:3rem}
+.contact-headline{
+  font-family:var(--display);
+  font-size:clamp(3rem,5vw,5rem);
+  font-weight:900;line-height:.9;letter-spacing:-.01em;
+  color:var(--ink);margin-bottom:1.25rem;
+}
+.contact-deck{
+  font-family:var(--serif);font-style:italic;
+  font-size:.92rem;color:var(--ink3);line-height:1.7;
+  border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);
+  padding:.85rem 0;margin-bottom:1.75rem;
+}
+.ci-item{margin-bottom:1.1rem}
+.ci-lbl{
+  font-family:var(--display);font-size:.62rem;font-weight:700;
+  letter-spacing:.15em;text-transform:uppercase;color:var(--ink4);margin-bottom:.2rem;
+}
+.ci-val a{
+  font-family:var(--serif);font-size:.9rem;color:var(--ink);
+  text-decoration:none;transition:color .15s;
+}
+.ci-val a:hover{color:var(--ink3)}
+.soc-row{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:1.75rem}
+.soc-btn{
+  display:inline-flex;align-items:center;gap:.45rem;
+  padding:.48rem 1rem;border:1.5px solid var(--ink3);
+  font-family:var(--mono);font-size:.68rem;
+  color:var(--ink3);text-decoration:none;transition:all .15s;
+}
+.soc-btn svg{width:12px;height:12px;fill:currentColor;flex-shrink:0}
+.soc-btn:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+/* Right — giant ambient CTA */
+.contact-ambient{
+  font-family:var(--display);
+  font-size:clamp(5rem,10vw,10rem);
+  font-weight:900;line-height:.85;
+  color:var(--paper3);
+  -webkit-text-stroke:2px var(--rule-light);
+  letter-spacing:-.01em;
+  margin-bottom:2rem;
+}
+.contact-email-big{
+  font-family:var(--serif);font-style:italic;
+  font-size:1.15rem;color:var(--ink3);
+  word-break:break-all;margin-bottom:1.5rem;
+  text-decoration:none;transition:color .15s;display:block;
+}
+.contact-email-big:hover{color:var(--ink)}
+
+/* ── FOOTER / COLOPHON ── */
+footer{
+  background:var(--ink);color:var(--paper);
+  border-top:3px solid var(--ink);
+  padding:1.25rem 3rem;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.f-copy{font-family:var(--mono);font-size:.62rem;color:var(--rule-mid);letter-spacing:.06em}
+.f-top,.f-mail{font-family:var(--mono);font-size:.62rem;color:var(--rule-mid);text-decoration:none;letter-spacing:.06em;transition:color .15s}
+.f-top:hover,.f-mail:hover{color:var(--paper)}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+.reveal.visible{opacity:1;transform:none}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  .nav-main,.nav-top{padding:.6rem 1.5rem}
+  .nav-links{display:none}
+  .hero-grid{grid-template-columns:1fr}
+  .hero-col-div{display:none}
+  .hero-col{padding:1.5rem}
+  .masthead{padding:1.5rem}
+  .about-cols,.contact-grid,.writing-grid,.edu-grid{grid-template-columns:1fr}
+  .col-divider,.contact-grid .col-divider{display:none}
+  .about-col{padding:0}
+  .contact-left{padding-right:0}
+  .contact-right{padding-left:0;margin-top:2rem}
+  .exp-entry{grid-template-columns:1fr}
+  .exp-divider{display:none}
+  .exp-left{padding-bottom:0}
+  .sec-inner{padding:3rem 1.5rem}
+  .proj-grid{grid-template-columns:1fr}
+  .proj-card.wide,.proj-card.full{grid-column:auto}
+  .proj-card{border-right:none}
+  .cert-row{grid-template-columns:1fr 1fr}
+  footer{flex-direction:column;gap:.5rem;text-align:center;padding:1.25rem}
+}
+@media(max-width:560px){.cert-row{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
-<canvas id="mc"></canvas>
-
+<!-- ══ MASTHEAD NAV ══ -->
 <nav id="nav">
-  <a class="nav-logo" href="#">Mandeep <span>Kaur</span></a>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#blog">Writing</a></li>
-    <li><a href="#education">Education</a></li>
-    <li><a href="#contact" class="nav-hire">Hire Me</a></li>
-  </ul>
+  <div class="nav-top">
+    <span class="nav-date">Glasgow, Scotland · Est. 2015 · Vol. VII</span>
+    <span class="nav-tagline">Java · Spring Boot · Microservices · Cloud Architecture</span>
+    <div class="nav-avail"><span class="nav-avail-dot"></span>Open to Opportunities</div>
+  </div>
+  <div class="nav-main">
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#blog">Writing</a></li>
+      <li><a href="#education">Education</a></li>
+    </ul>
+    <a href="#contact" class="nav-hire">Hire Me →</a>
+  </div>
 </nav>
 
+<!-- ══ HERO ══ -->
 <section class="hero" id="home">
-  <div class="hero-left">
-    <div class="hero-badge"><span class="bdot"></span>Available for opportunities · Glasgow, UK</div>
-    <h1 class="hero-name">Mandeep</h1>
-    <h1 class="hero-em">Kaur.</h1>
-    <p class="hero-title">Senior Full Stack Developer</p>
-    <p class="hero-desc">Designing and scaling Java-based, cloud-native distributed systems — from Oracle's ML platform to production-grade startup infrastructure. Expert in Spring Boot, microservices, AWS, React, and Angular.</p>
-    <div class="hero-ctas">
-      <a href="#projects" class="btn-dk">View Projects</a>
-      <a href="#contact" class="btn-out">Get in Touch</a>
-      <a href="https://linkedin.com/in/mandyk94" target="_blank" class="ic-btn" title="LinkedIn">
-        <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-      </a>
-      <a href="https://github.com/MandyK94" target="_blank" class="ic-btn" title="GitHub">
-        <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-      </a>
+
+  <!-- MASTHEAD NAMEPLATE -->
+  <div class="masthead">
+    <div class="masthead-name">Mandeep Kaur</div>
+    <div class="masthead-rule">
+      <div class="masthead-rule-line"></div>
+      <div class="masthead-sub">Senior Full Stack Developer &amp; Software Architect</div>
+      <div class="masthead-rule-line"></div>
     </div>
   </div>
-  <div class="hero-right">
-    <div class="avail-card pane">
-      <p class="card-lbl">Current Status</p>
-      <div class="av-row"><span class="av-dot"></span><span class="av-text">Open to new opportunities</span></div>
-      <p class="av-sub">Senior Full Stack Developer · Contract or Permanent<br>Glasgow, UK — Open to in office/hybrid/remote</p>
-    </div>
-    <div class="tl-card pane">
-      <p class="card-lbl">Career</p>
-      <div class="tl-item"><span class="tl-pip"></span><div><div class="tl-co">WyldTrace</div><div class="tl-role">Senior Full Stack Developer</div></div><span class="tl-yr">2024–26</span></div>
-      <div class="tl-item"><span class="tl-pip dim"></span><div><div class="tl-co">Oracle</div><div class="tl-role">Full Stack Developer</div></div><span class="tl-yr">2017–21</span></div>
-      <div class="tl-item"><span class="tl-pip dim"></span><div><div class="tl-co">Publicis Sapient</div><div class="tl-role">Associate Technology</div></div><span class="tl-yr">2015–17</span></div>
-    </div>
-    <div class="stack-card pane">
-      <p class="card-lbl">Core Stack</p>
-      <div class="s-pills"><span class="sp">Java 8–17</span><span class="sp">Spring Boot</span><span class="sp">React</span><span class="sp">Angular</span><span class="sp">AWS</span><span class="sp">PostgreSQL</span><span class="sp">Docker</span><span class="sp">Kafka</span><span class="sp">Kubernetes</span><span class="sp">Microservices</span></div>
-    </div>
+
+  <!-- META STRIP -->
+  <div class="hero-meta">
+    <div class="hero-meta-cell"><strong>Location</strong>Glasgow, UK</div>
+    <div class="hero-meta-cell"><strong>Availability</strong>Immediate</div>
+    <div class="hero-meta-cell"><strong>Experience</strong>7+ Years</div>
+    <div class="hero-meta-cell"><strong>Engagement</strong>Contract / Permanent</div>
+    <div class="hero-meta-cell"><strong>Mode</strong>Office / Hybrid / Remote</div>
   </div>
-</section>
 
-<div class="divider"></div>
+  <!-- EDITORIAL GRID -->
+  <div class="hero-grid">
 
-<section id="about">
-  <p class="eyb reveal">About</p>
-  <h2 class="stitle reveal">Engineer. <em>Analyst.</em><br>Problem Solver.</h2>
-  <div class="about-grid">
-    <div class="reveal">
-      <p class="about-pull">"I care deeply about writing software that is fast, observable, and maintainable - and about delivering real-world impact through what I build."</p>
-      <p class="about-p">I'm a <strong>Senior Full Stack Developer</strong> based in Glasgow, UK with over 7 years of experience designing and scaling enterprise-grade systems across fintech, healthcare, and analytics domains.</p>
-      <p class="about-p">My background spans <strong>Java backend engineering</strong>, cloud infrastructure on AWS, and full-stack delivery using React and Angular, from Oracle's core ML platform to production-grade traceability systems at startups.</p>
-      <p class="about-p">I hold an <strong>MSc in Data Analytics (Distinction)</strong> from the University of Strathclyde, giving me a strong foundation in machine learning that complements my systems expertise.</p>
-    </div>
-    <div class="reveal d2">
-      <div class="sgw"><p class="sgl">Languages</p><div class="chips"><span class="chip">Java 8–17</span><span class="chip">Python</span><span class="chip">JavaScript</span><span class="chip">SQL</span><span class="chip">R</span><span class="chip">TypeScript</span></div></div>
-      <div class="sgw"><p class="sgl">Backend</p><div class="chips"><span class="chip">Spring Boot</span><span class="chip">Microservices</span><span class="chip">REST APIs</span><span class="chip">JPA | Hibernate</span><span class="chip">Kafka</span><span class="chip">Spark</span></div></div>
-      <div class="sgw"><p class="sgl">Frontend</p><div class="chips"><span class="chip">React</span><span class="chip">Angular</span><span class="chip">JavaScript</span></div></div>
-      <div class="sgw"><p class="sgl">Cloud & DevOps</p><div class="chips"><span class="chip">AWS - EC2 | Lambda | RDS</span><span class="chip">Docker</span><span class="chip">Kubernetes</span><span class="chip">GitHub Actions</span><span class="chip">Jenkins</span></div></div>
-      <div class="sgw"><p class="sgl">Databases</p><div class="chips"><span class="chip">PostgreSQL</span><span class="chip">OracleDB</span><span class="chip">MongoDB</span><span class="chip">Hive</span><span class="chip">MySQL</span></div></div>
-      <div class="sgw"><p class="sgl">ML & Analytics</p><div class="chips"><span class="chip">Scikit-learn</span><span class="chip">TensorFlow</span><span class="chip">Keras</span><span class="chip">Pandas</span><span class="chip">NumPy</span></div></div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<section id="experience">
-  <p class="eyb reveal">Experience</p>
-  <h2 class="stitle reveal">Where I've <em>Worked</em></h2>
-  <div class="exp-list">
-    <div class="exp-card pane reveal"><div class="gb"></div>
-      <div class="exp-top"><span class="exp-co">WyldTrace</span><span class="exp-when">Nov 2024 – Feb 2026</span></div>
-      <div class="exp-role">Senior Full Stack Developer</div><div class="exp-loc">Glasgow, UK · Remote</div>
-      <ul class="exp-ul">
-        <li>Scaling a production-grade traceability platform — Java, Spring Boot, microservices, React, AWS — supporting <span class="hl">10k+ daily provenance lookups</span>.</li>
-        <li>Reduced average request latency by <span class="hl">38%</span> through request-pipeline optimisation and database tuning.</li>
-        <li>Delivered a QR-based consumer interface with blockchain-backed audit trails, enabling product history retrieval in under <span class="hl">1.2 seconds</span> at scale.</li>
-        <li>Containerised microservices with Docker, deployed to AWS EC2 via GitHub Actions CI/CD pipelines.</li>
-        <li>Authored OpenAPI/Swagger documentation, improving onboarding speed by <span class="hl">30%</span>.</li>
-      </ul>
-    </div>
-    <div class="exp-card pane reveal d1"><div class="gb"></div>
-      <div class="exp-top"><span class="exp-co">Oracle</span><span class="exp-when">Aug 2017 – Nov 2021</span></div>
-      <div class="exp-role">Full Stack Developer</div><div class="exp-loc">Bangalore, India</div>
-      <ul class="exp-ul">
-        <li>Developed core ML platform modules for Oracle Analytics (ORAAH, OML4Py), implementing and testing <span class="hl">20+ backend APIs</span>.</li>
-        <li>Built custom Hive UDAFs and shared Python library, improving analytical query performance by <span class="hl">30–35%</span> and reducing code duplication by 40%.</li>
-        <li>Contributed to Oracle AutoML platform, owning the majority of UI work in Angular with end-to-end debugging.</li>
-        <li>Optimised Java service logic, SQL queries, and database triggers for measurable latency gains.</li>
-      </ul>
-    </div>
-    <div class="exp-card pane reveal d2"><div class="gb"></div>
-      <div class="exp-top"><span class="exp-co">Publicis Sapient</span><span class="exp-when">Jun 2015 – Aug 2017</span></div>
-      <div class="exp-role">Associate Technology</div><div class="exp-loc">Delhi, India</div>
-      <ul class="exp-ul">
-        <li>Delivered enterprise analytics and reporting for <span class="hl">Goldman Sachs</span> and <span class="hl">Wellington Management</span>.</li>
-        <li>Developed backend services in Java, SQL, and PL/SQL alongside Angular frontend components.</li>
-        <li>Designed and optimised complex SQL queries, cutting report execution times by <span class="hl">25–30%</span>.</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<section id="projects">
-  <p class="eyb reveal">Projects</p>
-  <h2 class="stitle reveal">Things I've <em>Built</em></h2>
-  <div class="proj-grid">
-    <div class="proj-card pane proj-full reveal">
-      <div class="proj-ey"><span class="proj-badge">In Progress</span> Featured Project</div>
-      <div class="proj-name">Expense Tracker</div>
-      <p class="proj-desc">A full-stack personal finance application with a Spring Boot + AWS backend and a modern React frontend. Features expense categorisation, monthly analytics, budget tracking, and a real-time data visualisation dashboard — built to showcase end-to-end cloud-native development.</p>
-      <div class="proj-stack"><span class="ptag">Java</span><span class="ptag">Spring Boot</span><span class="ptag">AWS</span><span class="ptag">React</span><span class="ptag">PostgreSQL</span><span class="ptag">Docker</span><span class="ptag">REST API</span></div>
-      <div class="proj-links"><a href="https://github.com/MandyK94" class="proj-lnk" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>View on GitHub</a><a href="#" class="proj-lnk">Live Demo soon →</a></div>
-    </div>
-    <div class="proj-card pane reveal">
-      <div class="proj-ey">Project</div><div class="proj-name">Resource Management System</div>
-      <p class="proj-desc">REST APIs achieving 99% query efficiency through indexing, caching, and advanced query tuning. Containerised and deployed on AWS.</p>
-      <div class="proj-stack"><span class="ptag">Java</span><span class="ptag">Spring Boot</span><span class="ptag">PostgreSQL</span><span class="ptag">Docker</span><span class="ptag">AWS</span></div>
-      <div class="proj-links"><a href="https://github.com/MandyK94" class="proj-lnk" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>GitHub</a></div>
-    </div>
-    <div class="proj-card pane reveal d1">
-      <div class="proj-ey">Project</div><div class="proj-name">Healthcare Data Pipeline</div>
-      <p class="proj-desc">Large-scale ETL pipelines processing 1M+ patient records per day with Kafka-based streaming and full observability via Prometheus.</p>
-      <div class="proj-stack"><span class="ptag">Spring</span><span class="ptag">Kafka</span><span class="ptag">Prometheus</span></div>
-      <div class="proj-links"><a href="https://github.com/MandyK94" class="proj-lnk" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>GitHub</a></div>
-    </div>
-    <div class="proj-card pane reveal">
-      <div class="proj-ey">Project</div><div class="proj-name">Financial Analytics Platform</div>
-      <p class="proj-desc">Real-time data ingestion microservices achieving 92% predictive accuracy in financial forecasting. CI/CD via GitLab.</p>
-      <div class="proj-stack"><span class="ptag">Java</span><span class="ptag">Microservices</span><span class="ptag">GitLab CI/CD</span></div>
-      <div class="proj-links"><a href="https://github.com/MandyK94" class="proj-lnk" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>GitHub</a></div>
-    </div>
-    <div class="proj-card pane reveal d1" style="grid-column:1/-1">
-      <div class="proj-ey">Project</div><div class="proj-name">Data Analytics Dashboard</div>
-      <p class="proj-desc">Responsive analytics dashboards with Spring Boot APIs, Python/R processing, Angular frontend, and D3.js visualisations. High JUnit/Mockito test coverage.</p>
-      <div class="proj-stack"><span class="ptag">Spring Boot</span><span class="ptag">Python</span><span class="ptag">R</span><span class="ptag">Angular</span><span class="ptag">D3.js</span></div>
-      <div class="proj-links"><a href="https://github.com/MandyK94" class="proj-lnk" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>GitHub</a></div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<section id="education">
-  <p class="eyb reveal">Education</p>
-  <h2 class="stitle reveal"><em>Academic</em> Background</h2>
-  <div class="edu-grid reveal">
-    <div class="edu-card pane"><div class="edu-i">🎓</div><div class="edu-deg">MSc Data Analytics</div><div class="edu-sch">University of Strathclyde</div><div class="edu-det">Glasgow, UK · Sep 2022 – Sep 2023<br>Dissertation: <em>Robot Dispatch Optimisation</em></div><div class="edu-ft"><span class="edu-badge">Distinction</span><span class="edu-yr">2023</span></div></div>
-    <div class="edu-card pane"><div class="edu-i">🏛️</div><div class="edu-deg">B.Tech Computer Science & Engineering</div><div class="edu-sch">Dr B R Ambedkar NIT Jalandhar</div><div class="edu-det">Jalandhar, India · Aug 2011 – Jun 2015<br>Dissertation: <em>Personalised Web Browser</em></div><div class="edu-ft"><span class="edu-badge">7.71 GPA</span><span class="edu-yr">2015</span></div></div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<section id="blog">
-  <p class="eyb reveal">Writing</p>
-  <h2 class="stitle reveal">Thoughts & <em>Insights</em></h2>
-  <div class="blog-grid reveal">
-    <div class="blog-main pane">
-      <div class="blog-meta-row"><span class="blog-tag">System Design</span><span class="blog-dt">February 2026</span></div>
-      <div class="blog-h">System Design Trade-offs Every Senior Engineer Should Know</div>
-      <p class="blog-exc">Software engineering is rarely about finding the "right" answer — it's about making the best trade-off for your specific context. After years of building distributed systems and microservices, here are the seven most important trade-offs I've encountered and how I think about them.</p>
-      <a href="article2.html" class="blog-read">Read article →</a>
-    </div>
-    <div class="blog-main pane">
-      <div class="blog-meta-row"><span class="blog-tag">Architecture</span><span class="blog-dt">February 2026</span></div>
-      <div class="blog-h">Why I Stopped Fighting Latency and Started Measuring It</div>
-      <p class="blog-exc">At WyldTrace, we had a traceability API that was slow — not catastrophically slow, but frustratingly, unpredictably slow. After months of profiling and one critical revelation about connection pooling under load, we brought average request latency down by 38%.</p>
-      <a href="article1.html" class="blog-read">Read article →</a>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<section id="certifications">
-  <p class="eyb reveal">Certifications</p>
-  <h2 class="stitle reveal">Credentials & <em>Learning</em></h2>
-  <div class="cert-grid reveal">
-    <div class="cert-card pane"><div class="cert-i">📊</div><div class="cert-n">Google Data Analytics</div><div class="cert-is">Professional Certificate · Google / Coursera</div><a href="#" class="cert-lnk">View ↗</a></div>
-    <div class="cert-card pane"><div class="cert-i">🤖</div><div class="cert-n">Machine Learning Engineer</div><div class="cert-is">Professional Certificate · Verified Credential</div><a href="#" class="cert-lnk">View ↗</a></div>
-    <div class="cert-card pane"><div class="cert-i">🧠</div><div class="cert-n">Deep Learning Foundation</div><div class="cert-is">Professional Certificate · Verified Credential</div><a href="#" class="cert-lnk">View ↗</a></div>
-    <div class="cert-card pane"><div class="cert-i">📈</div><div class="cert-n">Data Analyst</div><div class="cert-is">Professional Certificate · Verified Credential</div><a href="#" class="cert-lnk">View ↗</a></div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<section id="volunteer">
-  <p class="eyb reveal">Community</p>
-  <h2 class="stitle reveal">Beyond the <em>Keyboard</em></h2>
-  <div class="vol-card pane reveal"><div class="gb"></div>
-    <div class="vol-top"><span class="vol-org">British Heart Foundation</span><span class="vol-period">Sep 2023 – Jun 2024</span></div>
-    <div class="vol-role">Retail Assistant — Volunteer</div>
-    <div class="vol-loc">Hamilton, UK</div>
-    <ul class="vol-ul">
-      <li>Assisted customers to ensure a positive experience, contributing to sales that directly funded the charity's life-saving medical research.</li>
-      <li>Sorted, priced, and displayed donated items to maintain a well-stocked and attractive store environment.</li>
-      <li>Worked collaboratively with volunteers, staff, and management to meet sales targets and ensure smooth daily operations.</li>
-      <li>Supported the charity's broader mission by encouraging donations and raising awareness among the local community.</li>
-    </ul>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<section id="contact">
-  <p class="eyb reveal">Contact</p>
-  <h2 class="stitle reveal">Let's Work <em>Together</em></h2>
-  <div class="contact-grid reveal">
-    <div>
-      <p class="contact-lead">"I'm open to senior full stack developer roles — full-time, contract, or just a conversation."</p>
-      <div class="ci-wrap">
-        <div><div class="ci-lbl">Email</div><div class="ci-val"><a href="mailto:kaur.mandeep.office@gmail.com">kaur.mandeep.office@gmail.com</a></div></div>
-        <div><div class="ci-lbl">Phone</div><div class="ci-val"><a href="tel:+447460021137">+44 7460 021137</a></div></div>
-        <div><div class="ci-lbl">Location</div><div class="ci-val"><a href="#">Glasgow, UK</a></div></div>
+    <!-- LEAD STORY -->
+    <div class="hero-col">
+      <div class="lead-kicker">
+        <span>Lead Story</span>
+        <span style="font-size:.55rem;letter-spacing:.08em">Backend Architecture · Distributed Systems</span>
       </div>
-      <div class="c-socials">
-        <a href="https://linkedin.com/in/mandyk94" target="_blank" class="csoc"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
-        <a href="https://github.com/MandyK94" target="_blank" class="csoc"><svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>GitHub</a>
+      <div class="lead-headline">BUILDING<br>SYSTEMS<br>THAT HOLD</div>
+      <div class="lead-deck">A senior engineer with a decade of production experience across Oracle, fintech, and cloud-native startups — specialising in Java, Spring Boot, and distributed system design.</div>
+      <div class="lead-body">
+        <p>I am a <strong>Senior Full Stack Developer</strong> based in Glasgow, with over 7 years of experience designing and scaling enterprise-grade systems across fintech, healthcare, and analytics domains.</p>
+        <p>My background spans <strong>Java backend engineering</strong>, cloud infrastructure on AWS, and full-stack delivery using React and Angular — from Oracle's core ML platform to production-grade traceability systems at startups.</p>
+        <p>I hold an <strong>MSc in Data Analytics (Distinction)</strong> from the University of Strathclyde, giving me a strong foundation in machine learning that complements my systems expertise.</p>
+      </div>
+      <div class="hero-actions">
+        <a href="#projects" class="btn-fill">View Work</a>
+        <a href="#experience" class="btn-outline">Experience</a>
+        <a href="https://linkedin.com/in/mandyk94" target="_blank" class="icon-lnk" title="LinkedIn">
+          <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <a href="https://github.com/MandyK94" target="_blank" class="icon-lnk" title="GitHub">
+          <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+        </a>
       </div>
     </div>
-    <form class="c-form" onsubmit="handleSubmit(event)">
-      <div class="f-row"><div class="fg"><label>Name</label><input type="text" placeholder="Jane Smith" required/></div><div class="fg"><label>Email</label><input type="email" placeholder="jane@company.com" required/></div></div>
-      <div class="fg"><label>Subject</label><input type="text" placeholder="Job opportunity / Collaboration"/></div>
-      <div class="fg"><label>Message</label><textarea placeholder="Hi Mandeep, I'd love to chat about…" required></textarea></div>
-      <button type="submit" class="f-btn" id="fBtn">Send Message</button>
-      <div class="f-ok" id="fOk">✓ Message sent! I'll be in touch soon.</div>
-    </form>
+
+    <div class="hero-col-div"></div>
+
+    <!-- CENTRE — CAREER TIMELINE -->
+    <div class="hero-col">
+      <div class="col-head">Career Record</div>
+      <div class="timeline-item">
+        <div class="tl-co">WyldTrace</div>
+        <div class="tl-role">Senior Full Stack Developer</div>
+        <div class="tl-yr">Nov 2024 — Feb 2026 · Remote</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-co">Oracle</div>
+        <div class="tl-role">Member of Technical Staff</div>
+        <div class="tl-yr">Aug 2017 — Nov 2021 · Bangalore</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-co">Publicis Sapient</div>
+        <div class="tl-role">Associate Technology</div>
+        <div class="tl-yr">Jun 2015 — Aug 2017 · Delhi</div>
+      </div>
+
+      <!-- Freehand tech stack illustration -->
+      <div style="margin-top:1.5rem;border-top:1px solid var(--rule-light);padding-top:1.25rem">
+        <div class="col-head" style="margin-bottom:.75rem">Tech Stack</div>
+        <svg viewBox="0 0 220 310" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;opacity:.78" stroke-linecap="round" stroke-linejoin="round">
+
+          <!-- LAYER LABEL: FRONTEND -->
+          <text x="8" y="13" fill="#9a9a8e" font-size="6" font-family="monospace" letter-spacing="1.5">FRONTEND</text>
+          <path d="M8,16 C40,15.5 160,16 210,15.8" stroke="#c8c4b8" stroke-width=".6" fill="none"/>
+
+          <!-- React pill — hand-drawn rounded rect -->
+          <path d="M10,22 C11,20.8 54,21 55,22 C56.2,23 56,33 55,34 C54,35 11,34.5 10,33.5 C9,32.5 9,23 10,22Z" stroke="#6a6a60" stroke-width=".9" fill="none"/>
+          <text x="32" y="30" fill="#3a3a34" font-size="7" font-family="monospace" text-anchor="middle">React</text>
+          <!-- Angular pill -->
+          <path d="M62,22 C63,20.8 112,21 113,22 C114.2,23 114,33 113,34 C112,35 63,34.5 62,33.5 C61,32.5 61,23 62,22Z" stroke="#6a6a60" stroke-width=".9" fill="none"/>
+          <text x="87" y="30" fill="#3a3a34" font-size="7" font-family="monospace" text-anchor="middle">Angular</text>
+          <!-- D3.js pill -->
+          <path d="M120,22 C121,20.8 158,21 159,22 C160.2,23 160,33 159,34 C158,35 121,34.5 120,33.5 C119,32.5 119,23 120,22Z" stroke="#6a6a60" stroke-width=".9" fill="none"/>
+          <text x="140" y="30" fill="#3a3a34" font-size="7" font-family="monospace" text-anchor="middle">D3.js</text>
+
+          <!-- connector squiggle down -->
+          <path d="M110,34.5 C109.5,38 110.3,41 109.8,46" stroke="#c8c4b8" stroke-width=".8" fill="none"/>
+
+          <!-- LAYER LABEL: BACKEND -->
+          <text x="8" y="58" fill="#9a9a8e" font-size="6" font-family="monospace" letter-spacing="1.5">BACKEND</text>
+          <path d="M8,61 C40,60.5 160,61 210,60.8" stroke="#c8c4b8" stroke-width=".6" fill="none"/>
+
+          <!-- Spring Boot — big, bold, filled -->
+          <path d="M9,67.5 C10,66 87,66.5 88.5,67.5 C90,68.5 90,81 88.5,82 C87,83.5 10,83 9,82 C7.8,81 7.5,69 9,67.5Z" stroke="#0d0d0b" stroke-width="1.4" fill="#ede9e0"/>
+          <text x="49" y="77" fill="#0d0d0b" font-size="7.5" font-family="monospace" text-anchor="middle" letter-spacing=".5">Spring Boot</text>
+          <!-- crosshatch on Spring Boot to indicate primary -->
+          <path d="M10,68 L14,68" stroke="#c8c4b8" stroke-width=".4"/>
+          <path d="M10,68 L10,72" stroke="#c8c4b8" stroke-width=".4"/>
+
+          <!-- Hibernate pill -->
+          <path d="M95,67.5 C96,66.2 168,66.8 169.5,67.5 C171,68.5 171,81 169.5,82 C168,83 96,82.5 95,81.5 C93.8,80.5 93.5,69 95,67.5Z" stroke="#3a3a34" stroke-width="1" fill="none"/>
+          <text x="132" y="77" fill="#3a3a34" font-size="7.5" font-family="monospace" text-anchor="middle" letter-spacing=".5">Hibernate</text>
+
+          <!-- Java 17 — smaller pill below -->
+          <path d="M9,89 C10,87.8 60,88 61,89 C62.2,90 62,100 61,101 C60,102 10,101.5 9,100.5 C8,99.5 7.8,90 9,89Z" stroke="#3a3a34" stroke-width=".9" fill="none"/>
+          <text x="35" y="97" fill="#3a3a34" font-size="7" font-family="monospace" text-anchor="middle">Java 17</text>
+
+          <!-- REST APIs pill -->
+          <path d="M68,89 C69,87.8 130,88 131,89 C132.2,90 132,100 131,101 C130,102 69,101.5 68,100.5 C67,99.5 66.8,90 68,89Z" stroke="#3a3a34" stroke-width=".9" fill="none"/>
+          <text x="99" y="97" fill="#3a3a34" font-size="7" font-family="monospace" text-anchor="middle">REST APIs</text>
+
+          <!-- Kafka pill -->
+          <path d="M138,89 C139,87.8 195,88 196,89 C197.2,90 197,100 196,101 C195,102 139,101.5 138,100.5 C137,99.5 136.8,90 138,89Z" stroke="#6a6a60" stroke-width=".85" fill="none"/>
+          <text x="167" y="97" fill="#6a6a60" font-size="7" font-family="monospace" text-anchor="middle">Kafka</text>
+
+          <!-- wavy connector -->
+          <path d="M110,101.5 C109,105 110.5,109 109.5,115" stroke="#c8c4b8" stroke-width=".8" fill="none"/>
+
+          <!-- LAYER LABEL: CLOUD & INFRA -->
+          <text x="8" y="127" fill="#9a9a8e" font-size="6" font-family="monospace" letter-spacing="1.5">CLOUD &amp; INFRA</text>
+          <path d="M8,130 C40,129.5 160,130 210,129.8" stroke="#c8c4b8" stroke-width=".6" fill="none"/>
+
+          <!-- AWS — large bold -->
+          <path d="M9,136.5 C10,135 75,135.5 76.5,136.5 C78,137.5 78,150 76.5,151 C75,152.5 10,152 9,151 C7.8,150 7.5,138 9,136.5Z" stroke="#0d0d0b" stroke-width="1.3" fill="#ede9e0"/>
+          <text x="43" y="146" fill="#0d0d0b" font-size="8" font-family="monospace" text-anchor="middle" letter-spacing=".5">AWS</text>
+
+          <!-- Docker -->
+          <path d="M83,136.5 C84,135.2 138,135.8 139.5,136.5 C141,137.5 141,150 139.5,151 C138,152 84,151.5 83,150.5 C82,149.5 81.5,138 83,136.5Z" stroke="#3a3a34" stroke-width="1" fill="none"/>
+          <text x="111" y="146" fill="#3a3a34" font-size="7.5" font-family="monospace" text-anchor="middle">Docker</text>
+
+          <!-- Kubernetes -->
+          <path d="M147,136.5 C148,135.2 208,135.8 209,136.5 C210,137.5 210,150 209,151 C208,152 148,151.5 147,150.5 C146,149.5 145.5,138 147,136.5Z" stroke="#6a6a60" stroke-width=".9" fill="none"/>
+          <text x="178" y="146" fill="#6a6a60" font-size="7.5" font-family="monospace" text-anchor="middle">Kubernetes</text>
+
+          <!-- GitHub Actions + Jenkins row -->
+          <path d="M9,158 C10,156.8 105,157 106,158 C107.2,159 107,169 106,170 C105,171 10,170.5 9,169.5 C8,168.5 7.8,159 9,158Z" stroke="#6a6a60" stroke-width=".85" fill="none"/>
+          <text x="57" y="166" fill="#6a6a60" font-size="6.5" font-family="monospace" text-anchor="middle">GitHub Actions</text>
+
+          <path d="M113,158 C114,156.8 178,157 179,158 C180.2,159 180,169 179,170 C178,171 114,170.5 113,169.5 C112,168.5 111.8,159 113,158Z" stroke="#6a6a60" stroke-width=".85" fill="none"/>
+          <text x="146" y="166" fill="#6a6a60" font-size="6.5" font-family="monospace" text-anchor="middle">Jenkins</text>
+
+          <!-- connector squiggle -->
+          <path d="M110,170.5 C109.5,174 110.3,178 109.8,184" stroke="#c8c4b8" stroke-width=".8" fill="none"/>
+
+          <!-- LAYER LABEL: DATABASES -->
+          <text x="8" y="196" fill="#9a9a8e" font-size="6" font-family="monospace" letter-spacing="1.5">DATABASES</text>
+          <path d="M8,199 C40,198.5 160,199 210,198.8" stroke="#c8c4b8" stroke-width=".6" fill="none"/>
+
+          <!-- DB cylinders as hand-drawn shapes -->
+          <!-- PostgreSQL cylinder suggestion -->
+          <path d="M8,206 C9,204.5 64,205 65,206 C66.2,207 66,207.5 65,208.5 C66.2,209.5 66,220 65,221 C64,222.5 9,222 8,221 C6.8,220 6.5,209.5 8,208.5 C6.8,207.5 7,207 8,206Z" stroke="#3a3a34" stroke-width=".9" fill="none"/>
+          <path d="M8,208.5 C20,210.5 53,210.5 65,208.5" stroke="#3a3a34" stroke-width=".7" fill="none"/>
+          <text x="36" y="217" fill="#3a3a34" font-size="6" font-family="monospace" text-anchor="middle">PostgreSQL</text>
+
+          <!-- OracleDB cylinder — bold -->
+          <path d="M74,206 C75,204.5 144,205 145,206 C146.5,207 146.5,207.5 145,208.5 C146.5,209.5 146.5,220 145,221 C144,222.5 75,222 74,221 C72.8,220 72.5,209.5 74,208.5 C72.8,207.5 73,207 74,206Z" stroke="#0d0d0b" stroke-width="1.3" fill="#ede9e0"/>
+          <path d="M74,208.5 C90,211 129,211 145,208.5" stroke="#0d0d0b" stroke-width=".9" fill="none"/>
+          <text x="109" y="217" fill="#0d0d0b" font-size="6" font-family="monospace" text-anchor="middle">OracleDB</text>
+
+          <!-- MongoDB cylinder -->
+          <path d="M153,206 C154,204.5 210,205 211,206 C212.2,207 212,207.5 211,208.5 C212.2,209.5 212,220 211,221 C210,222.5 154,222 153,221 C151.8,220 151.5,209.5 153,208.5 C151.8,207.5 152,207 153,206Z" stroke="#6a6a60" stroke-width=".85" fill="none"/>
+          <path d="M153,208.5 C165,210.5 199,210.5 211,208.5" stroke="#6a6a60" stroke-width=".6" fill="none"/>
+          <text x="182" y="217" fill="#6a6a60" font-size="6" font-family="monospace" text-anchor="middle">MongoDB</text>
+
+          <!-- Hive + MySQL smaller row -->
+          <path d="M8,229 C9,227.8 60,228 61,229 C62.2,230 62,240 61,241 C60,242 9,241.5 8,240.5 C7,239.5 6.8,230 8,229Z" stroke="#9a9a8e" stroke-width=".75" fill="none"/>
+          <text x="34" y="237" fill="#9a9a8e" font-size="6.5" font-family="monospace" text-anchor="middle">Hive</text>
+          <path d="M68,229 C69,227.8 128,228 129,229 C130.2,230 130,240 129,241 C128,242 69,241.5 68,240.5 C67,239.5 66.8,230 68,229Z" stroke="#9a9a8e" stroke-width=".75" fill="none"/>
+          <text x="98" y="237" fill="#9a9a8e" font-size="6.5" font-family="monospace" text-anchor="middle">MySQL</text>
+
+          <!-- connector squiggle -->
+          <path d="M110,241.5 C109.5,245 110.3,249 109.8,256" stroke="#c8c4b8" stroke-width=".8" fill="none"/>
+
+          <!-- LAYER LABEL: ML & ANALYTICS -->
+          <text x="8" y="267" fill="#9a9a8e" font-size="6" font-family="monospace" letter-spacing="1.5">ML &amp; ANALYTICS</text>
+          <path d="M8,270 C40,269.5 160,270 210,269.8" stroke="#c8c4b8" stroke-width=".6" fill="none"/>
+
+          <!-- Scikit-learn -->
+          <path d="M8,276 C9,274.8 78,275 79,276 C80.2,277 80,287 79,288 C78,289 9,288.5 8,287.5 C7,286.5 6.8,277 8,276Z" stroke="#6a6a60" stroke-width=".8" fill="none"/>
+          <text x="43" y="284" fill="#6a6a60" font-size="6" font-family="monospace" text-anchor="middle">Scikit-learn</text>
+
+          <!-- TensorFlow -->
+          <path d="M86,276 C87,274.8 160,275 161,276 C162.2,277 162,287 161,288 C160,289 87,288.5 86,287.5 C85,286.5 84.8,277 86,276Z" stroke="#6a6a60" stroke-width=".8" fill="none"/>
+          <text x="123" y="284" fill="#6a6a60" font-size="6" font-family="monospace" text-anchor="middle">TensorFlow</text>
+
+          <!-- Pandas -->
+          <path d="M168,276 C169,274.8 212,275 213,276 C214.2,277 214,287 213,288 C212,289 169,288.5 168,287.5 C167,286.5 166.8,277 168,276Z" stroke="#6a6a60" stroke-width=".8" fill="none"/>
+          <text x="190" y="284" fill="#6a6a60" font-size="6" font-family="monospace" text-anchor="middle">Pandas</text>
+
+          <!-- MSc callout annotation — fine liner arrow + note -->
+          <path d="M175,290 C178,293 180,297 179,302" stroke="#9a9a8e" stroke-width=".7" fill="none"/>
+          <path d="M176,300 Q179,305 182,300" stroke="#9a9a8e" stroke-width=".7" fill="none"/>
+          <text x="115" y="306" fill="#9a9a8e" font-size="5.5" font-family="monospace" text-anchor="middle" letter-spacing=".5">MSc Data Analytics — Distinction</text>
+
+        </svg>
+      </div>
+    </div>
+
+    <div class="hero-col-div"></div>
+
+    <!-- RIGHT — STATUS + STACK -->
+    <div class="hero-col">
+      <div class="col-head">Current Status</div>
+      <div class="status-box">
+        <div class="status-box-lbl">Availability</div>
+        <div class="status-box-val">Open to Roles</div>
+        <div class="status-box-sub">Contract or Permanent<br>In-office / Hybrid / Remote</div>
+      </div>
+      <div class="col-head" style="margin-top:1.25rem">Core Stack</div>
+      <div class="stack-pills">
+        <span class="sp">Java 8–17</span>
+        <span class="sp">Spring Boot</span>
+        <span class="sp">Hibernate</span>
+        <span class="sp">Microservices</span>
+        <span class="sp">AWS</span>
+        <span class="sp">PostgreSQL</span>
+        <span class="sp">Kafka</span>
+        <span class="sp">Docker</span>
+        <span class="sp">Kubernetes</span>
+        <span class="sp">React</span>
+        <span class="sp">Angular</span>
+      </div>
+
+    </div>
+
+  </div><!-- /hero-grid -->
+
+  <!-- STAT ROW -->
+  <div class="stat-row">
+    <div class="stat-cell"><div class="stat-n">7<sup style="font-size:.5em">+</sup></div><div class="stat-l">Years Production Exp.</div></div>
+    <div class="stat-cell"><div class="stat-n">10K<sup style="font-size:.45em">+</sup></div><div class="stat-l">Daily API Lookups</div></div>
+    <div class="stat-cell"><div class="stat-n">3</div><div class="stat-l">Enterprise Orgs</div></div>
+    <div class="stat-cell"><div class="stat-n">MSc</div><div class="stat-l">Data Analytics — Distinction</div></div>
+  </div>
+
+</section>
+
+<!-- ══ ABOUT ══ -->
+<section class="sec" id="about">
+  <div class="sec-inner">
+    <div class="sec-masthead reveal">
+      <div class="sec-issue">Section 01 / About</div>
+      <div class="sec-title">WHO I AM<br><em>the person behind the systems</em></div>
+      <div class="sec-masthead-rule"><div class="smr-line"></div><span class="smr-txt">7 Years · Glasgow, UK</span><div class="smr-line"></div></div>
+    </div>
+    <div class="about-cols">
+      <div class="about-col reveal">
+        <div class="pullquote">"I care deeply about writing software that is fast, observable, and maintainable — and about delivering real-world impact through what I build."</div>
+        <p class="body-text">I'm a <strong>Senior Full Stack Developer</strong> based in Glasgow with over 7 years of experience designing and scaling enterprise-grade systems across fintech, healthcare, and analytics domains.</p>
+        <p class="body-text">My background spans <strong>Java backend engineering</strong>, cloud infrastructure on AWS, and full-stack delivery using React and Angular — from Oracle's core ML platform to production-grade traceability systems.</p>
+        <p class="body-text">I hold an <strong>MSc in Data Analytics (Distinction)</strong> from the University of Strathclyde, giving me a strong foundation in machine learning that complements my systems expertise.</p>
+      </div>
+      <div class="col-divider"></div>
+      <div class="about-col reveal d2">
+        <div class="sk-section"><div class="sk-head">Languages</div><div class="chips"><span class="chip">Java 8–17</span><span class="chip">Python</span><span class="chip">JavaScript</span><span class="chip">TypeScript</span><span class="chip">SQL</span><span class="chip">R</span></div></div>
+        <div class="sk-section"><div class="sk-head">Backend</div><div class="chips"><span class="chip">Spring Boot</span><span class="chip">Hibernate / JPA</span><span class="chip">Microservices</span><span class="chip">REST APIs</span><span class="chip">Kafka</span><span class="chip">Spark</span></div></div>
+        <div class="sk-section"><div class="sk-head">Frontend</div><div class="chips"><span class="chip">React</span><span class="chip">Angular</span><span class="chip">D3.js</span></div></div>
+        <div class="sk-section"><div class="sk-head">Cloud & DevOps</div><div class="chips"><span class="chip">AWS EC2 / Lambda / RDS</span><span class="chip">Docker</span><span class="chip">Kubernetes</span><span class="chip">GitHub Actions</span><span class="chip">Jenkins</span></div></div>
+        <div class="sk-section"><div class="sk-head">Databases</div><div class="chips"><span class="chip">PostgreSQL</span><span class="chip">OracleDB</span><span class="chip">MongoDB</span><span class="chip">Hive</span><span class="chip">MySQL</span></div></div>
+        <div class="sk-section"><div class="sk-head">ML & Analytics</div><div class="chips"><span class="chip">Scikit-learn</span><span class="chip">TensorFlow</span><span class="chip">Keras</span><span class="chip">Pandas</span><span class="chip">NumPy</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ EXPERIENCE ══ -->
+<section class="sec" id="experience">
+  <!-- freehand timeline drawing -->
+  <svg class="sec-drawing" style="right:2rem;top:4rem;width:100px;height:340px" viewBox="0 0 100 340" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- vertical spine — hand-drawn, slight wobble -->
+    <path d="M50.3,2 C49.8,20 50.5,45 50,70 C49.5,95 50.3,115 50,140 C49.7,165 50.2,185 50,210 C49.8,235 50.3,258 50,280 C49.7,305 50.2,325 50,338" stroke="#c8c4b8" stroke-width="1.1" fill="none"/>
+    <!-- NODE 1 — 2024, active, hand-drawn circle -->
+    <path d="M50,43 C54.5,42.5 58,46.5 58,51 C58,55.5 54,59.5 50,59 C46,58.5 42,55 42,51 C42,46.5 45.5,42.5 50,43Z" stroke="#0d0d0b" stroke-width="1.5" fill="none"/>
+    <!-- inner dot for node 1 -->
+    <path d="M47.5,51 C47.5,49 52.5,49 52.5,51 C52.5,53 47.5,53 47.5,51Z" fill="#0d0d0b"/>
+    <!-- tick line + date 2024 -->
+    <path d="M58,51 C62,50.5 68,51.2 77,51" stroke="#0d0d0b" stroke-width="1" fill="none"/>
+    <text x="62" y="46" fill="#0d0d0b" font-size="7" font-family="monospace" letter-spacing=".8">2024</text>
+    <!-- NODE 2 — 2017 -->
+    <path d="M50,163 C54.5,162.5 58.5,166.5 58.5,171 C58.5,175.5 54.5,179.5 50,179 C45.5,178.5 41.5,175 41.5,171 C41.5,166.5 45.5,162.5 50,163Z" stroke="#c8c4b8" stroke-width="1.2" fill="none"/>
+    <path d="M47.5,171 C47.5,169 52.5,169 52.5,171 C52.5,173 47.5,173 47.5,171Z" fill="#c8c4b8"/>
+    <path d="M58.5,171 C62.5,170.5 68,171.2 77,171" stroke="#c8c4b8" stroke-width=".9" fill="none"/>
+    <text x="62" y="166" fill="#9a9a8e" font-size="7" font-family="monospace" letter-spacing=".8">2017</text>
+    <!-- NODE 3 — 2015 -->
+    <path d="M50,283 C54.5,282.5 58.5,286.5 58.5,291 C58.5,295.5 54.5,299.5 50,299 C45.5,298.5 41.5,295 41.5,291 C41.5,286.5 45.5,282.5 50,283Z" stroke="#c8c4b8" stroke-width="1.2" fill="none"/>
+    <path d="M47.5,291 C47.5,289 52.5,289 52.5,291 C52.5,293 47.5,293 47.5,291Z" fill="#c8c4b8"/>
+    <path d="M58.5,291 C62.5,290.5 68,291.2 77,291" stroke="#c8c4b8" stroke-width=".9" fill="none"/>
+    <text x="62" y="286" fill="#9a9a8e" font-size="7" font-family="monospace" letter-spacing=".8">2015</text>
+    <!-- small annotation marks — fine liner habit of annotating -->
+    <path d="M35,51 C31,50.5 26,51" stroke="#c8c4b8" stroke-width=".6" fill="none"/>
+    <path d="M35,171 C31,170.5 26,171" stroke="#c8c4b8" stroke-width=".5" fill="none"/>
+    <path d="M35,291 C31,290.5 26,291" stroke="#c8c4b8" stroke-width=".5" fill="none"/>
+  </svg>
+  <div class="sec-inner">
+    <div class="sec-masthead reveal">
+      <div class="sec-issue">Section 02 / Experience</div>
+      <div class="sec-title">WHERE I HAVE<br><em>built &amp; shipped</em></div>
+      <div class="sec-masthead-rule"><div class="smr-line"></div><span class="smr-txt">3 Companies · 7+ Years</span><div class="smr-line"></div></div>
+    </div>
+    <div class="exp-entries">
+      <div class="exp-entry reveal">
+        <div class="exp-left">
+          <div class="exp-co">WyldTrace</div>
+          <span class="exp-badge">Nov 2024 — Feb 2026</span>
+          <div class="exp-loc">Remote</div>
+        </div>
+        <div class="exp-divider"></div>
+        <div class="exp-right">
+          <div class="exp-role">Senior Full Stack Developer</div>
+          <ul class="exp-ul">
+            <li>Scaled a production-grade traceability platform — Java, Spring Boot, microservices, React, AWS — supporting <span class="exp-hl">10k+ daily provenance lookups</span>.</li>
+            <li>Reduced average request latency by <span class="exp-hl">38%</span> through request-pipeline optimisation and database tuning.</li>
+            <li>Delivered QR-based consumer interface with blockchain-backed audit trails, enabling product history retrieval in under <span class="exp-hl">1.2 seconds</span> at scale.</li>
+            <li>Containerised microservices with Docker, deployed to AWS EC2 via GitHub Actions CI/CD pipelines.</li>
+            <li>Authored OpenAPI/Swagger documentation, improving onboarding speed by <span class="exp-hl">30%</span>.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="exp-entry reveal d1">
+        <div class="exp-left">
+          <div class="exp-co">Oracle</div>
+          <span class="exp-badge">Aug 2017 — Nov 2021</span>
+          <div class="exp-loc">Bangalore, India</div>
+        </div>
+        <div class="exp-divider"></div>
+        <div class="exp-right">
+          <div class="exp-role">Member of Technical Staff</div>
+          <ul class="exp-ul">
+            <li>Developed core ML platform modules for Oracle Analytics (ORAAH, OML4Py), implementing and testing <span class="exp-hl">20+ backend APIs</span>.</li>
+            <li>Built custom Hive UDAFs and shared Python library, improving analytical query performance by <span class="exp-hl">30–35%</span> and reducing code duplication by 40%.</li>
+            <li>Contributed to Oracle AutoML platform, owning the majority of UI work in Angular with end-to-end debugging.</li>
+            <li>Optimised Java service logic, SQL queries, and database triggers for measurable latency gains.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="exp-entry reveal d2">
+        <div class="exp-left">
+          <div class="exp-co">Publicis Sapient</div>
+          <span class="exp-badge">Jun 2015 — Aug 2017</span>
+          <div class="exp-loc">Delhi, India</div>
+        </div>
+        <div class="exp-divider"></div>
+        <div class="exp-right">
+          <div class="exp-role">Associate Technology</div>
+          <ul class="exp-ul">
+            <li>Delivered enterprise analytics and reporting for <span class="exp-hl">Goldman Sachs</span> and <span class="exp-hl">Wellington Management</span>.</li>
+            <li>Developed backend services in Java, SQL, and PL/SQL alongside Angular frontend components.</li>
+            <li>Designed and optimised complex SQL queries, cutting report execution times by <span class="exp-hl">25–30%</span>.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PROJECTS ══ -->
+<section class="sec" id="projects">
+  <div class="sec-inner">
+    <div class="sec-masthead reveal">
+      <div class="sec-issue">Section 03 / Projects</div>
+      <div class="sec-title">WHAT I HAVE<br><em>shipped</em></div>
+      <div class="sec-masthead-rule"><div class="smr-line"></div><span class="smr-txt">5 Projects</span><div class="smr-line"></div></div>
+    </div>
+    <div class="proj-grid reveal">
+      <div class="proj-card wide">
+        <div class="proj-num">01</div>
+        <div class="proj-cat">Featured · In Progress</div>
+        <div class="proj-name">Expense Tracker</div>
+        <p class="proj-desc">Full-stack personal finance application — Spring Boot + AWS backend, React frontend. Expense categorisation, monthly analytics, budget tracking, and real-time visualisation dashboard. End-to-end cloud-native development.</p>
+        <div class="proj-tags"><span class="ptag">Java</span><span class="ptag">Spring Boot</span><span class="ptag">AWS</span><span class="ptag">React</span><span class="ptag">PostgreSQL</span><span class="ptag">Docker</span><span class="ptag">REST API</span></div>
+        <div>
+          <a href="https://github.com/MandyK94" class="proj-lnk" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>GitHub</a>
+          <a href="#" class="proj-lnk">Demo soon →</a>
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-num">02</div>
+        <div class="proj-cat">Backend Systems</div>
+        <div class="proj-name">Resource Management System</div>
+        <p class="proj-desc">REST APIs with 99% query efficiency via indexing, caching, and advanced query tuning. Containerised on AWS.</p>
+        <div class="proj-tags"><span class="ptag">Java</span><span class="ptag">Spring Boot</span><span class="ptag">PostgreSQL</span><span class="ptag">Docker</span><span class="ptag">AWS</span></div>
+        <div><a href="https://github.com/MandyK94" class="proj-lnk" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>GitHub</a></div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-num">03</div>
+        <div class="proj-cat">Data Engineering</div>
+        <div class="proj-name">Healthcare Data Pipeline</div>
+        <p class="proj-desc">ETL pipelines processing 1M+ patient records/day with Kafka streaming and Prometheus observability.</p>
+        <div class="proj-tags"><span class="ptag">Spring</span><span class="ptag">Kafka</span><span class="ptag">Prometheus</span></div>
+        <div><a href="https://github.com/MandyK94" class="proj-lnk" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>GitHub</a></div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-num">04</div>
+        <div class="proj-cat">Fintech</div>
+        <div class="proj-name">Financial Analytics Platform</div>
+        <p class="proj-desc">Real-time data ingestion microservices with 92% predictive accuracy in financial forecasting. CI/CD via GitLab.</p>
+        <div class="proj-tags"><span class="ptag">Java</span><span class="ptag">Microservices</span><span class="ptag">GitLab CI/CD</span></div>
+        <div><a href="https://github.com/MandyK94" class="proj-lnk" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>GitHub</a></div>
+      </div>
+      <div class="proj-card full">
+        <div class="proj-num">05</div>
+        <div class="proj-cat">Analytics</div>
+        <div class="proj-name">Data Analytics Dashboard</div>
+        <p class="proj-desc">Responsive analytics dashboards with Spring Boot APIs, Python/R processing, Angular frontend, and D3.js visualisations. High JUnit/Mockito test coverage.</p>
+        <div class="proj-tags"><span class="ptag">Spring Boot</span><span class="ptag">Python</span><span class="ptag">R</span><span class="ptag">Angular</span><span class="ptag">D3.js</span></div>
+        <div><a href="https://github.com/MandyK94" class="proj-lnk" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>GitHub</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ WRITING ══ -->
+<section class="sec" id="blog">
+  <div class="sec-inner">
+    <div class="sec-masthead reveal">
+      <div class="sec-issue">Section 04 / Writing</div>
+      <div class="sec-title">THOUGHTS &amp;<br><em>craft</em></div>
+      <div class="sec-masthead-rule"><div class="smr-line"></div><span class="smr-txt">2 Articles</span><div class="smr-line"></div></div>
+    </div>
+    <div class="writing-grid reveal">
+      <div class="write-card">
+        <div class="write-meta"><span class="write-tag">System Design</span><span class="write-dt">Feb 2026</span></div>
+        <div class="write-h">System Design Trade-offs Every Senior Engineer Should Know</div>
+        <p class="write-exc">After years building distributed systems and microservices, here are the seven most critical trade-offs I've navigated — and how to reason about each one clearly.</p>
+        <a href="article2.html" class="write-read">Read article →</a>
+      </div>
+      <div class="col-divider"></div>
+      <div class="write-card">
+        <div class="write-meta"><span class="write-tag">Architecture</span><span class="write-dt">Feb 2026</span></div>
+        <div class="write-h">Why I Stopped Fighting Latency and Started Measuring It</div>
+        <p class="write-exc">One revelation about connection pooling under load brought average latency down by 38%. Here's exactly what we found and what we changed at WyldTrace.</p>
+        <a href="article1.html" class="write-read">Read article →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ EDUCATION ══ -->
+<section class="sec" id="education">
+  <div class="sec-inner">
+    <div class="sec-masthead reveal">
+      <div class="sec-issue">Section 05 / Education</div>
+      <div class="sec-title">ACADEMIC<br><em>record</em></div>
+      <div class="sec-masthead-rule"><div class="smr-line"></div><span class="smr-txt">MSc Distinction · B.Tech 7.71 GPA</span><div class="smr-line"></div></div>
+    </div>
+    <div class="edu-grid reveal">
+      <div class="edu-cell">
+        <div class="edu-yr">2022 – 2023</div>
+        <div class="edu-deg">MSc Data Analytics</div>
+        <div class="edu-sch">University of Strathclyde</div>
+        <div class="edu-det">Glasgow, UK<br>Dissertation: Robot Dispatch Optimisation</div>
+        <div class="edu-grade">Distinction</div>
+      </div>
+      <div class="col-divider"></div>
+      <div class="edu-cell">
+        <div class="edu-yr">2011 – 2015</div>
+        <div class="edu-deg">B.Tech Computer Science &amp; Engineering</div>
+        <div class="edu-sch">Dr B R Ambedkar NIT Jalandhar</div>
+        <div class="edu-det">Jalandhar, India<br>Dissertation: Personalised Web Browser</div>
+        <div class="edu-grade">7.71 / 10 GPA</div>
+      </div>
+    </div>
+    <div class="cert-row reveal">
+      <div class="cert-cell"><div class="cert-n">I</div><div class="cert-name">Google Data Analytics</div><div class="cert-by">Professional Certificate · Google / Coursera</div><a href="#" class="cert-lnk">View ↗</a></div>
+      <div class="cert-cell"><div class="cert-n">II</div><div class="cert-name">Machine Learning Engineer</div><div class="cert-by">Professional Certificate · Verified Credential</div><a href="#" class="cert-lnk">View ↗</a></div>
+      <div class="cert-cell"><div class="cert-n">III</div><div class="cert-name">Deep Learning Foundation</div><div class="cert-by">Professional Certificate · Verified Credential</div><a href="#" class="cert-lnk">View ↗</a></div>
+      <div class="cert-cell"><div class="cert-n">IV</div><div class="cert-name">Data Analyst</div><div class="cert-by">Professional Certificate · Verified Credential</div><a href="#" class="cert-lnk">View ↗</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ VOLUNTEER ══ -->
+<section class="sec">
+  <div class="sec-inner">
+    <div class="sec-masthead reveal">
+      <div class="sec-issue">Section 06 / Community</div>
+      <div class="sec-title">BEYOND<br><em>the work</em></div>
+      <div class="sec-masthead-rule"><div class="smr-line"></div><span class="smr-txt">British Heart Foundation</span><div class="smr-line"></div></div>
+    </div>
+    <div class="vol-block reveal">
+      <div class="vol-header">
+        <div class="vol-co">British Heart Foundation</div>
+        <div class="vol-dates">Sep 2023 — Jun 2024</div>
+      </div>
+      <div class="vol-role">Retail Assistant — Volunteer</div>
+      <div class="vol-loc">Hamilton, UK</div>
+      <ul class="vol-ul">
+        <li>Assisted customers to ensure a positive experience, contributing to sales that directly funded the charity's life-saving medical research.</li>
+        <li>Sorted, priced, and displayed donated items to maintain a well-stocked and attractive store environment.</li>
+        <li>Worked collaboratively with volunteers, staff, and management to meet sales targets and ensure smooth daily operations.</li>
+        <li>Supported the charity's broader mission by encouraging donations and raising awareness in the local community.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CONTACT ══ -->
+<section class="sec" id="contact">
+  <div class="sec-inner">
+    <div class="sec-masthead reveal">
+      <div class="sec-issue">Section 07 / Contact</div>
+      <div class="sec-title">LET'S<br><em>talk</em></div>
+      <div class="sec-masthead-rule"><div class="smr-line"></div><span class="smr-txt">Open to Roles</span><div class="smr-line"></div></div>
+    </div>
+    <div class="contact-grid reveal">
+      <div class="contact-left">
+        <div class="contact-headline">OPEN TO<br>GREAT WORK</div>
+        <div class="contact-deck">Actively looking for senior backend or full stack developer roles — permanent or contract. If you're building something serious, let's talk.</div>
+        <div class="ci-item"><div class="ci-lbl">Email</div><div class="ci-val"><a href="/cdn-cgi/l/email-protection#c5aea4b0b7eba8a4aba1a0a0b5ebaaa3a3aca6a085a2a8a4aca9eba6aaa8"><span class="__cf_email__" data-cfemail="a0cbc1d5d28ecdc1cec4c5c5d08ecfc6c6c9c3c5e0c7cdc1c9cc8ec3cfcd">[email&#160;protected]</span></a></div></div>
+        <div class="ci-item"><div class="ci-lbl">Phone</div><div class="ci-val"><a href="tel:+447460021137">+44 7460 021137</a></div></div>
+        <div class="ci-item"><div class="ci-lbl">Location</div><div class="ci-val"><a href="#">Glasgow, UK</a></div></div>
+        <div class="soc-row">
+          <a href="https://linkedin.com/in/mandyk94" target="_blank" class="soc-btn"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
+          <a href="https://github.com/MandyK94" target="_blank" class="soc-btn"><svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>GitHub</a>
+        </div>
+      </div>
+      <div class="col-divider"></div>
+      <div class="contact-right">
+        <div class="contact-ambient">HIRE<br>ME.</div>
+        <a href="/cdn-cgi/l/email-protection#caa1abbfb8e4a7aba4aeafafbae4a5acaca3a9af8aada7aba3a6e4a9a5a7" class="contact-email-big"><span class="__cf_email__" data-cfemail="d3b8b2a6a1fdbeb2bdb7b6b6a3fdbcb5b5bab0b693b4beb2babffdb0bcbe">[email&#160;protected]</span></a>
+        <a href="/cdn-cgi/l/email-protection#0f646e7a7d21626e616b6a6a7f21606969666c6a4f68626e6663216c6062" class="btn-fill">Send an Email</a>
+      </div>
+    </div>
   </div>
 </section>
 
 <footer>
-  <span class="f-copy">© 2026 Mandeep Kaur · Glasgow, UK</span>
+  <span class="f-copy">© 2026 Mandeep Kaur · Glasgow, UK · Senior Full Stack Developer</span>
   <a href="#home" class="f-top">↑ Back to top</a>
-  <a href="mailto:kaur.mandeep.office@gmail.com" class="f-mail">kaur.mandeep.office@gmail.com</a>
+  <a href="/cdn-cgi/l/email-protection#e289839790cc8f838c86878792cc8d84848b8187a2858f838b8ecc818d8f" class="f-mail"><span class="__cf_email__" data-cfemail="1972786c6b377478777d7c7c6937767f7f707a7c597e74787075377a7674">[email&#160;protected]</span></a>
 </footer>
 
-<script>
-(function(){
-  const canvas = document.getElementById('mc');
-  const ctx = canvas.getContext('2d');
-  function resize(){ canvas.width = innerWidth; canvas.height = innerHeight; }
-  resize();
-  window.addEventListener('resize', resize, {passive:true});
-  const orbs = [
-    {nx:.10, ny:.10, r:.42, h:220, a:.12, sp:.00011, ph:0   },
-    {nx:.78, ny:.12, r:.33, h:220, a:.09, sp:.00008, ph:1.8 },
-    {nx:.45, ny:.50, r:.50, h:220, a:.10, sp:.00006, ph:3.5 },
-    {nx:.12, ny:.72, r:.30, h:220, a:.08, sp:.00010, ph:0.9 },
-    {nx:.88, ny:.62, r:.35, h:220, a:.09, sp:.00007, ph:2.4 },
-    {nx:.38, ny:.92, r:.28, h:220, a:.07, sp:.00012, ph:4.1 },
-    {nx:.62, ny:.32, r:.24, h:220, a:.08, sp:.00009, ph:5.2 },
-  ];
-  const drifts = orbs.map(() => ({
-    ax:(.07+Math.random()*.10), ay:(.05+Math.random()*.07),
-    fx:.00005+Math.random()*.00005, fy:.00007+Math.random()*.00004,
-    px:Math.random()*Math.PI*2, py:Math.random()*Math.PI*2,
-  }));
-  let t = 0;
-  function draw(){
-    const W=canvas.width,H=canvas.height;
-    ctx.clearRect(0,0,W,H);
-    orbs.forEach((o,i)=>{
-      const d=drifts[i];
-      const cx=(o.nx+Math.sin(t*d.fx+d.px)*d.ax)*W;
-      const cy=(o.ny+Math.sin(t*d.fy+d.py)*d.ay)*H;
-      const r=o.r*Math.max(W,H);
-      const alpha=o.a*(1+.15*Math.sin(t*o.sp*700+o.ph));
-      const g=ctx.createRadialGradient(cx,cy,0,cx,cy,r);
-      g.addColorStop(0,  `hsla(${o.h},15%,82%,${alpha})`);
-      g.addColorStop(.45,`hsla(${o.h},12%,78%,${alpha*.5})`);
-      g.addColorStop(1,  `hsla(${o.h},10%,75%,0)`);
-      ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);
-      ctx.fillStyle=g;ctx.fill();
-    });
-    t+=16;requestAnimationFrame(draw);
-  }
-  draw();
-})();
-const nav=document.getElementById('nav');
-window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>60),{passive:true});
-const obs=new IntersectionObserver(
-  entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),
-  {threshold:.06,rootMargin:'0px 0px -30px 0px'}
-);
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-const secs=document.querySelectorAll('section[id]');
-const navAs=document.querySelectorAll('.nav-links a:not(.nav-hire)');
-window.addEventListener('scroll',()=>{
-  let cur='';
-  secs.forEach(s=>{if(scrollY>=s.offsetTop-140)cur=s.id});
-  navAs.forEach(a=>{a.style.color=a.getAttribute('href')==='#'+cur?'var(--ac)':''});
-},{passive:true});
-function handleSubmit(e){
-  e.preventDefault();
-  const btn=document.getElementById('fBtn');
-  btn.textContent='Sending…';btn.disabled=true;
-  setTimeout(()=>{
-    document.getElementById('fOk').style.display='block';
-    btn.style.display='none';
-    e.target.reset();
-  },900);
-}
-</script>
-</body>
-</html>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-sta
