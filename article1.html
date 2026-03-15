@@ -6,123 +6,383 @@
 <title>Why I Stopped Fighting Latency and Started Measuring It · Mandeep Kaur</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Cabinet+Grotesk:wght@300;400;500;700;800&family=Instrument+Mono:wght@400&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --ink:#1a2630;
-  --ink2:#2d3f4e;
-  --muted:#5a6e7f;
-  --dim:#8fa3b0;
-  --ac:#4a8fa8;
-  --ac2:#5ba3be;
-  --ac3:#7fbdd4;
-  --pane:rgba(255,255,255,0.52);
-  --border:rgba(255,255,255,0.65);
-  --sp:0 4px 24px rgba(30,60,90,0.07),0 1px 4px rgba(30,60,90,0.04);
+  --bg:#0c0c0b;
+  --bg2:#111110;
+  --bg3:#161614;
+  --bg4:#1c1c1a;
+  --wire:#252523;
+  --wire2:#2e2e2c;
+  --wire3:#3a3a38;
+  --white:#f2f0ea;
+  --white2:#c4c2bc;
+  --white3:#7e7c76;
+  --white4:#46443e;
+  --amber:#d4952a;
+  --amber2:#e8a830;
+  --amber-glow:rgba(212,149,42,0.15);
+  --display:'Bebas Neue',sans-serif;
+  --serif:'Cormorant',serif;
+  --body:'Cabinet Grotesk',sans-serif;
+  --mono:'Instrument Mono',monospace;
+  --rail:72px;
 }
 html{scroll-behavior:smooth}
 body{
-  font-family:'Jost',sans-serif;
-  background:linear-gradient(160deg,#eaecee 0%,#eef0f1 30%,#f2f3f4 60%,#e8eaec 100%);
-  min-height:100vh;
-  color:var(--ink);
-  position:relative;
+  font-family:var(--body);
+  background:var(--bg);
+  color:var(--white);
   overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
 }
-canvas#mc{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+
+/* CANVAS */
+#bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.25}
+
+/* LEFT RAIL */
+.rail{
+  position:fixed;left:0;top:0;bottom:0;
+  width:var(--rail);z-index:50;
+  border-right:1px solid var(--wire2);
+  background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;
+  padding-top:56px;
+}
+.rail-prog{
+  position:absolute;top:56px;left:0;width:1px;
+  background:var(--amber);
+  transition:height .08s linear;
+  box-shadow:0 0 6px var(--amber);
+}
+.rail-id{
+  writing-mode:vertical-rl;transform:rotate(180deg);
+  font-family:var(--mono);font-size:.58rem;
+  letter-spacing:.22em;color:var(--white4);
+  margin-top:auto;margin-bottom:2.5rem;
+  text-decoration:none;transition:color .2s;
+}
+.rail-id:hover{color:var(--amber)}
 
 /* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 3.5rem;background:rgba(242,243,244,0.80);backdrop-filter:saturate(140%) blur(32px);-webkit-backdrop-filter:saturate(140%) blur(32px);border-bottom:1px solid rgba(255,255,255,0.65);transition:all .4s cubic-bezier(.22,1,.36,1)}
-nav.scrolled{padding:.85rem 3.5rem;background:rgba(242,243,244,0.94)}
-.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:500;letter-spacing:.04em;color:var(--ink);text-decoration:none}
-.nav-logo span{color:var(--ac)}
-.nav-back{display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;color:var(--muted);font-size:.88rem;font-weight:400;letter-spacing:.07em;padding:.45rem 1rem;border-radius:20px;transition:all .25s}
-.nav-back:hover{color:var(--ink);background:rgba(0,0,0,0.04)}
-.nav-back svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-
-/* HERO */
-.art-hero{min-height:52vh;position:relative;z-index:1;display:flex;align-items:flex-end;padding:8rem 0 4rem;max-width:860px;margin:0 auto;padding-left:2rem;padding-right:2rem}
-.art-eyebrow{display:inline-flex;align-items:center;gap:.6rem;font-size:.65rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--ac);margin-bottom:1.25rem;opacity:0;animation:rise .9s .1s cubic-bezier(.22,1,.36,1) forwards}
-.art-eyebrow::before{content:'';width:22px;height:1px;background:var(--ac)}
-.art-tag{background:rgba(74,143,168,.1);border:1px solid rgba(74,143,168,.25);color:var(--ac);padding:.2rem .65rem;border-radius:6px;font-size:.6rem;letter-spacing:.1em}
-.art-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.4rem,5.5vw,4.2rem);font-weight:300;line-height:1.08;letter-spacing:-.02em;color:var(--ink);margin-bottom:1.5rem;opacity:0;animation:rise .9s .18s cubic-bezier(.22,1,.36,1) forwards}
-.art-title em{font-style:italic;color:var(--ac2)}
-.art-meta{display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;opacity:0;animation:rise .9s .26s cubic-bezier(.22,1,.36,1) forwards}
-.art-author{display:flex;align-items:center;gap:.65rem}
-.art-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--ac),var(--ac3));display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:.95rem;font-weight:500;color:#fff;flex-shrink:0}
-.art-author-name{font-size:.82rem;font-weight:500;color:var(--ink2)}
-.art-author-role{font-size:.72rem;color:var(--dim);font-weight:300}
-.art-dot{width:3px;height:3px;border-radius:50%;background:var(--dim);flex-shrink:0}
-.art-date{font-size:.76rem;color:var(--dim);font-weight:300}
-.art-read{font-size:.76rem;color:var(--dim);font-weight:300}
-
-/* ARTICLE */
-.art-wrap{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:0 2rem 8rem}
-.art-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(74,143,168,.2) 30%,rgba(74,143,168,.2) 70%,transparent);margin-bottom:4rem;opacity:0;animation:rise .9s .34s cubic-bezier(.22,1,.36,1) forwards}
-.art-body{opacity:0;animation:rise .9s .42s cubic-bezier(.22,1,.36,1) forwards}
-.art-body p{font-size:1.06rem;color:var(--muted);line-height:2;margin-bottom:1.75rem;font-weight:300}
-.art-body p strong{color:var(--ink2);font-weight:500}
-.art-body h2{font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:300;color:var(--ink);letter-spacing:-.02em;line-height:1.2;margin:3.5rem 0 1.25rem}
-.art-body h2 em{font-style:italic;color:var(--ac2)}
-.art-body h3{font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--ac);margin:2.5rem 0 .9rem}
-.art-pull{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-style:italic;font-weight:300;color:var(--ink2);line-height:1.6;border-left:2px solid rgba(74,143,168,.35);padding:1rem 0 1rem 1.75rem;margin:2.75rem 0}
-.art-callout{background:rgba(74,143,168,.07);border:1px solid rgba(74,143,168,.2);border-radius:14px;padding:1.5rem 1.75rem;margin:2.5rem 0}
-.art-callout p{margin-bottom:0;font-size:.95rem}
-.art-callout strong{color:var(--ac)}
-.art-code{background:rgba(26,38,48,.92);border-radius:12px;padding:1.5rem 1.75rem;margin:2rem 0;overflow-x:auto}
-.art-code pre{font-family:'JetBrains Mono','Fira Code','Courier New',monospace;font-size:.82rem;line-height:1.75;color:#c9d8e4}
-.art-code .cm{color:#5a7a8a;font-style:italic}
-.art-code .ck{color:#7fbdd4}
-.art-code .cv{color:#a8d4a8}
-.art-metric{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin:2.75rem 0}
-.art-metric-card{background:var(--pane);backdrop-filter:saturate(140%) blur(32px);-webkit-backdrop-filter:saturate(140%) blur(32px);border:1px solid var(--border);border-radius:16px;padding:1.5rem;text-align:center;box-shadow:var(--sp),0 1px 0 rgba(255,255,255,0.9) inset}
-.art-metric-num{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:300;color:var(--ac);line-height:1;margin-bottom:.4rem}
-.art-metric-lbl{font-size:.68rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--dim)}
-.art-ul{list-style:none;display:flex;flex-direction:column;gap:.75rem;margin:1.25rem 0 1.75rem}
-.art-ul li{font-size:1rem;color:var(--muted);padding-left:1.4rem;position:relative;line-height:1.85;font-weight:300}
-.art-ul li::before{content:'';position:absolute;left:0;top:.75em;width:5px;height:5px;border-radius:50%;background:var(--ac3)}
-.art-ul li strong{color:var(--ink2);font-weight:500}
-.art-hl{font-weight:500;color:var(--ac);background:rgba(74,143,168,.09);padding:.04rem .3rem;border-radius:4px;font-size:.95em}
-.art-bio{background:var(--pane);backdrop-filter:saturate(140%) blur(32px);-webkit-backdrop-filter:saturate(140%) blur(32px);border:1px solid var(--border);border-radius:20px;padding:2.25rem 2.5rem;display:flex;align-items:flex-start;gap:1.5rem;margin-top:4rem;box-shadow:var(--sp),0 1px 0 rgba(255,255,255,0.9) inset}
-.art-bio-avatar{width:60px;height:60px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--ac),var(--ac3));display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:500;color:#fff}
-.art-bio-name{font-size:1rem;font-weight:500;color:var(--ink);margin-bottom:.25rem}
-.art-bio-role{font-size:.75rem;color:var(--ac);font-weight:400;letter-spacing:.06em;margin-bottom:.65rem}
-.art-bio-p{font-size:.88rem;color:var(--muted);line-height:1.8;font-weight:300}
-.art-back-wrap{text-align:center;margin-top:3.5rem}
-.art-back{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 2rem;border-radius:28px;background:var(--ink);color:rgba(255,255,255,.9);font-size:.78rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;font-family:'Jost',sans-serif;transition:all .35s cubic-bezier(.22,1,.36,1);box-shadow:0 4px 20px rgba(26,38,48,.2)}
-.art-back:hover{background:var(--ac);transform:translateY(-2px);box-shadow:0 8px 32px rgba(74,143,168,.3)}
-.art-back svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-footer{background:rgba(235,237,239,.65);border-top:1px solid rgba(255,255,255,.6);backdrop-filter:blur(20px);padding:2rem 4.5rem;display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1}
-.f-copy{font-size:.7rem;color:var(--dim);letter-spacing:.08em;font-weight:300}
-.f-mail{font-size:.7rem;color:var(--dim);text-decoration:none;font-weight:300;transition:color .2s}
-.f-mail:hover{color:var(--ac)}
-@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:760px){
-  nav{padding:1rem 1.5rem}
-  .art-hero,.art-wrap{padding-left:1.25rem;padding-right:1.25rem}
-  .art-metric{grid-template-columns:1fr 1fr}
-  footer{flex-direction:column;gap:.75rem;text-align:center;padding:1.5rem}
-  .art-bio{flex-direction:column}
+nav{
+  position:fixed;top:0;left:var(--rail);right:0;z-index:100;
+  height:56px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 3rem;
+  background:rgba(12,12,11,.96);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--wire2);
 }
-@media(max-width:480px){.art-metric{grid-template-columns:1fr}}
+.nav-name{
+  font-family:var(--body);font-size:.82rem;font-weight:700;
+  color:var(--white2);letter-spacing:.04em;
+  text-decoration:none;
+}
+.nav-back{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-family:var(--mono);font-size:.67rem;
+  color:var(--white4);text-decoration:none;
+  padding:.4rem .85rem;letter-spacing:.06em;
+  border:1px solid var(--wire2);
+  transition:all .15s;
+}
+.nav-back:hover{border-color:var(--amber);color:var(--amber)}
+.nav-back svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* PAGE */
+.page{margin-left:var(--rail);position:relative;z-index:1}
+
+/* ARTICLE HERO */
+.art-hero{
+  padding:7rem 6rem 4rem;
+  border-bottom:1px solid var(--wire2);
+  max-width:900px;
+}
+.art-eyebrow{
+  display:flex;align-items:center;gap:.75rem;
+  font-family:var(--mono);font-size:.62rem;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:1.75rem;
+  opacity:0;animation:rise .8s .05s forwards;
+}
+.art-eyebrow::before{content:'';width:24px;height:1px;background:var(--amber)}
+.art-tag{
+  font-family:var(--mono);font-size:.58rem;
+  letter-spacing:.12em;text-transform:uppercase;
+  padding:.2rem .6rem;
+  border:1px solid var(--wire2);color:var(--white4);
+}
+.art-title{
+  font-family:var(--display);
+  font-size:clamp(3rem,5.5vw,5.5rem);
+  font-weight:400;line-height:.9;letter-spacing:.03em;
+  color:var(--white);
+  margin-bottom:2rem;
+  opacity:0;animation:rise .9s .12s forwards;
+}
+.art-title em{
+  font-family:var(--serif);font-style:italic;
+  font-weight:300;font-size:.9em;
+  color:var(--amber2);letter-spacing:.01em;
+  display:block;line-height:1;margin-top:.1rem;
+}
+.art-meta{
+  display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;
+  opacity:0;animation:rise .8s .2s forwards;
+}
+.art-author{
+  display:flex;align-items:center;gap:.75rem;
+}
+.art-avatar{
+  width:34px;height:34px;
+  border:1px solid var(--wire2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--display);font-size:.85rem;
+  color:var(--amber);flex-shrink:0;
+  background:var(--bg3);
+}
+.art-author-name{font-family:var(--body);font-size:.82rem;font-weight:700;color:var(--white2)}
+.art-author-role{font-family:var(--mono);font-size:.65rem;color:var(--white4)}
+.art-sep{width:1px;height:14px;background:var(--wire2)}
+.art-date,.art-read{font-family:var(--mono);font-size:.65rem;color:var(--white4);letter-spacing:.04em}
+
+/* ARTICLE BODY */
+.art-wrap{
+  max-width:760px;
+  padding:4rem 6rem 8rem;
+  position:relative;z-index:1;
+}
+
+/* amber top rule */
+.art-rule{
+  display:flex;align-items:center;gap:1.5rem;
+  margin-bottom:3.5rem;
+  opacity:0;animation:rise .7s .28s forwards;
+}
+.art-rule-amber{width:44px;height:2px;background:var(--amber);box-shadow:0 0 8px var(--amber);flex-shrink:0}
+.art-rule-line{flex:1;height:1px;background:var(--wire2);max-width:300px}
+
+.art-body{opacity:0;animation:rise .8s .34s forwards}
+
+.art-body p{
+  font-family:var(--body);
+  font-size:.97rem;font-weight:400;
+  color:var(--white2);line-height:1.95;
+  margin-bottom:1.75rem;
+}
+.art-body p strong{color:var(--white);font-weight:700}
+
+.art-body h2{
+  font-family:var(--display);
+  font-size:clamp(2rem,3.5vw,3rem);
+  font-weight:400;letter-spacing:.04em;
+  color:var(--white);line-height:.9;
+  margin:3.5rem 0 1.25rem;
+}
+.art-body h2 em{
+  font-family:var(--serif);font-style:italic;
+  font-weight:300;font-size:.88em;
+  color:var(--amber2);letter-spacing:.01em;
+}
+
+.art-body h3{
+  font-family:var(--mono);font-size:.62rem;font-weight:400;
+  letter-spacing:.22em;text-transform:uppercase;
+  color:var(--amber);margin:2.5rem 0 .9rem;
+  display:flex;align-items:center;gap:.6rem;
+}
+.art-body h3::before{content:'';width:18px;height:1px;background:var(--amber)}
+
+/* PULL QUOTE */
+.art-pull{
+  font-family:var(--serif);font-style:italic;
+  font-size:1.4rem;font-weight:300;
+  color:var(--white2);line-height:1.65;
+  border-left:2px solid var(--amber);
+  padding:1rem 0 1rem 1.75rem;
+  margin:2.75rem 0;
+}
+
+/* CALLOUT */
+.art-callout{
+  background:var(--bg3);
+  border:1px solid var(--wire2);
+  border-left:2px solid var(--amber);
+  padding:1.5rem 1.75rem;
+  margin:2.5rem 0;
+}
+.art-callout p{margin-bottom:0;font-size:.9rem;color:var(--white2)}
+.art-callout strong{color:var(--amber)}
+
+/* CODE */
+.art-code{
+  background:var(--bg2);
+  border:1px solid var(--wire2);
+  border-left:2px solid var(--wire3);
+  padding:1.5rem 1.75rem;
+  margin:2rem 0;
+  overflow-x:auto;
+}
+.art-code pre{
+  font-family:var(--mono);font-size:.8rem;
+  line-height:1.8;color:var(--white2);
+}
+.art-code .cm{color:var(--white4);font-style:italic}
+.art-code .ck{color:var(--amber)}
+.art-code .cv{color:var(--white3)}
+
+/* METRICS */
+.art-metric{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;background:var(--wire2);
+  border:1px solid var(--wire2);
+  margin:2.75rem 0;
+}
+.art-metric-card{
+  background:var(--bg2);
+  padding:1.75rem;text-align:center;
+  transition:background .2s;
+}
+.art-metric-card:hover{background:var(--bg3)}
+.art-metric-num{
+  font-family:var(--display);font-size:2.8rem;
+  color:var(--amber);line-height:1;
+  letter-spacing:.03em;margin-bottom:.4rem;
+}
+.art-metric-lbl{
+  font-family:var(--mono);font-size:.6rem;
+  letter-spacing:.12em;text-transform:uppercase;
+  color:var(--white4);
+}
+
+/* LIST */
+.art-ul{list-style:none;display:flex;flex-direction:column;gap:.75rem;margin:1.25rem 0 1.75rem}
+.art-ul li{
+  font-size:.93rem;color:var(--white2);
+  padding-left:1.4rem;position:relative;line-height:1.85;
+}
+.art-ul li::before{
+  content:'';position:absolute;left:0;top:.78em;
+  width:6px;height:1px;background:var(--amber);
+}
+.art-ul li strong{color:var(--white);font-weight:700}
+
+.art-hl{
+  font-family:var(--mono);font-size:.9em;
+  color:var(--amber2);font-weight:400;
+}
+
+/* inline code */
+.art-body code{
+  font-family:var(--mono);font-size:.8em;
+  background:var(--bg3);border:1px solid var(--wire2);
+  padding:.1rem .35rem;color:var(--white3);
+}
+
+/* BIO */
+.art-bio{
+  border:1px solid var(--wire2);
+  border-top:2px solid var(--amber);
+  padding:2.5rem;
+  display:flex;align-items:flex-start;gap:1.5rem;
+  margin-top:4rem;
+  background:var(--bg2);
+}
+.art-bio-avatar{
+  width:52px;height:52px;flex-shrink:0;
+  border:1px solid var(--wire2);
+  background:var(--bg3);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--display);font-size:1.2rem;
+  color:var(--amber);
+}
+.art-bio-name{
+  font-family:var(--body);font-size:.95rem;font-weight:700;
+  color:var(--white);margin-bottom:.2rem;
+}
+.art-bio-role{
+  font-family:var(--mono);font-size:.65rem;
+  color:var(--amber);letter-spacing:.06em;margin-bottom:.75rem;
+}
+.art-bio-p{
+  font-family:var(--body);font-size:.87rem;
+  color:var(--white3);line-height:1.8;
+}
+
+/* BACK BUTTON */
+.art-back-wrap{text-align:center;margin-top:3.5rem}
+.art-back{
+  display:inline-flex;align-items:center;gap:.6rem;
+  padding:.85rem 2rem;
+  background:var(--white);color:var(--bg);
+  font-family:var(--body);font-size:.78rem;font-weight:700;
+  letter-spacing:.02em;text-decoration:none;
+  transition:all .15s;
+}
+.art-back:hover{background:var(--amber);color:var(--bg)}
+.art-back svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* FOOTER */
+footer{
+  border-top:1px solid var(--wire2);
+  padding:1.5rem 6rem;
+  display:flex;justify-content:space-between;align-items:center;
+  background:var(--bg);position:relative;z-index:1;
+}
+.f-copy,.f-mail{
+  font-family:var(--mono);font-size:.62rem;
+  color:var(--white4);text-decoration:none;letter-spacing:.06em;transition:color .15s;
+}
+.f-mail:hover{color:var(--amber)}
+
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:1024px){
+  :root{--rail:0px}
+  .rail{display:none}
+  nav{left:0}
+  .page{margin-left:0}
+  .art-hero,.art-wrap{padding-left:2rem;padding-right:2rem}
+  .art-hero{padding-top:6rem}
+  .art-metric{grid-template-columns:1fr 1fr}
+  footer{flex-direction:column;gap:.5rem;text-align:center;padding:1.5rem}
+}
+@media(max-width:520px){.art-metric{grid-template-columns:1fr}.art-bio{flex-direction:column}}
 </style>
 </head>
 <body>
-<canvas id="mc"></canvas>
+<canvas id="bg-canvas"></canvas>
 
-<nav id="nav">
-  <a class="nav-logo" href="index.html">Mandeep <span>Kaur</span></a>
-  <a class="nav-back" href="index.html#blog">
+<!-- RAIL -->
+<div class="rail">
+  <div class="rail-prog" id="rp"></div>
+  <a href="index.html" class="rail-id">MK — PORTFOLIO</a>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-name">Mandeep Kaur</a>
+  <a href="index.html#blog" class="nav-back">
     <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
     Back to Portfolio
   </a>
 </nav>
 
-<div class="art-hero">
-  <div style="width:100%">
-    <div class="art-eyebrow"><span class="art-tag">Architecture</span>Engineering Deep-Dive</div>
-    <h1 class="art-title">Why I Stopped Fighting<br>Latency and <em>Started Measuring It</em></h1>
+<div class="page">
+
+  <!-- HERO -->
+  <div class="art-hero">
+    <div class="art-eyebrow">
+      <span class="art-tag">Architecture</span>
+      Engineering Deep-Dive
+    </div>
+    <h1 class="art-title">
+      WHY I STOPPED<br>FIGHTING LATENCY
+      <em>and started measuring it</em>
+    </h1>
     <div class="art-meta">
       <div class="art-author">
         <div class="art-avatar">MK</div>
@@ -131,33 +391,46 @@ footer{background:rgba(235,237,239,.65);border-top:1px solid rgba(255,255,255,.6
           <div class="art-author-role">Senior Full Stack Developer</div>
         </div>
       </div>
-      <span class="art-dot"></span>
+      <div class="art-sep"></div>
       <span class="art-date">February 2026</span>
-      <span class="art-dot"></span>
+      <div class="art-sep"></div>
       <span class="art-read">9 min read</span>
     </div>
   </div>
-</div>
 
-<div class="art-wrap">
-  <div class="art-divider"></div>
-  <article class="art-body">
-    <p>At WyldTrace, we had a traceability API that was slow — not catastrophically slow, but frustratingly, <strong>unpredictably slow</strong>. The kind of slow that makes stakeholders raise eyebrows during demos and causes that uncomfortable silence when a product manager asks why the page took four seconds to load.</p>
-    <p>After months of profiling, tuning, and one critical revelation about connection pooling under load, we brought average request latency down by <span class="art-hl">38%</span>. This is what I learned — and what I'd do differently from day one.</p>
-    <div class="art-pull">"The biggest mistake wasn't the slow code. It was not knowing <em>which</em> code was slow, <em>when</em> it was slow, and <em>why</em> it mattered at scale."</div>
-
-    <h2>The <em>Problem</em> We Had</h2>
-    <p>The platform handled product provenance lookups — scanning a QR code on a physical product should return its full supply chain history in under two seconds. In development, it did. In staging, it did. In production, under real load, it sometimes took five or six. Sporadically. Infuriatingly.</p>
-    <p>The initial instinct — and I'll admit this was mine — was to throw solutions at it. Add caching. Tune the JVM heap. Rewrite the worst-looking query. These things helped marginally. But we were optimising blind.</p>
-    <div class="art-callout">
-      <p><strong>Lesson one:</strong> Optimising without measuring is guessing. You might guess right occasionally, but you'll never know why it worked, and you won't be able to reproduce the result deliberately.</p>
+  <!-- BODY -->
+  <div class="art-wrap">
+    <div class="art-rule">
+      <div class="art-rule-amber"></div>
+      <div class="art-rule-line"></div>
     </div>
 
-    <h2>Building <em>Visibility</em> First</h2>
-    <p>Before touching a single line of application code, we instrumented everything. Spring Boot Actuator gave us the foundation. We wired in <strong>Micrometer</strong> with a Prometheus backend, added custom timers around our most-called service methods, and deployed a Grafana dashboard that gave us per-endpoint p50, p95, and p99 latency in real time.</p>
-    <p>The first thing the dashboard told us was humbling: the problem wasn't our code at all.</p>
-    <div class="art-code">
-      <pre><span class="cm">// Before: fire and forget, no visibility</span>
+    <article class="art-body">
+
+      <p>At WyldTrace, we had a traceability API that was slow — not catastrophically slow, but frustratingly, <strong>unpredictably slow</strong>. The kind of slow that makes stakeholders raise eyebrows during demos and causes that uncomfortable silence when a product manager asks why the page took four seconds to load.</p>
+
+      <p>After months of profiling, tuning, and one critical revelation about connection pooling under load, we brought average request latency down by <span class="art-hl">38%</span>. This is what I learned — and what I'd do differently from day one.</p>
+
+      <div class="art-pull">"The biggest mistake wasn't the slow code. It was not knowing <em>which</em> code was slow, <em>when</em> it was slow, and <em>why</em> it mattered at scale."</div>
+
+      <h2>THE <em>Problem</em> We Had</h2>
+
+      <p>The platform handled product provenance lookups — scanning a QR code on a physical product should return its full supply chain history in under two seconds. In development, it did. In staging, it did. In production, under real load, it sometimes took five or six. Sporadically. Infuriatingly.</p>
+
+      <p>The initial instinct — and I'll admit this was mine — was to throw solutions at it. Add caching. Tune the JVM heap. Rewrite the worst-looking query. These things helped marginally. But we were optimising blind.</p>
+
+      <div class="art-callout">
+        <p><strong>Lesson one:</strong> Optimising without measuring is guessing. You might guess right occasionally, but you'll never know why it worked, and you won't be able to reproduce the result deliberately.</p>
+      </div>
+
+      <h2>BUILDING <em>Visibility</em> First</h2>
+
+      <p>Before touching a single line of application code, we instrumented everything. Spring Boot Actuator gave us the foundation. We wired in <strong>Micrometer</strong> with a Prometheus backend, added custom timers around our most-called service methods, and deployed a Grafana dashboard that gave us per-endpoint p50, p95, and p99 latency in real time.</p>
+
+      <p>The first thing the dashboard told us was humbling: the problem wasn't our code at all.</p>
+
+      <div class="art-code">
+        <pre><span class="cm">// Before: fire and forget, no visibility</span>
 <span class="ck">public</span> ProvenanceRecord lookupRecord(String qrCode) {
     <span class="ck">return</span> repository.findByQrCode(qrCode);
 }
@@ -171,123 +444,141 @@ footer{background:rgba(235,237,239,.65);border-top:1px solid rgba(255,255,255,.6
         .register(registry)
         .record(() -> repository.findByQrCode(qrCode));
 }</pre>
-    </div>
-    <p>Once we could see the data, patterns emerged immediately. Latency spikes happened at predictable intervals — roughly every 10 minutes — and they correlated almost perfectly with connection pool exhaustion events in our HikariCP logs.</p>
-
-    <h2>The Real <em>Culprit</em></h2>
-    <p>Our microservice was configured with default HikariCP settings. The default maximum pool size is <strong>10 connections</strong>. Under normal load, fine. Under the burst of 50–80 concurrent lookups that came with a real product launch event, threads were queuing for a database connection for up to 3.4 seconds before the actual query even ran.</p>
-    <p>The query itself was fast — under 40ms with proper indexing. But threads were waiting <span class="art-hl">3,400ms</span> just to get a connection. We'd been profiling queries while the real problem was a config value we'd never touched.</p>
-    <div class="art-metric">
-      <div class="art-metric-card">
-        <div class="art-metric-num">3.4s</div>
-        <div class="art-metric-lbl">Avg connection wait before</div>
       </div>
-      <div class="art-metric-card">
-        <div class="art-metric-num">38%</div>
-        <div class="art-metric-lbl">Latency reduction achieved</div>
+
+      <p>Once we could see the data, patterns emerged immediately. Latency spikes happened at predictable intervals — roughly every 10 minutes — and they correlated almost perfectly with connection pool exhaustion events in our HikariCP logs.</p>
+
+      <h2>THE REAL <em>Culprit</em></h2>
+
+      <p>Our microservice was configured with default HikariCP settings. The default maximum pool size is <strong>10 connections</strong>. Under normal load, fine. Under the burst of 50–80 concurrent lookups that came with a real product launch event, threads were queuing for a database connection for up to 3.4 seconds before the actual query even ran.</p>
+
+      <p>The query itself was fast — under 40ms with proper indexing. But threads were waiting <span class="art-hl">3,400ms</span> just to get a connection. We'd been profiling queries while the real problem was a config value we'd never touched.</p>
+
+      <div class="art-metric">
+        <div class="art-metric-card">
+          <div class="art-metric-num">3.4<span style="font-size:.5em">s</span></div>
+          <div class="art-metric-lbl">Avg connection wait before</div>
+        </div>
+        <div class="art-metric-card">
+          <div class="art-metric-num">38<span style="font-size:.5em">%</span></div>
+          <div class="art-metric-lbl">Latency reduction achieved</div>
+        </div>
+        <div class="art-metric-card">
+          <div class="art-metric-num">1.2<span style="font-size:.5em">s</span></div>
+          <div class="art-metric-lbl">End-to-end at scale after</div>
+        </div>
       </div>
-      <div class="art-metric-card">
-        <div class="art-metric-num">1.2s</div>
-        <div class="art-metric-lbl">End-to-end at scale after</div>
+
+      <h3>What We Changed</h3>
+
+      <ul class="art-ul">
+        <li><strong>HikariCP pool size</strong> — tuned from default 10 to 30, with a connection timeout of 2s and a max lifetime of 10 minutes. Monitored the pool utilisation to find the right ceiling without over-provisioning.</li>
+        <li><strong>Database indexing</strong> — added a composite index on <code>(qr_code, product_id, created_at)</code> which reduced our most common query from a full table scan to a sub-5ms index seek.</li>
+        <li><strong>Read replicas</strong> — directed all lookup traffic to a read replica on AWS RDS, freeing the primary for writes and reducing contention.</li>
+        <li><strong>Request pipeline batching</strong> — grouped concurrent lookups for the same product into a single downstream call using a short-lived in-flight cache keyed on QR code hash.</li>
+        <li><strong>N+1 query elimination</strong> — Hibernate was triggering one query per supply chain step. Replacing with a single JOIN-based fetch via <code>@EntityGraph</code> cut per-request query count from 12 down to 1.</li>
+      </ul>
+
+      <h2>WHAT I'D DO <em>Differently</em></h2>
+
+      <p>Looking back, nearly all of this pain was avoidable. The fixes were not complex — the real cost was the weeks we spent optimising the wrong things before we could see clearly what was wrong.</p>
+
+      <ul class="art-ul">
+        <li><strong>Instrument from day one.</strong> Add Micrometer, wire up Prometheus, build a Grafana dashboard before the first PR is merged. It costs an afternoon and pays back tenfold.</li>
+        <li><strong>Load test early and often.</strong> A single-user response time tells you almost nothing. What matters is behaviour under your p95 concurrent load. Use k6 or Gatling and test from the first week.</li>
+        <li><strong>Never leave connection pool config at default.</strong> Profile your actual concurrent usage, set <code>maximumPoolSize</code> deliberately, and alert on pool saturation.</li>
+        <li><strong>Audit every ORM query.</strong> Hibernate is powerful and treacherous in equal measure. Log SQL in staging, count queries per request, and treat any N+1 as a bug.</li>
+        <li><strong>Treat latency as a feature.</strong> It's not a performance concern to defer to a later sprint. Your users feel it on the first day.</li>
+      </ul>
+
+      <div class="art-pull">"Slow software isn't just a technical problem. It's a trust problem. Every second a user waits is a second they're wondering whether your product is reliable."</div>
+
+      <h2>THE <em>Outcome</em></h2>
+
+      <p>After implementing the changes above over three focused sprints, our average end-to-end latency for a QR provenance lookup dropped from <span class="art-hl">4.2 seconds</span> to <span class="art-hl">1.2 seconds</span> at scale — well within our target. The p99 dropped from a painful 8.1 seconds to 2.4 seconds. No more stakeholder eyebrows.</p>
+
+      <p>More importantly, we now had the instrumentation to <em>know</em> what was happening at all times. When a new deployment causes a regression, we see it on the dashboard within minutes — not in a Slack message from an unhappy user.</p>
+
+      <p>That shift — from reacting to symptoms to observing causes — is the real lesson here. The code changes were almost secondary.</p>
+
+      <div class="art-callout">
+        <p><strong>TL;DR:</strong> If your API is slow and you don't have per-endpoint p95 latency visible on a dashboard right now, that's the first thing to fix. Measure before you optimise. Everything else follows from seeing clearly.</p>
+      </div>
+
+    </article>
+
+    <!-- BIO -->
+    <div class="art-bio">
+      <div class="art-bio-avatar">MK</div>
+      <div>
+        <div class="art-bio-name">Mandeep Kaur</div>
+        <div class="art-bio-role">Senior Full Stack Developer · Glasgow, UK</div>
+        <p class="art-bio-p">7+ years building enterprise Java systems across fintech, healthcare, and analytics. Currently scaling a production traceability platform at WyldTrace. MSc Data Analytics (Distinction), University of Strathclyde.</p>
       </div>
     </div>
 
-    <h3>What We Changed</h3>
-    <ul class="art-ul">
-      <li><strong>HikariCP pool size</strong> — tuned from default 10 to 30, with a connection timeout of 2s and a max lifetime of 10 minutes. Monitored the pool utilisation to find the right ceiling without over-provisioning.</li>
-      <li><strong>Database indexing</strong> — added a composite index on <code style="font-size:.85em;background:rgba(26,38,48,.08);padding:.1rem .3rem;border-radius:4px">(qr_code, product_id, created_at)</code> which reduced our most common query from a full table scan to a sub-5ms index seek.</li>
-      <li><strong>Read replicas</strong> — directed all lookup traffic to a read replica on AWS RDS, freeing the primary for writes and reducing contention.</li>
-      <li><strong>Request pipeline batching</strong> — grouped concurrent lookups for the same product into a single downstream call using a short-lived in-flight cache keyed on QR code hash.</li>
-      <li><strong>N+1 query elimination</strong> — Hibernate was triggering one query per supply chain step. Replacing with a single JOIN-based fetch via <code style="font-size:.85em;background:rgba(26,38,48,.08);padding:.1rem .3rem;border-radius:4px">@EntityGraph</code> cut per-request query count from 12 down to 1.</li>
-    </ul>
-
-    <h2>What I'd Do <em>Differently</em></h2>
-    <p>Looking back, nearly all of this pain was avoidable. The fixes were not complex — the real cost was the weeks we spent optimising the wrong things before we could see clearly what was wrong.</p>
-    <ul class="art-ul">
-      <li><strong>Instrument from day one.</strong> Add Micrometer, wire up Prometheus, build a Grafana dashboard before the first PR is merged. It costs an afternoon and pays back tenfold.</li>
-      <li><strong>Load test early and often.</strong> A single-user response time tells you almost nothing. What matters is behaviour under your p95 concurrent load. Use k6 or Gatling and test from the first week.</li>
-      <li><strong>Never leave connection pool config at default.</strong> Profile your actual concurrent usage, set <code style="font-size:.85em;background:rgba(26,38,48,.08);padding:.1rem .3rem;border-radius:4px">maximumPoolSize</code> deliberately, and alert on pool saturation.</li>
-      <li><strong>Audit every ORM query.</strong> Hibernate is powerful and treacherous in equal measure. Log SQL in staging, count queries per request, and treat any N+1 as a bug.</li>
-      <li><strong>Treat latency as a feature.</strong> It's not a performance concern to defer to a later sprint. Your users feel it on the first day.</li>
-    </ul>
-
-    <div class="art-pull">"Slow software isn't just a technical problem. It's a trust problem. Every second a user waits is a second they're wondering whether your product is reliable."</div>
-
-    <h2>The <em>Outcome</em></h2>
-    <p>After implementing the changes above over three focused sprints, our average end-to-end latency for a QR provenance lookup dropped from <span class="art-hl">4.2 seconds</span> to <span class="art-hl">1.2 seconds</span> at scale — well within our target. The p99 dropped from a painful 8.1 seconds to 2.4 seconds. No more stakeholder eyebrows.</p>
-    <p>More importantly, we now had the instrumentation to <em>know</em> what was happening at all times. When a new deployment causes a regression, we see it on the dashboard within minutes — not in a Slack message from an unhappy user.</p>
-    <p>That shift — from reacting to symptoms to observing causes — is the real lesson here. The code changes were almost secondary.</p>
-    <div class="art-callout">
-      <p><strong>TL;DR:</strong> If your API is slow and you don't have per-endpoint p95 latency visible on a dashboard right now, that's the first thing to fix. Measure before you optimise. Everything else follows from seeing clearly.</p>
+    <!-- BACK -->
+    <div class="art-back-wrap">
+      <a href="index.html#blog" class="art-back">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        Back to Portfolio
+      </a>
     </div>
-  </article>
 
-  <div class="art-bio">
-    <div class="art-bio-avatar">MK</div>
-    <div>
-      <div class="art-bio-name">Mandeep Kaur</div>
-      <div class="art-bio-role">Senior Full Stack Developer · Glasgow, UK</div>
-      <p class="art-bio-p">7+ years building enterprise Java systems across fintech, healthcare, and analytics. Currently scaling a production traceability platform at WyldTrace. MSc Data Analytics (Distinction), University of Strathclyde.</p>
-    </div>
-  </div>
+  </div><!-- /art-wrap -->
 
-  <div class="art-back-wrap">
-    <a href="index.html#blog" class="art-back">
-      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-      Back to Portfolio
-    </a>
-  </div>
-</div>
+  <footer>
+    <span class="f-copy">© 2026 Mandeep Kaur · Glasgow, UK</span>
+    <a href="mailto:kaur.mandeep.office@gmail.com" class="f-mail">kaur.mandeep.office@gmail.com</a>
+  </footer>
 
-<footer>
-  <span class="f-copy">© 2026 Mandeep Kaur · Glasgow, UK</span>
-  <a href="mailto:kaur.mandeep.office@gmail.com" class="f-mail">kaur.mandeep.office@gmail.com</a>
-</footer>
+</div><!-- /page -->
 
 <script>
+/* CANVAS */
 (function(){
-  const canvas=document.getElementById('mc');
-  const ctx=canvas.getContext('2d');
-  function resize(){canvas.width=innerWidth;canvas.height=innerHeight}
-  resize();
-  window.addEventListener('resize',resize,{passive:true});
-  const orbs=[
-    {nx:.08,ny:.08,r:.40,h:220,a:.12,sp:.00010,ph:0  },
-    {nx:.80,ny:.10,r:.32,h:220,a:.09,sp:.00007,ph:1.8},
-    {nx:.42,ny:.48,r:.48,h:220,a:.10,sp:.00006,ph:3.5},
-    {nx:.10,ny:.75,r:.28,h:220,a:.07,sp:.00009,ph:0.9},
-    {nx:.90,ny:.60,r:.33,h:220,a:.08,sp:.00007,ph:2.4},
-    {nx:.35,ny:.90,r:.26,h:220,a:.06,sp:.00011,ph:4.1},
-    {nx:.65,ny:.30,r:.22,h:220,a:.07,sp:.00008,ph:5.2},
-  ];
-  const drifts=orbs.map(()=>({
-    ax:(.07+Math.random()*.10),ay:(.05+Math.random()*.07),
-    fx:.00005+Math.random()*.00005,fy:.00007+Math.random()*.00004,
-    px:Math.random()*Math.PI*2,py:Math.random()*Math.PI*2,
+  const c=document.getElementById('bg-canvas');
+  const ctx=c.getContext('2d');
+  let W,H;
+  const resize=()=>{W=c.width=innerWidth;H=c.height=innerHeight};
+  resize();window.addEventListener('resize',resize,{passive:true});
+  const N=12;
+  const lines=Array.from({length:N},()=>({
+    x:Math.random(),y:Math.random(),
+    ang:Math.floor(Math.random()*4)*Math.PI/2,
+    len:.04+Math.random()*.14,
+    spd:(.00006+Math.random()*.0001)*(Math.random()<.5?1:-1),
+    al:.05+Math.random()*.09,
+    w:Math.random()<.2?1.2:.4,
   }));
-  let t=0;
   function draw(){
-    const W=canvas.width,H=canvas.height;
     ctx.clearRect(0,0,W,H);
-    orbs.forEach((o,i)=>{
-      const d=drifts[i];
-      const cx=(o.nx+Math.sin(t*d.fx+d.px)*d.ax)*W;
-      const cy=(o.ny+Math.sin(t*d.fy+d.py)*d.ay)*H;
-      const r=o.r*Math.max(W,H);
-      const alpha=o.a*(1+.15*Math.sin(t*o.sp*700+o.ph));
-      const g=ctx.createRadialGradient(cx,cy,0,cx,cy,r);
-      g.addColorStop(0,  `hsla(${o.h},15%,82%,${alpha})`);
-      g.addColorStop(.45,`hsla(${o.h},12%,78%,${alpha*.5})`);
-      g.addColorStop(1,  `hsla(${o.h},10%,75%,0)`);
-      ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);
-      ctx.fillStyle=g;ctx.fill();
+    lines.forEach(l=>{
+      l.x+=Math.cos(l.ang)*l.spd;
+      l.y+=Math.sin(l.ang)*l.spd;
+      if(l.x<-.1)l.x=1.05;if(l.x>1.1)l.x=-.05;
+      if(l.y<-.1)l.y=1.05;if(l.y>1.1)l.y=-.05;
+      const x1=l.x*W,y1=l.y*H;
+      const x2=x1+Math.cos(l.ang)*l.len*Math.max(W,H);
+      const y2=y1+Math.sin(l.ang)*l.len*Math.max(W,H);
+      const g=ctx.createLinearGradient(x1,y1,x2,y2);
+      g.addColorStop(0,`rgba(212,149,42,0)`);
+      g.addColorStop(.45,`rgba(212,149,42,${l.al})`);
+      g.addColorStop(1,`rgba(212,149,42,0)`);
+      ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);
+      ctx.strokeStyle=g;ctx.lineWidth=l.w;ctx.stroke();
     });
-    t+=16;requestAnimationFrame(draw);
+    requestAnimationFrame(draw);
   }
   draw();
 })();
-const nav=document.getElementById('nav');
-window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>60),{passive:true});
+
+/* SCROLL PROGRESS */
+const rp=document.getElementById('rp');
+window.addEventListener('scroll',()=>{
+  const pct=scrollY/(document.body.scrollHeight-innerHeight);
+  if(rp) rp.style.height=(pct*100)+'vh';
+},{passive:true});
 </script>
 </body>
 </html>
